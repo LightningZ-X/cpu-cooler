@@ -1,29 +1,61 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
+    <script src="js/theme-init.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#2563eb" />
+    <meta name="theme-color" content="#121212" />
     <meta
       name="description"
       content="为你的 Intel 台式机选择合适的 CPU 散热器。检查插槽、机箱限高、内存净空与水冷安装空间，查看有依据的选购建议。"
     />
     <title>CoolerGuide · 散热器选择指南</title>
-    <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+    <link rel="icon" type="image/png" href="assets/lightning-mark.png" />
     <link rel="stylesheet" href="css/styles.css" />
     <link rel="stylesheet" href="css/benchmarks.css" />
+    <link rel="stylesheet" href="css/theme.css" />
+    <script type="module" src="js/ui.js"></script>
     <script type="module" src="js/app.js"></script>
   </head>
   <body>
+    <div
+      class="boot-screen"
+      id="boot-screen"
+      role="dialog"
+      aria-modal="true"
+      aria-label="LIGHTNING 开场动画"
+      hidden
+    >
+      <video
+        id="boot-video"
+        muted
+        playsinline
+        preload="none"
+        aria-hidden="true"
+      ></video
+      ><button id="skip-intro" type="button">跳过开场 <span>Esc</span></button>
+    </div>
     <a class="skip" href="#configuration">跳到配置选择</a>
     <header class="site-header">
       <div class="header-inner">
-        <a class="brand" href="./"
-          ><img src="assets/logo.svg" width="32" height="32" alt="" /><span
-            >Cooler<span class="brand-light">Guide</span
-            ><small>散热器选择指南</small></span
-          ></a
-        >
+        <a class="brand" href="./" aria-label="CoolerGuide 散热器选择指南">
+          <span class="lightning-brand" aria-hidden="true"
+            ><img
+              class="lightning-mark"
+              src="assets/lightning-mark.png"
+              alt=""
+            /><span
+              ><img
+                class="lightning-wordmark"
+                src="assets/lightning-wordmark.png"
+                alt=""
+              /><small>build to be perfect</small></span
+            ></span
+          >
+          <span class="site-identity"
+            >散热器选择指南<small>CoolerGuide · Intel 桌面平台</small></span
+          >
+        </a>
         <nav aria-label="主导航">
           <a href="reviews.html">评测资料库</a>
           <a class="nav-active" href="#configuration">散热器推荐</a
@@ -32,34 +64,32 @@
             数据说明 <span aria-hidden="true">↗</span>
           </button>
         </nav>
-        <span class="platform-pill"><i></i> Intel 桌面平台</span>
+        <div class="header-tools">
+          <button type="button" class="outline-button" id="replay-intro">
+            重播开场</button
+          ><button
+            type="button"
+            class="outline-button"
+            id="theme-toggle"
+            aria-label="切换深浅主题"
+          >
+            浅色
+          </button>
+        </div>
       </div>
     </header>
     <main>
       <section class="hero">
         <div class="hero-copy">
-          <p class="eyebrow"><span></span> FIND YOUR COOLING BALANCE</p>
-          <h1>给你的 CPU，<br />恰到好处的<span>冷静。</span></h1>
+          <p class="eyebrow">COOLERGUIDE / INTEL</p>
+          <h1>为你的配置，选好散热。</h1>
           <p class="hero-description">
-            从硬件兼容到使用需求，帮你找到合适的散热方案。<br />少一点参数纠结，多一点装机把握。
+            检查安装兼容，参考同条件实测，找到适合你的风冷与水冷。
           </p>
-          <p class="field-note">
-            <a href="reviews.html">浏览 51972 往期评测资料与核对进度 ↗</a>
-          </p>
-          <div class="hero-features">
-            <span>✓ 多维兼容检查</span><span>✓ 解释每一个建议</span
-            ><span>✓ 无需注册</span>
-          </div>
         </div>
-        <div class="hero-art" aria-hidden="true">
-          <div class="orbit orbit-one"></div>
-          <div class="orbit orbit-two"></div>
-          <img src="assets/cooler.svg" alt="" /><span
-            class="art-label art-label-top"
-            ><b>°</b> 散热 · 空间 · 平衡</span
-          ><span class="art-label art-label-bottom"><i></i> 为你的配置而选</span
-          ><span class="art-caption">ENGINEERED FOR YOUR BUILD</span>
-        </div>
+        <a href="reviews.html#new-models" class="hero-source"
+          >新品与评测资料 <span aria-hidden="true">↗</span></a
+        >
       </section>
       <section class="workspace" id="configuration" aria-label="配置和推荐">
         <aside class="config-panel">

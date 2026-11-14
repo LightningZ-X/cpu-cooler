@@ -1,27 +1,54 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
+    <script src="js/theme-init.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>评测资料库 · CoolerGuide</title>
     <meta
       name="description"
       content="51972 往期评测视频目录、Intel 测试条件和实测数据核对进度。保留原始出处，区分已核对结果和待提取资料。"
     />
-    <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+    <link rel="icon" type="image/png" href="assets/lightning-mark.png" />
     <link rel="stylesheet" href="css/styles.css" />
     <link rel="stylesheet" href="css/reviews.css" />
     <link rel="stylesheet" href="css/benchmarks.css" />
+    <link rel="stylesheet" href="css/theme.css" />
+    <script type="module" src="js/ui.js"></script>
     <script type="module" src="js/reviews.js"></script>
   </head>
   <body>
     <header class="site-header">
       <div class="header-inner">
-        <a class="brand" href="./"
-          ><img src="assets/logo.svg" width="32" height="32" alt="" /><span
-            >CoolerGuide<small>散热器选择指南</small></span
-          ></a
-        ><a href="./" class="outline-button">← 返回选型</a>
+        <a class="brand" href="./" aria-label="CoolerGuide 散热器选择指南">
+          <span class="lightning-brand" aria-hidden="true"
+            ><img
+              class="lightning-mark"
+              src="assets/lightning-mark.png"
+              alt=""
+            /><span
+              ><img
+                class="lightning-wordmark"
+                src="assets/lightning-wordmark.png"
+                alt=""
+              /><small>build to be perfect</small></span
+            ></span
+          >
+          <span class="site-identity"
+            >散热器选择指南<small>CoolerGuide · Intel 桌面平台</small></span
+          >
+        </a>
+        <div class="header-tools">
+          <a href="./" class="outline-button">← 返回选型</a
+          ><button
+            type="button"
+            class="outline-button"
+            id="theme-toggle"
+            aria-label="切换深浅主题"
+          >
+            浅色
+          </button>
+        </div>
       </div>
     </header>
     <main class="review-main">

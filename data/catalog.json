@@ -1,0 +1,119 @@
+{
+  "checkedAt": "2026-11-14",
+  "cpus": [
+    {
+      "id": "245k",
+      "name": "Intel Core Ultra 5 245K",
+      "socket": "LGA1851",
+      "basePower": 125,
+      "turboPower": 159,
+      "source": "https://www.intel.com/content/www/us/en/products/sku/241067/intel-core-ultra-5-processor-245k-24m-cache-up-to-5-20-ghz/specifications.html"
+    },
+    {
+      "id": "265k",
+      "name": "Intel Core Ultra 7 265K",
+      "socket": "LGA1851",
+      "basePower": 125,
+      "turboPower": 250,
+      "source": "https://www.intel.com/content/www/us/en/products/docs/processors/core-ultra/core-ultra-desktop-processors-series-2-brief.html"
+    },
+    {
+      "id": "285k",
+      "name": "Intel Core Ultra 9 285K",
+      "socket": "LGA1851",
+      "basePower": 125,
+      "turboPower": 250,
+      "source": "https://www.intel.com/content/www/us/en/products/docs/processors/core-ultra/core-ultra-desktop-processors-series-2-brief.html"
+    },
+    {
+      "id": "14700k",
+      "name": "Intel Core i7-14700K",
+      "socket": "LGA1700",
+      "basePower": 125,
+      "turboPower": 253,
+      "source": "https://www.intel.com/content/www/us/en/products/sku/236783/intel-core-i7-processor-14700k-33m-cache-up-to-5-60-ghz/specifications.html"
+    }
+  ],
+  "boards": [
+    {
+      "id": "tuf-z890",
+      "name": "ASUS TUF GAMING Z890-PLUS WIFI",
+      "socket": "LGA1851",
+      "source": "https://www.asus.com/motherboards-components/motherboards/tuf-gaming/tuf-gaming-z890-plus-wifi/techspec/"
+    },
+    {
+      "id": "tuf-b760",
+      "name": "ASUS TUF GAMING B760M-PLUS WIFI II",
+      "socket": "LGA1700",
+      "source": "https://www.asus.com/motherboards-components/motherboards/tuf-gaming/tuf-gaming-b760m-plus-wifi-ii/techspec/"
+    }
+  ],
+  "coolers": [
+    {
+      "id": "ps120se",
+      "brand": "THERMALRIGHT · 利民",
+      "name": "Phantom Spirit 120 SE",
+      "description": "七热管双塔，面向均衡装机的风冷候选。",
+      "type": "air",
+      "sockets": ["LGA1700", "LGA1851"],
+      "height": 154,
+      "ramClearance": null,
+      "ramLift": false,
+      "tier": "dual",
+      "maintenance": "低维护",
+      "source": "https://www.thermalright.com/product/phantom-spirit-120-se/",
+      "notes": "内存净空未收录。官方现行页面支持 LGA1851，早期库存仍需核对具体包装扣具。"
+    },
+    {
+      "id": "u12a",
+      "brand": "NOCTUA · 猫头鹰",
+      "name": "NH-U12A",
+      "description": "紧凑单塔设计，优先照顾内存安装空间。",
+      "type": "air",
+      "sockets": ["LGA1700", "LGA1851"],
+      "height": 158,
+      "ramClearance": null,
+      "ramOverhang": false,
+      "tier": "compact",
+      "maintenance": "低维护",
+      "source": "https://www.noctua.at/en/products/nh-u12a/specifications",
+      "extraSource": "https://www.noctua.at/en/products/nh-u12a/features",
+      "notes": "在收录的 Intel 平台不覆盖内存插槽；早期库存请核对随盒扣具。"
+    },
+    {
+      "id": "d15g2",
+      "brand": "NOCTUA · 猫头鹰",
+      "name": "NH-D15 G2",
+      "description": "大尺寸双塔方案，适合愿意预留安装空间的配置。",
+      "type": "air",
+      "sockets": ["LGA1700", "LGA1851"],
+      "height": 168,
+      "ramClearance": 32,
+      "ramLift": true,
+      "tier": "large",
+      "maintenance": "低维护",
+      "source": "https://www.noctua.at/en/products/nh-d15-g2/specifications",
+      "extraSource": "https://www.noctua.at/en/support/faqs/what-is-the-ram-clearance-of-my-noctua-cpu-cooler",
+      "notes": "标准版、默认双风扇布局。高于 32 mm 的内存需抬高前风扇，并增加机箱所需限高。"
+    },
+    {
+      "id": "lf3360",
+      "brand": "ARCTIC",
+      "name": "Liquid Freezer III 360",
+      "description": "360 mm 一体式水冷，作为持续重负载的优先考察方向。",
+      "type": "aio",
+      "sockets": ["LGA1700", "LGA1851"],
+      "radiatorSize": 360,
+      "radiatorLength": 398,
+      "radiatorWidth": 120,
+      "radiatorThickness": 38,
+      "fanThickness": 25,
+      "tier": "aio360",
+      "maintenance": "含水泵与管路",
+      "source": "https://www.arctic.de/en/Liquid-Freezer-III-360/ACFRE00136A",
+      "extraSource": "https://www.arctic.de/media/16/63/19/1708429821/Spec_Sheet_Liquid_Freezer_III_360_Black_EN.pdf",
+      "notes": "采用随附 Intel 安装方案，需按说明书操作并核对主板兼容性；冷排加风扇共 63 mm。"
+    }
+  ],
+  "overrides": []
+}

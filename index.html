@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#2563eb" />
+    <meta
+      name="description"
+      content="为你的 Intel 台式机选择合适的 CPU 散热器。检查插槽、机箱限高、内存净空与水冷安装空间，查看有依据的选购建议。"
+    />
+    <title>CoolerGuide · 散热器选择指南</title>
+    <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <script type="module" src="js/app.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#configuration">跳到配置选择</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="./"
+          ><img src="assets/logo.svg" width="32" height="32" alt="" /><span
+            >Cooler<span class="brand-light">Guide</span
+            ><small>散热器选择指南</small></span
+          ></a
+        >
+        <nav aria-label="主导航">
+          <a class="nav-active" href="#configuration">散热器推荐</a
+          ><button type="button" id="open-guide">选购指南</button
+          ><button type="button" id="open-sources">
+            数据说明 <span aria-hidden="true">↗</span>
+          </button>
+        </nav>
+        <span class="platform-pill"><i></i> Intel 桌面平台</span>
+      </div>
+    </header>
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow"><span></span> FIND YOUR COOLING BALANCE</p>
+          <h1>给你的 CPU，<br />恰到好处的<span>冷静。</span></h1>
+          <p class="hero-description">
+            从硬件兼容到使用需求，帮你找到合适的散热方案。<br />少一点参数纠结，多一点装机把握。
+          </p>
+          <div class="hero-features">
+            <span>✓ 多维兼容检查</span><span>✓ 解释每一个建议</span
+            ><span>✓ 无需注册</span>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <img src="assets/cooler.svg" alt="" /><span
+            class="art-label art-label-top"
+            ><b>°</b> 散热 · 空间 · 平衡</span
+          ><span class="art-label art-label-bottom"><i></i> 为你的配置而选</span
+          ><span class="art-caption">ENGINEERED FOR YOUR BUILD</span>
+        </div>
+      </section>
+      <section class="workspace" id="configuration" aria-label="配置和推荐">
+        <aside class="config-panel">
+          <div class="panel-heading">
+            <div>
+              <span class="step">01</span>
+              <h2>你的装机配置</h2>
+            </div>
+            <button class="text-button" id="reset" type="button">重置</button>
+          </div>
+          <p class="panel-description">补全配置，让推荐更有依据。</p>
+          <form id="config-form">
+            <label for="cpu">处理器 <span class="required">*</span></label
+            ><input
+              id="cpu-search"
+              class="search-field"
+              type="search"
+              aria-label="搜索处理器"
+              placeholder="搜索 CPU 型号…"
+            /><select
+              id="cpu"
+              name="cpu"
+              required
+              aria-describedby="cpu-meta"
+            ></select>
+            <p class="field-note" id="cpu-meta"></p>
+            <label for="board">主板</label
+            ><select id="board" name="board"></select>
+            <p class="field-note" id="board-meta"></p>
+            <div id="custom-board-fields" hidden>
+              <label for="board-name">主板型号（可选）</label
+              ><input
+                id="board-name"
+                name="boardName"
+                maxlength="100"
+                placeholder="填写完整型号以便核对"
+              /><label for="board-socket">主板插槽</label
+              ><select id="board-socket" name="boardSocket">
+                <option value="">不确定</option>
+                <option value="LGA1700">LGA1700</option>
+                <option value="LGA1851">LGA1851</option>
+              </select>
+            </div>
+            <div class="section-label">
+              安装空间 <span>不知道可以留空</span>
+            </div>
+            <div class="field-pair">
+              <div>
+                <label for="case-height">机箱风冷限高</label>
+                <div class="unit-input">
+                  <input
+                    id="case-height"
+                    name="caseHeight"
+                    type="number"
+                    min="30"
+                    max="300"
+                    placeholder="例如 170"
+                  /><span>mm</span>
+                </div>
+              </div>
+              <div>
+                <label for="ram-height">内存高度</label>
+                <div class="unit-input">
+                  <input
+                    id="ram-height"
+                    name="ramHeight"
+                    type="number"
+                    min="15"
+                    max="100"
+                    placeholder="例如 35"
+                  /><span>mm</span>
+                </div>
+              </div>
+            </div>
+            <details class="advanced">
+              <summary>水冷安装与确认项 <span>＋</span></summary>
+              <label for="radiator-size">计划安装位置支持的冷排</label
+              ><select id="radiator-size" name="radiatorSize">
+                <option value="">尚未确认</option>
+                <option value="0">不支持水冷</option>
+                <option value="240">240 mm</option>
+                <option value="280">280 mm</option>
+                <option value="360">360 mm</option>
+                <option value="420">420 mm</option></select
+              ><label for="radiator-space">该位置可用总厚度</label>
+              <div class="unit-input">
+                <input
+                  id="radiator-space"
+                  name="radiatorSpace"
+                  type="number"
+                  min="20"
+                  max="150"
+                  placeholder="冷排与风扇总空间"
+                /><span>mm</span>
+              </div>
+              <label class="checkbox-label"
+                ><input
+                  type="checkbox"
+                  name="radiatorFit"
+                  id="radiator-fit"
+                />已核对该位置的冷排长宽、主板/显卡干涉和管路空间</label
+              ><label class="checkbox-label"
+                ><input
+                  type="checkbox"
+                  name="headers"
+                  id="headers"
+                />已核对风扇/水泵接口及连接方式</label
+              >
+            </details>
+            <div class="section-label">使用需求</div>
+            <label for="usage">主要用途</label
+            ><select id="usage" name="usage">
+              <option value="gaming">游戏娱乐</option>
+              <option value="office">日常办公</option>
+              <option value="production">长时间渲染 / 编译</option>
+            </select>
+            <label for="power">CPU 功耗设置</label
+            ><select id="power" name="power">
+              <option value="unknown">不确定 / 主板默认</option>
+              <option value="intel">遵循 Intel 功耗上限</option>
+              <option value="limited">手动限制功耗</option>
+              <option value="unlimited">解除限制 / 超频</option>
+            </select>
+            <div id="power-limit-field" hidden>
+              <label for="power-limit">实际设置的功耗上限（W）</label
+              ><input
+                id="power-limit"
+                name="powerLimit"
+                type="number"
+                min="35"
+                max="500"
+                placeholder="例如 150"
+              />
+            </div>
+            <label for="preference">选购侧重</label
+            ><select id="preference" name="preference">
+              <option value="balanced">均衡之选</option>
+              <option value="quiet">安静与低维护</option>
+              <option value="value">控制预算</option>
+              <option value="performance">持续负载能力</option>
+            </select>
+            <label for="budget"
+              >预算上限 <span class="optional">可选</span></label
+            >
+            <div class="unit-input">
+              <input
+                id="budget"
+                name="budget"
+                type="number"
+                min="1"
+                max="20000"
+                placeholder="输入你的预算"
+              /><span>元</span>
+            </div>
+            <p class="field-note">
+              未采集实时售价；可在产品卡片填写报价后筛选。
+            </p>
+            <button class="primary-button" type="submit">
+              查看适合我的散热器 <span aria-hidden="true">→</span>
+            </button>
+            <p class="privacy-note">配置仅保存在当前浏览器</p>
+          </form>
+        </aside>
+        <div class="results-panel">
+          <div class="results-top">
+            <div>
+              <p class="eyebrow">YOUR COOLING PICKS</p>
+              <h2>为你的配置，找到合适之选<span class="result-dot">.</span></h2>
+            </div>
+            <button class="outline-button" id="share" type="button">
+              ↗ 分享配置
+            </button>
+          </div>
+          <div class="config-summary" id="config-summary"></div>
+          <section class="check-panel" aria-labelledby="check-heading">
+            <div class="check-title">
+              <div>
+                <span class="check-symbol">⌁</span>
+                <h3 id="check-heading">兼容性预检查</h3>
+              </div>
+              <span class="badge neutral" id="check-status">等待检查</span>
+            </div>
+            <div id="prechecks" class="prechecks" aria-live="polite"></div>
+            <p class="check-footnote">
+              插槽匹配只是第一步。具体主板安装干涉，请核对品牌兼容性列表与说明书。
+            </p>
+          </section>
+          <div class="filter-bar">
+            <div class="tabs" role="group" aria-label="散热器类型">
+              <button
+                class="active"
+                data-filter="all"
+                type="button"
+                aria-pressed="true"
+              >
+                全部方案</button
+              ><button data-filter="air" type="button" aria-pressed="false">
+                风冷</button
+              ><button data-filter="aio" type="button" aria-pressed="false">
+                一体式水冷
+              </button>
+            </div>
+            <span id="result-count"></span>
+          </div>
+          <div class="recommendation-note" id="recommendation-note"></div>
+          <div id="cards" class="cards" aria-live="polite"></div>
+          <section class="why-panel">
+            <span class="why-icon">◎</span>
+            <div>
+              <h3>合适，比一味堆规格更重要。</h3>
+              <p>
+                先确认装得下，再考虑持续负载、噪声和预算。推荐采用公开规格与选型规则，不以厂商宣传解热功耗预测温度。
+              </p>
+              <button class="text-button" type="button" id="read-method">
+                了解推荐方法 →
+              </button>
+            </div>
+          </section>
+        </div>
+      </section>
+      <section class="principles">
+        <div>
+          <span>01 / FIT FIRST</span>
+          <h3>装得下，才谈性能</h3>
+          <p>把机箱、内存和主板一起考虑。</p>
+        </div>
+        <div>
+          <span>02 / REASONS INCLUDED</span>
+          <h3>每个建议都有理由</h3>
+          <p>明确区分参数事实与选型判断。</p>
+        </div>
+        <div>
+          <span>03 / ROOM TO GROW</span>
+          <h3>给下一次升级留余地</h3>
+          <p>从 Intel 开始，逐步扩展平台与型号。</p>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <a class="brand" href="./"
+        ><img
+          src="assets/logo.svg"
+          width="24"
+          height="24"
+          alt=""
+        />CoolerGuide</a
+      ><span>让散热器选购，更有依据。</span
+      ><span>Intel 首版 · 规格核对于 2026.11.14</span>
+    </footer>
+    <div id="compare-tray" class="compare-tray" hidden>
+      <span id="compare-count"></span
+      ><button class="primary-button" id="compare-open" type="button">
+        查看对比 →</button
+      ><button id="compare-clear" class="text-button" type="button">
+        清空
+      </button>
+    </div>
+    <dialog id="info-dialog">
+      <div class="dialog-header">
+        <h2 id="dialog-title"></h2>
+        <button
+          class="icon-button"
+          id="dialog-close"
+          aria-label="关闭"
+          type="button"
+        >
+          ×
+        </button>
+      </div>
+      <div id="dialog-body"></div>
+    </dialog>
+    <div role="status" id="toast" class="toast" hidden></div>
+    <noscript
+      ><p class="noscript">
+        请启用 JavaScript，以使用配置检查和推荐功能。
+      </p></noscript
+    >
+  </body>
+</html>

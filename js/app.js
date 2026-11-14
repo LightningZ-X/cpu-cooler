@@ -246,8 +246,17 @@ async function init() {
         `<option value="${group.id}">${escape(group.cpu)} · ${group.powerW}W · ${escape(group.title)} · ${group.author}</option>`,
     )
     .join("");
-  $("#cpu").innerHTML = catalog.cpus
-    .map((c) => `<option value="${c.id}">${escape(c.name)}</option>`)
+  $("#catalog-size").textContent =
+    `${catalog.cpus.length} 款 Intel CPU · ${catalog.coolers.length} 款散热器 · ${catalog.boards.length} 款主板`;
+  $("#cpu").innerHTML = ["LGA1851", "LGA1700"]
+    .map(
+      (socket) =>
+        `<optgroup label="${socket}">${catalog.cpus
+          .filter((c) => c.socket === socket)
+          .sort((a, b) => a.name.localeCompare(b.name, "en", { numeric: true }))
+          .map((c) => `<option value="${c.id}">${escape(c.name)}</option>`)
+          .join("")}</optgroup>`,
+    )
     .join("");
   $("#board").innerHTML =
     '<option value="">暂未选择主板</option>' +

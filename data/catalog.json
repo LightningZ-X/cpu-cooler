@@ -56,6 +56,150 @@
       "basePower": 125,
       "turboPower": 250,
       "source": "https://www.intel.com/content/www/us/en/products/sku/245692/intel-core-ultra-7-processor-270k-plus-36m-cache-up-to-5-50-ghz/specifications.html"
+    },
+    {
+      "id": "12400f",
+      "name": "Intel Core i5-12400F",
+      "socket": "LGA1700",
+      "basePower": 65,
+      "turboPower": 117,
+      "source": "https://www.intel.com/content/www/us/en/products/sku/134587/intel-core-i512400f-processor-18m-cache-up-to-4-40-ghz/specifications.html"
+    },
+    {
+      "id": "12600kf",
+      "name": "Intel Core i5-12600KF",
+      "socket": "LGA1700",
+      "basePower": 125,
+      "turboPower": 150,
+      "source": "https://www.intel.com/content/www/us/en/products/sku/134590/intel-core-i512600kf-processor-20m-cache-up-to-4-90-ghz/specifications.html"
+    },
+    {
+      "id": "12700kf",
+      "name": "Intel Core i7-12700KF",
+      "socket": "LGA1700",
+      "basePower": 125,
+      "turboPower": 190,
+      "source": "https://www.intel.com/content/www/us/en/products/sku/134595/intel-core-i712700kf-processor-25m-cache-up-to-5-00-ghz/specifications.html"
+    },
+    {
+      "id": "12900k",
+      "name": "Intel Core i9-12900K",
+      "socket": "LGA1700",
+      "basePower": 125,
+      "turboPower": 241,
+      "source": "https://www.intel.com/content/www/us/en/products/sku/134599/intel-core-i912900k-processor-30m-cache-up-to-5-20-ghz/specifications.html"
+    },
+    {
+      "id": "13400f",
+      "name": "Intel Core i5-13400F",
+      "socket": "LGA1700",
+      "basePower": 65,
+      "turboPower": 148,
+      "source": "https://www.intel.com/content/www/us/en/products/sku/230501/intel-core-i513400f-processor-20m-cache-up-to-4-60-ghz/specifications.html"
+    },
+    {
+      "id": "13600kf",
+      "name": "Intel Core i5-13600KF",
+      "socket": "LGA1700",
+      "basePower": 125,
+      "turboPower": 181,
+      "source": "https://www.intel.com/content/www/us/en/products/sku/230494/intel-core-i513600kf-processor-24m-cache-up-to-5-10-ghz/specifications.html"
+    },
+    {
+      "id": "13700kf",
+      "name": "Intel Core i7-13700KF",
+      "socket": "LGA1700",
+      "basePower": 125,
+      "turboPower": 253,
+      "source": "https://www.intel.com/content/www/us/en/products/sku/230489/intel-core-i713700kf-processor-30m-cache-up-to-5-40-ghz/specifications.html"
+    },
+    {
+      "id": "13900k",
+      "name": "Intel Core i9-13900K",
+      "socket": "LGA1700",
+      "basePower": 125,
+      "turboPower": 253,
+      "source": "https://www.intel.com/content/www/us/en/products/sku/230496/intel-core-i913900k-processor-36m-cache-up-to-5-80-ghz/specifications.html"
+    },
+    {
+      "id": "14400f",
+      "name": "Intel Core i5-14400F",
+      "socket": "LGA1700",
+      "basePower": 65,
+      "turboPower": 148,
+      "source": "https://www.intel.com/content/www/us/en/products/sku/236777/intel-core-i5-processor-14400f-20m-cache-up-to-4-70-ghz/specifications.html"
+    },
+    {
+      "id": "14500",
+      "name": "Intel Core i5-14500",
+      "socket": "LGA1700",
+      "basePower": 65,
+      "turboPower": 154,
+      "source": "https://www.intel.com/content/www/us/en/products/sku/236784/intel-core-i5-processor-14500-24m-cache-up-to-5-00-ghz/specifications.html"
+    },
+    {
+      "id": "14600k",
+      "name": "Intel Core i5-14600K",
+      "socket": "LGA1700",
+      "basePower": 125,
+      "turboPower": 181,
+      "source": "https://www.intel.com/content/www/us/en/products/sku/236799/intel-core-i5-processor-14600k-24m-cache-up-to-5-30-ghz/specifications.html"
+    },
+    {
+      "id": "14600kf",
+      "name": "Intel Core i5-14600KF",
+      "socket": "LGA1700",
+      "basePower": 125,
+      "turboPower": 181,
+      "source": "https://www.intel.com/content/www/us/en/products/sku/236778/intel-core-i5-processor-14600kf-24m-cache-up-to-5-30-ghz/specifications.html"
+    },
+    {
+      "id": "14700kf",
+      "name": "Intel Core i7-14700KF",
+      "socket": "LGA1700",
+      "basePower": 125,
+      "turboPower": 253,
+      "source": "https://www.intel.com/content/www/us/en/products/sku/236789/intel-core-i7-processor-14700kf-33m-cache-up-to-5-60-ghz/specifications.html"
+    },
+    {
+      "id": "225f",
+      "name": "Intel Core Ultra 5 225F",
+      "socket": "LGA1851",
+      "basePower": 65,
+      "turboPower": 121,
+      "source": "https://www.intel.com/content/www/us/en/products/sku/241069/intel-core-ultra-5-processor-225f-20m-cache-up-to-4-90-ghz/specifications.html"
+    },
+    {
+      "id": "235",
+      "name": "Intel Core Ultra 5 235",
+      "socket": "LGA1851",
+      "basePower": 65,
+      "turboPower": 121,
+      "source": "https://www.intel.com/content/www/us/en/products/sku/241674/intel-core-ultra-5-processor-235-24m-cache-up-to-5-00-ghz/specifications.html"
+    },
+    {
+      "id": "245kf",
+      "name": "Intel Core Ultra 5 245KF",
+      "socket": "LGA1851",
+      "basePower": 125,
+      "turboPower": 159,
+      "source": "https://www.intel.com/content/www/us/en/products/sku/241066/intel-core-ultra-5-processor-245kf-24m-cache-up-to-5-20-ghz/specifications.html"
+    },
+    {
+      "id": "265kf",
+      "name": "Intel Core Ultra 7 265KF",
+      "socket": "LGA1851",
+      "basePower": 125,
+      "turboPower": 250,
+      "source": "https://www.intel.com/content/www/us/en/products/sku/241062/intel-core-ultra-7-processor-265kf-30m-cache-up-to-5-50-ghz/specifications.html"
+    },
+    {
+      "id": "250kplus",
+      "name": "Intel Core Ultra 5 250K Plus",
+      "socket": "LGA1851",
+      "basePower": 125,
+      "turboPower": 159,
+      "source": "https://www.intel.com/content/www/us/en/products/sku/245694/intel-core-ultra-5-processor-250k-plus-30m-cache-up-to-5-30-ghz/specifications.html"
     }
   ],
   "boards": [
@@ -363,6 +507,144 @@
       "description": "五热管单塔，补充官方安装规格。",
       "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/AG500-G2-Superior-Performance-5-Heatpipe-Single-Tower-CPU-Cooler/2026/22855.shtml",
       "notes": "整机 125 × 95 × 156 mm；料号 R-AG500-BKNPMG2-G。内存净空未知；ARGB 风扇参数不同，不能共享成绩。视频性能版未完成料号对应，读数暂不映射。"
+    },
+    {
+      "type": "air",
+      "sockets": ["LGA1700", "LGA1851"],
+      "ramClearance": null,
+      "ramLift": false,
+      "tier": "dual",
+      "maintenance": "低维护",
+      "addedAt": "2026-11-14",
+      "id": "ps120evo",
+      "brand": "Thermalright 利民",
+      "name": "Phantom Spirit 120 EVO",
+      "height": 157,
+      "description": "七热管双塔，独立区分 EVO 与 SE 风扇版本。",
+      "source": "https://www.thermalright.com/product/phantom-spirit-120-evo/",
+      "notes": "官方塔体标称高度157mm，含风扇实际安装总高需结合内存确认；内存净空未知。EVO不沿用SE的实测成绩，购买时核对随盒扣具。"
+    },
+    {
+      "type": "air",
+      "sockets": ["LGA1700", "LGA1851"],
+      "ramClearance": null,
+      "ramLift": false,
+      "tier": "dual",
+      "maintenance": "低维护",
+      "addedAt": "2026-11-14",
+      "id": "pa120se",
+      "brand": "Thermalright 利民",
+      "name": "Peerless Assassin 120 SE（原版）",
+      "height": 155,
+      "description": "六热管双塔双风扇，补充主流风冷选择。",
+      "source": "https://www.thermalright.com/product/peerless-assassin-120-se/",
+      "notes": "官方标称塔体155mm、TL-C12C风扇，实际风扇总高受内存影响。净空未确认；V2/V3、BLACK、ARGB与原版分开，不共享测试或扣具假设。"
+    },
+    {
+      "type": "air",
+      "sockets": ["LGA1700", "LGA1851"],
+      "ramClearance": null,
+      "ramLift": false,
+      "tier": "compact",
+      "maintenance": "低维护",
+      "addedAt": "2026-11-14",
+      "id": "freezer36black",
+      "brand": "ARCTIC",
+      "name": "Freezer 36 Black",
+      "height": 159,
+      "description": "四热管单塔双风扇，官方整机高度159mm。",
+      "source": "https://www.arctic.de/en/Freezer-36-Black/ACFRE00123A",
+      "extraSource": "https://www.arctic.de/media/6b/50/57/1709195123/Spec_Sheet_Freezer_36_EN.pdf",
+      "notes": "ACFRE00123A；含风扇104×126×159mm。Intel按官方方案安装，内存净空与逐主板安装证据未知。与Freezer36-S、ARGB版本分开。"
+    },
+    {
+      "type": "air",
+      "sockets": ["LGA1700", "LGA1851"],
+      "ramClearance": null,
+      "ramLift": false,
+      "tier": "compact",
+      "maintenance": "低维护",
+      "addedAt": "2026-11-14",
+      "id": "hyper212pro",
+      "brand": "Cooler Master 酷冷至尊",
+      "name": "Hyper 212 Pro（黑色 ARGB）",
+      "height": 152,
+      "description": "四热管单塔单风扇，152mm整机高度。",
+      "source": "https://www.coolermaster.com/en-global/products/hyper-212-pro.html",
+      "notes": "RR-212S-25PZ-R1；整机125×74×152mm，4-pin PWM与5V ARGB连接需核对。内存净空未知；不沿用Hyper212其他版本测试。"
+    },
+    {
+      "type": "air",
+      "sockets": ["LGA1700", "LGA1851"],
+      "ramClearance": null,
+      "ramLift": false,
+      "tier": "dual",
+      "maintenance": "低维护",
+      "addedAt": "2026-11-14",
+      "id": "ak620g2",
+      "brand": "DeepCool 九州风神",
+      "name": "AK620 G2（木纹顶盖）",
+      "height": 159,
+      "description": "六热管双塔，含风扇整机高度159mm。",
+      "source": "https://deepcool.com/products/Cooling/cpuaircoolers/AK620-G2-Wood-Grain-Top-Cover-CPU-Cooler/2025/21864.shtml",
+      "notes": "R-AK620G2-BKNNMN-GJD；整机127×144×159mm，不用153mm裸塔高度。内存净空未知，不套用AK620旧款或DIGITAL NYX成绩。"
+    },
+    {
+      "type": "air",
+      "sockets": ["LGA1700", "LGA1851"],
+      "ramClearance": null,
+      "ramLift": false,
+      "tier": "large",
+      "maintenance": "低维护",
+      "addedAt": "2026-11-14",
+      "id": "assassiniv",
+      "brand": "DeepCool 九州风神",
+      "name": "ASSASSIN IV（标准版）",
+      "height": 164,
+      "description": "七热管双塔方案，官方整机高度164mm。",
+      "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/Assassin-IV-Premium-CPU-Air-Cooler-1851-1700-AM5/2024/17129.shtml",
+      "notes": "默认双风扇布局、整机144×147×164mm；官方说明Intel LGA1700/1851内存无阻挡。加装第三颗风扇后需重新核对净空与总高。不套用4S、VC或VC VISION版本成绩。",
+      "ramOverhang": false
+    },
+    {
+      "id": "lf3pro240",
+      "brand": "ARCTIC",
+      "name": "Liquid Freezer III Pro 240（无光版）",
+      "description": "240mm一体式水冷，单独核对Pro版风扇与安装厚度。",
+      "type": "aio",
+      "sockets": ["LGA1700", "LGA1851"],
+      "radiatorSize": 240,
+      "radiatorLength": 277,
+      "radiatorWidth": 120,
+      "radiatorThickness": 38,
+      "fanThickness": 25,
+      "assemblyThickness": 66,
+      "tier": "aio240",
+      "maintenance": "含水泵与管路",
+      "source": "https://www.arctic.de/en/Liquid-Freezer-III-Pro-240/ACFRE00178A",
+      "extraSource": "https://www.arctic.de/media/3f/c1/fb/1744190700/Spec_Sheet_Liquid_Freezer_III_Pro_240_EN.pdf",
+      "notes": "ACFRE00178A；冷排277×120×38mm。官方尺寸图总装厚度66mm，包含超出38+25mm的结构，不使用简单相加。Intel按专用安装方案操作，主板适配需独立核对，不自动继承非Pro的冲突表或实测。",
+      "addedAt": "2026-11-14"
+    },
+    {
+      "id": "lf3pro360",
+      "brand": "ARCTIC",
+      "name": "Liquid Freezer III Pro 360（无光版）",
+      "description": "360mm一体式水冷，单独核对Pro版风扇与安装厚度。",
+      "type": "aio",
+      "sockets": ["LGA1700", "LGA1851"],
+      "radiatorSize": 360,
+      "radiatorLength": 398,
+      "radiatorWidth": 120,
+      "radiatorThickness": 38,
+      "fanThickness": 25,
+      "assemblyThickness": 66,
+      "tier": "aio360",
+      "maintenance": "含水泵与管路",
+      "source": "https://www.arctic.de/en/Liquid-Freezer-III-Pro-360/ACFRE00180A",
+      "extraSource": "https://www.arctic.de/media/e3/d9/86/1741780098/Spec_Sheet_Liquid_Freezer_III_Pro_360_EN.pdf",
+      "notes": "ACFRE00180A；冷排398×120×38mm。官方尺寸图总装厚度66mm，包含超出38+25mm的结构，不使用简单相加。Intel按专用安装方案操作，主板适配需独立核对，不自动继承非Pro的冲突表或实测。",
+      "addedAt": "2026-11-14"
     }
   ],
   "overrides": [
@@ -500,6 +782,14 @@
       "source": "https://support.arctic.de/lf3-compatibility",
       "checkedAt": "2026-11-14",
       "recheckRam": false
+    },
+    {
+      "board": "strix-z690e",
+      "cooler": "assassiniv",
+      "state": "fail",
+      "detail": "九州风神官方ASSASSIN IV页面明确列出该完整主板型号不兼容；勿因插槽支持而判断可安装。",
+      "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/Assassin-IV-Premium-CPU-Air-Cooler-1851-1700-AM5/2024/17129.shtml",
+      "checkedAt": "2026-11-14"
     }
   ]
 }

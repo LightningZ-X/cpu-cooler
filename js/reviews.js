@@ -1,4 +1,4 @@
-import { benchmarkTable } from "./benchmarks.js";
+import { benchmarkTable, stackThickness } from "./benchmarks.js";
 const $ = (selector) => document.querySelector(selector);
 const escape = (value) =>
   String(value ?? "").replace(
@@ -106,11 +106,11 @@ async function init() {
   $("#conflict-search").addEventListener("input", renderConflicts);
   renderConflicts();
   $("#new-model-list").innerHTML =
-    `<table class="conflict-table"><thead><tr><th>精确型号</th><th>安装高度</th><th>数据进度 / 出处</th></tr></thead><tbody>${catalog.coolers
+    `<table class="conflict-table"><thead><tr><th>精确型号</th><th>安装尺寸</th><th>数据进度 / 出处</th></tr></thead><tbody>${catalog.coolers
       .filter((c) => c.addedAt)
       .map(
         (c) =>
-          `<tr><td>${escape(c.brand)}<br><b>${escape(c.name)}</b></td><td>${c.height === null ? "待核对" : `${c.height} mm`}<br>${c.ramClearance == null ? "内存净空待核对" : `内存上限 ${c.ramClearance} mm`}</td><td><a href="${c.source}" target="_blank" rel="noopener noreferrer">${escape(c.sourceLabel || "官方规格")} ↗</a><br>${c.reviewUrl ? `<a href="${c.reviewUrl}" target="_blank" rel="noopener noreferrer">${escape(c.reviewNote)} ↗</a>` : "实测版本待核对"}</td></tr>`,
+          `<tr><td>${escape(c.brand)}<br><b>${escape(c.name)}</b></td><td>${c.type === "aio" ? `${c.radiatorSize} mm 冷排<br>${c.radiatorLength} × ${c.radiatorWidth} × ${stackThickness(c)} mm（总装）` : `${c.height === null ? "高度待核对" : `${c.height} mm 高度`}<br>${c.ramOverhang === false ? "Intel 默认布局不挡内存" : c.ramClearance == null ? "内存净空待核对" : `内存上限 ${c.ramClearance} mm`}`}</td><td><a href="${c.source}" target="_blank" rel="noopener noreferrer">${escape(c.sourceLabel || "官方规格")} ↗</a><br>${c.reviewUrl ? `<a href="${c.reviewUrl}" target="_blank" rel="noopener noreferrer">${escape(c.reviewNote)} ↗</a>` : "实测版本待核对"}</td></tr>`,
       )
       .join("")}</tbody></table>`;
   $("#video-year").innerHTML =

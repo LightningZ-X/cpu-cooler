@@ -149,6 +149,15 @@ export function evaluate(cooler, config, catalog) {
           ? "该机箱位置不支持水冷"
           : `所选安装位不支持 ${cooler.radiatorSize} mm 冷排`,
       );
+    else if (
+      [240, 360].includes(config.radiatorSize) !==
+      [240, 360].includes(cooler.radiatorSize)
+    )
+      add(
+        "unknown",
+        "冷排安装位",
+        `所选 ${config.radiatorSize} mm 安装位与 ${cooler.radiatorSize} mm 冷排使用不同风扇孔距体系，不能只由数字大小推断可安装`,
+      );
     else
       add(
         "conditional",

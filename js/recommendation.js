@@ -27,14 +27,18 @@ export function recommend(config, catalog, prices = {}) {
       let score = 0;
       const reasons = [];
       if (heavy || config.power === "unlimited") {
-        score += { aio360: 40, large: 20, dual: 10, compact: 0 }[cooler.tier];
+        score += { aio360: 40, aio240: 25, large: 20, dual: 10, compact: 0 }[
+          cooler.tier
+        ];
         reasons.push(
           cooler.type === "aio"
-            ? "持续高负载：优先考察大冷排方案，最终表现需查看同平台测试"
+            ? "持续高负载：需核对该规格冷排的同平台测试及安装空间"
             : "持续高负载下需核对实测表现，必要时限制功耗",
         );
       } else {
-        score += { aio360: 10, large: 22, dual: 30, compact: 28 }[cooler.tier];
+        score += { aio360: 10, aio240: 14, large: 22, dual: 30, compact: 28 }[
+          cooler.tier
+        ];
         reasons.push(
           cooler.type === "air"
             ? "当前用途可优先考察风冷，兼顾安装与维护"
@@ -50,7 +54,9 @@ export function recommend(config, catalog, prices = {}) {
         );
       }
       if (config.preference === "performance")
-        score += { aio360: 18, large: 12, dual: 5, compact: 0 }[cooler.tier];
+        score += { aio360: 18, aio240: 10, large: 12, dual: 5, compact: 0 }[
+          cooler.tier
+        ];
       if (cooler.ramOverhang === false) {
         score += 4;
         reasons.push("不覆盖内存插槽，适合高马甲内存");

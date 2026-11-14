@@ -176,6 +176,58 @@ test("官方总装厚度优先于冷排加风扇的简单加法", () => {
     "fail",
   );
 });
+test("Pro 水冷保持独立安装厚度，不继承非 Pro 同噪成绩", () => {
+  for (const id of ["lf3pro240", "lf3pro360"]) {
+    assert.equal(stackThickness(cooler(id)), 66);
+    const fit = evaluate(
+      cooler(id),
+      config({ radiatorSize: 360, radiatorSpace: 64 }),
+      db,
+    );
+    assert.equal(
+      fit.checks.find((c) => c.title === "冷排总厚度").state,
+      "fail",
+    );
+    assert.equal(
+      recommend(config({}), db).find((c) => c.id === id).measured,
+      null,
+    );
+  }
+});
+test("280 安装位不能因数字较大就确认 240 的孔位", () => {
+  const fit = evaluate(
+    cooler("lf3pro240"),
+    config({ radiatorSize: 280, radiatorSpace: 80 }),
+    db,
+  );
+  assert.equal(
+    fit.checks.find((c) => c.title === "冷排安装位").state,
+    "unknown",
+  );
+});
+test("ASSASSIN IV 官方禁止组合被排除，不能混用同名前后缀主板", () => {
+  assert.equal(
+    evaluate(cooler("assassiniv"), config({ board: "strix-z690e" }), db).status,
+    "blocked",
+  );
+  const fit = evaluate(cooler("assassiniv"), config({ board: "tuf-b760" }), db);
+  assert.equal(
+    fit.checks.find((c) => c.title === "主板安装干涉").state,
+    "unknown",
+  );
+});
+test("新 CPU 功耗用于选型，KF 和 Plus 不继承现有测试组", () => {
+  assert.equal(db.cpus.find((c) => c.id === "12400f").turboPower, 117);
+  assert.equal(db.cpus.find((c) => c.id === "250kplus").turboPower, 159);
+  assert.equal(matchingBenchmark(config({ cpu: "14600kf" }), db), null);
+  assert.equal(normalize(config({ cpu: "250kplus" }), db).cpu, "250kplus");
+});
+test("所有扩充型号在用途偏好组合下均有有效排序值", () => {
+  for (const usage of ["office", "gaming", "production"])
+    for (const preference of ["balanced", "quiet", "value", "performance"])
+      for (const c of recommend(config({ usage, preference }), db))
+        assert.ok(Number.isFinite(c.score), c.id);
+});
 test("分享参数保留合法实测组，不接受不存在的组", () => {
   assert.equal(normalize(config({}), db).benchmarkId, "gn-14900kf-250-25dba");
   assert.equal(

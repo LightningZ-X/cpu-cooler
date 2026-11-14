@@ -15,9 +15,12 @@ export const defaults = {
   powerLimit: null,
   preference: "balanced",
   budget: null,
+  benchmarkId: "",
 };
 export function normalize(raw, catalog) {
   const config = { ...defaults };
+  if (catalog.benchmarks?.some((group) => group.id === raw.benchmarkId))
+    config.benchmarkId = raw.benchmarkId;
   for (const field of ["cpu", "board", "usage", "power", "preference"]) {
     const allowed = {
       cpu: catalog.cpus.map((c) => c.id),

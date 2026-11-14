@@ -11,6 +11,7 @@
     <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
     <link rel="stylesheet" href="css/styles.css" />
     <link rel="stylesheet" href="css/reviews.css" />
+    <link rel="stylesheet" href="css/benchmarks.css" />
     <script type="module" src="js/reviews.js"></script>
   </head>
   <body>
@@ -44,13 +45,38 @@
         aria-label="资料核对进度"
       ></section>
       <p class="review-scope" id="collection-scope">正在读取目录…</p>
+      <section class="review-benchmarks" id="verified-tests">
+        <p class="eyebrow">VERIFIED INTEL RESULTS</p>
+        <h2>风冷、水冷实测对比</h2>
+        <p class="field-note">
+          同组内比较；原装风扇全速、同噪测试、温差与绝对温度不混排。
+        </p>
+        <label for="review-benchmark" class="sr-only">选择实测组别</label
+        ><select id="review-benchmark"></select>
+        <div id="review-benchmark-data"></div>
+      </section>
+      <section class="review-benchmarks" id="board-conflicts">
+        <p class="eyebrow">MOTHERBOARD FIT CHECK</p>
+        <h2>主板冲突与安装条件</h2>
+        <p class="field-note">
+          官方逐型号记录，已接入选型页。D4、I、Encore
+          等后缀不能省略，调整安装方向后需重新核对净空。
+        </p>
+        <label for="conflict-search" class="sr-only">搜索主板或散热器冲突</label
+        ><input
+          type="search"
+          id="conflict-search"
+          placeholder="搜索主板 / 散热器型号…"
+        />
+        <div class="table-scroll" id="conflict-list"></div>
+      </section>
       <section class="review-conditions">
         <div class="review-heading">
           <div>
             <p class="eyebrow">INTEL TEST CONDITIONS</p>
             <h2>已核对的测试条件</h2>
           </div>
-          <span class="badge pending">图表数值待核对</span>
+          <span class="badge neutral">区分读数与章节索引</span>
         </div>
         <p>
           以下来自《2025风冷横评》本人发布的章节简介。功耗是该次测试设定，不是

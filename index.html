@@ -11,6 +11,7 @@
     <title>CoolerGuide · 散热器选择指南</title>
     <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
     <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/benchmarks.css" />
     <script type="module" src="js/app.js"></script>
   </head>
   <body>
@@ -245,6 +246,23 @@
             <p class="check-footnote">
               插槽匹配只是第一步。具体主板安装干涉，请核对品牌兼容性列表与说明书。
             </p>
+          </section>
+          <section class="benchmark-panel" aria-labelledby="benchmark-heading">
+            <div class="benchmark-heading">
+              <h3 id="benchmark-heading">风冷 / 水冷横评实测</h3>
+              <a href="reviews.html#verified-tests">全部实测与冲突资料 ↗</a>
+            </div>
+            <label for="benchmark-select" class="field-note"
+              >按原始测试条件查看，温差与绝对温度分开比较</label
+            >
+            <select id="benchmark-select"></select>
+            <div id="benchmark-data"></div>
+            <div class="benchmark-apply">
+              <p id="benchmark-match"></p>
+              <button class="outline-button" type="button" id="apply-benchmark">
+                使用此测试 CPU / 功耗查看建议
+              </button>
+            </div>
           </section>
           <div class="filter-bar">
             <div class="tabs" role="group" aria-label="散热器类型">

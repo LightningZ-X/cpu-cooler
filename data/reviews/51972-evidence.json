@@ -1,16 +1,16 @@
 {
   "author": "51972",
   "checkedAt": "2026-11-14",
-  "measurementCount": 0,
+  "measurementCount": 19,
   "sources": [
     {
       "bvid": "BV1C54E6fEPD",
       "title": "2026水冷横评",
       "publishedAt": "2026-11-07",
-      "status": "metadata-only",
+      "status": "measurements-partial",
       "category": "cooling",
       "url": "https://www.bilibili.com/video/BV1C54E6fEPD/",
-      "note": "已取得本人投稿目录与简介；性能图表待逐项核对。"
+      "note": "已直接核对部分 Intel 图表温度与转速。仅代表已录入章节，不代表整期视频及后续更正均已审计。"
     },
     {
       "bvid": "BV1PUgp6NEn7",
@@ -25,10 +25,10 @@
       "bvid": "BV1yCSPBVEg1",
       "title": "2025风冷横评",
       "publishedAt": "2025-11-30",
-      "status": "conditions-only",
+      "status": "measurements-partial",
       "category": "cooling",
       "url": "https://www.bilibili.com/video/BV1yCSPBVEg1/",
-      "note": "已核对本人简介中的 Intel 测试平台、功耗与章节位置；尚未核对各产品温度、噪声与名次。"
+      "note": "已直接核对部分 Intel 图表温度与转速。仅代表已录入章节，不代表整期视频及后续更正均已审计。"
     },
     {
       "bvid": "BV1FFKZzcEf7",
@@ -100,7 +100,29 @@
       "pasteMode": "统一硅脂",
       "ambientC": null,
       "noiseDbA": null,
-      "results": []
+      "results": [
+        {
+          "coolerId": "hyper612",
+          "name": "Cooler Master Hyper 612 APEX（双风扇）",
+          "type": "air",
+          "value": 90,
+          "rpm": 2464
+        },
+        {
+          "coolerId": "u12a",
+          "name": "Noctua NH-U12A（双风扇）",
+          "type": "air",
+          "value": 90,
+          "rpm": 2113
+        },
+        {
+          "coolerId": null,
+          "name": "VK R125-L（单风扇）",
+          "type": "air",
+          "value": 91,
+          "rpm": 2197
+        }
+      ]
     },
     {
       "id": "2025-air-single-14900k-240-noise",
@@ -128,7 +150,29 @@
       "pasteMode": "统一硅脂",
       "ambientC": null,
       "noiseDbA": null,
-      "results": []
+      "results": [
+        {
+          "coolerId": "hyper612",
+          "name": "Cooler Master Hyper 612 APEX（双风扇）",
+          "type": "air",
+          "value": 85,
+          "rpm": 2464
+        },
+        {
+          "coolerId": null,
+          "name": "VK R125-L（单风扇）",
+          "type": "air",
+          "value": 91,
+          "rpm": 2197
+        },
+        {
+          "coolerId": "u12a",
+          "name": "Noctua NH-U12A（双风扇）",
+          "type": "air",
+          "value": 91,
+          "rpm": 2112
+        }
+      ]
     },
     {
       "id": "2025-air-single-14600kf-185",
@@ -156,7 +200,29 @@
       "pasteMode": "统一硅脂",
       "ambientC": null,
       "noiseDbA": null,
-      "results": []
+      "results": [
+        {
+          "coolerId": null,
+          "name": "酷里奥 P60T V3 ULTRA",
+          "type": "air",
+          "value": 89,
+          "rpm": 2108
+        },
+        {
+          "coolerId": null,
+          "name": "VK DX140",
+          "type": "air",
+          "value": 91,
+          "rpm": 2214
+        },
+        {
+          "coolerId": "d15g2",
+          "name": "Noctua NH-D15 G2（标准版）",
+          "type": "air",
+          "value": 91,
+          "rpm": 1540
+        }
+      ]
     },
     {
       "id": "2025-air-dual-14900k-290",
@@ -213,6 +279,91 @@
       "ambientC": null,
       "noiseDbA": null,
       "results": []
+    },
+    {
+      "id": "51972-aio-270kplus-310-38dba",
+      "source": "BV1C54E6fEPD",
+      "timestamp": 375,
+      "label": "360 水冷 · 38.4 dB(A) 同噪",
+      "cpu": "Core Ultra 7 270K Plus",
+      "socket": "LGA1851",
+      "powerW": 310,
+      "fanMode": "noise-normalized",
+      "pasteMode": null,
+      "ambientC": 24,
+      "noiseDbA": 38.4,
+      "results": [
+        {
+          "coolerId": "nl-lc136",
+          "name": "Noctua NL-LC1-36",
+          "type": "aio",
+          "value": 94,
+          "rpm": 1754
+        },
+        {
+          "coolerId": null,
+          "name": "银昕 S360 PRO",
+          "type": "aio",
+          "value": 95,
+          "rpm": 1809
+        },
+        {
+          "coolerId": null,
+          "name": "VK MA360",
+          "type": "aio",
+          "value": 98,
+          "rpm": 1826
+        },
+        {
+          "coolerId": null,
+          "name": "酷冷至尊 龙影2代 PRO GOLD",
+          "type": "aio",
+          "value": 98,
+          "rpm": 1829
+        },
+        {
+          "coolerId": null,
+          "name": "超频三 逐浪 DB360",
+          "type": "aio",
+          "value": 100,
+          "rpm": 1785
+        },
+        {
+          "coolerId": null,
+          "name": "MSI MEG CORELIQUID E15 360",
+          "type": "aio",
+          "value": 101,
+          "rpm": 1716
+        },
+        {
+          "coolerId": null,
+          "name": "乔思伯 TX-360",
+          "type": "aio",
+          "value": 103,
+          "rpm": 1617
+        },
+        {
+          "coolerId": null,
+          "name": "钛游 HD360 PRO",
+          "type": "aio",
+          "value": 103,
+          "rpm": 1619
+        },
+        {
+          "coolerId": null,
+          "name": "九州风神 LT360 VISION ARGB",
+          "type": "aio",
+          "value": 103,
+          "rpm": 1944
+        },
+        {
+          "coolerId": null,
+          "name": "be quiet! SILENT LOOP 3",
+          "type": "aio",
+          "value": 105,
+          "rpm": 1820
+        }
+      ]
     }
   ]
 }

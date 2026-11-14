@@ -1,4 +1,5 @@
 import { evaluate } from "./compatibility.js";
+import { benchmarkResult, matchingBenchmark } from "./benchmarks.js";
 
 export const statusText = {
   compatible: "已知检查通过",
@@ -14,6 +15,12 @@ export function recommend(config, catalog, prices = {}) {
       ? config.powerLimit
       : cpu?.turboPower;
   const heavy = config.usage === "production" && power > 200;
+  const group = matchingBenchmark(config, catalog);
+  const testedCount =
+    group?.results.filter(
+      (row) =>
+        row.coolerId && catalog.coolers.some((c) => c.id === row.coolerId),
+    ).length || 0;
   return catalog.coolers
     .map((cooler) => {
       const fit = evaluate(cooler, config, catalog);
@@ -55,12 +62,31 @@ export function recommend(config, catalog, prices = {}) {
       const overBudget = Boolean(
         config.budget && price && price > config.budget,
       );
-      return { ...cooler, ...fit, price, overBudget, score, reasons };
+      const measured = benchmarkResult(cooler.id, config, catalog);
+      if (measured)
+        reasons.unshift(
+          `${measured.author} 同 CPU / 功耗参考：${measured.value}${measured.unit}；仅代表该组测试，不预测你的整机温度`,
+        );
+      return {
+        ...cooler,
+        ...fit,
+        price,
+        overBudget,
+        score,
+        reasons,
+        measured,
+        measuredPriority:
+          testedCount >= 2 && config.preference !== "value" && !!measured,
+      };
     })
     .sort(
       (a, b) =>
         (a.status === "blocked") - (b.status === "blocked") ||
         Number(a.overBudget) - Number(b.overBudget) ||
+        Number(b.measuredPriority) - Number(a.measuredPriority) ||
+        (a.measuredPriority && b.measuredPriority
+          ? a.measured.value - b.measured.value
+          : 0) ||
         (config.preference === "value" && a.price && b.price
           ? a.price - b.price
           : b.score - a.score),

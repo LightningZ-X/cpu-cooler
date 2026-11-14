@@ -1,3 +1,4 @@
+import { benchmarkTable } from "./benchmarks.js";
 const $ = (selector) => document.querySelector(selector);
 const escape = (value) =>
   String(value ?? "").replace(
@@ -7,7 +8,22 @@ const escape = (value) =>
         char
       ],
   );
-let inventory, evidence, entries;
+let inventory, evidence, entries, benchmarkData, catalog;
+function renderConflicts() {
+  const term = $("#conflict-search").value.toLowerCase().trim();
+  const pairs = catalog.overrides
+    .map((pair) => ({
+      ...pair,
+      boardName: catalog.boards.find((b) => b.id === pair.board).name,
+      coolerName: catalog.coolers.find((c) => c.id === pair.cooler).name,
+    }))
+    .filter((pair) =>
+      `${pair.boardName} ${pair.coolerName}`.toLowerCase().includes(term),
+    );
+  $("#conflict-list").innerHTML = pairs.length
+    ? `<table class="conflict-table"><thead><tr><th>主板完整型号</th><th>散热器 / 结论</th><th>冲突与处理条件</th><th>证据</th></tr></thead><tbody>${pairs.map((pair) => `<tr><td>${escape(pair.boardName)}</td><td>${escape(pair.coolerName)}<br><span class="badge ${pair.state === "fail" ? "blocked" : "conditional"}">${pair.state === "fail" ? "不兼容" : "须调整安装"}</span></td><td>${escape(pair.detail)}</td><td><a href="${pair.source}" target="_blank" rel="noopener noreferrer">官方逐板记录 ↗</a><br>${pair.checkedAt}</td></tr>`).join("")}</tbody></table>`
+    : '<p class="field-note">没有匹配的已知记录。这不等于已验证兼容。</p>';
+}
 function render() {
   const term = $("#video-search").value.trim().toLowerCase();
   const category = $("#video-category").value,
@@ -25,7 +41,7 @@ function render() {
     ? filtered
         .map(
           (video) =>
-            `<article class="video-entry"><time class="video-date" datetime="${video.publishedAt.slice(0, 10)}">${video.publishedAt.slice(0, 10)}</time><div><h3>${escape(video.title)} <span class="video-status">${video.status === "conditions-only" ? "测试条件已核对" : "目录 / 简介已核对"}</span></h3><p>${escape(video.note || "已取得投稿元数据；视频中的温度、噪声、测试条件与结论待逐项核对。")}</p><small>${video.bvid}${video.duration ? " · " + escape(video.duration) : ""} · ${video.inArchive ? "公开目录" : "原始视频补充索引"}</small></div><a href="${video.url}" target="_blank" rel="noopener noreferrer">查看原视频 ↗</a></article>`,
+            `<article class="video-entry"><time class="video-date" datetime="${video.publishedAt.slice(0, 10)}">${video.publishedAt.slice(0, 10)}</time><div><h3>${escape(video.title)} <span class="video-status">${video.status === "measurements-partial" ? "部分图表读数已核对" : video.status === "conditions-only" ? "测试条件已核对" : "目录 / 简介已核对"}</span></h3><p>${escape(video.note || "已取得投稿元数据；视频中的温度、噪声、测试条件与结论待逐项核对。")}</p><small>${video.bvid}${video.duration ? " · " + escape(video.duration) : ""} · ${video.inArchive ? "公开目录" : "原始视频补充索引"}</small></div><a href="${video.url}" target="_blank" rel="noopener noreferrer">查看原视频 ↗</a></article>`,
         )
         .join("")
     : '<div class="empty"><h3>没有匹配的资料</h3><p>试试其他关键词、年份或类别。</p></div>';
@@ -34,10 +50,12 @@ async function init() {
   const responses = await Promise.all([
     fetch("data/reviews/51972-videos.json"),
     fetch("data/reviews/51972-evidence.json"),
+    fetch("data/reviews/benchmarks.json"),
+    fetch("data/catalog.json"),
   ]);
   if (responses.some((response) => !response.ok))
     throw new Error("资料加载失败");
-  [inventory, evidence] = await Promise.all(
+  [inventory, evidence, benchmarkData, catalog] = await Promise.all(
     responses.map((response) => response.json()),
   );
   const indexed = new Map(
@@ -56,7 +74,13 @@ async function init() {
     ["公开投稿总数", inventory.reportedCount],
     ["已取得目录", inventory.collectedCount],
     ["相关资料索引", related],
-    ["已核对实测读数", evidence.measurementCount],
+    [
+      "已核对温度读数",
+      benchmarkData.groups.reduce(
+        (sum, group) => sum + group.results.length,
+        0,
+      ),
+    ],
   ]
     .map(
       ([label, count]) =>
@@ -64,7 +88,23 @@ async function init() {
     )
     .join("");
   $("#collection-scope").textContent =
-    `采集日期 ${inventory.collectedAt.slice(0, 10)}。${inventory.publicArchiveComplete ? "已取得当前全部公开投稿目录。" : `目录尚未完整：取得 ${inventory.collectedCount} / ${inventory.reportedCount} 条，其余分页访问受限。`}已另行补充 ${entries.length - inventory.collectedCount} 条较早原视频索引。标题与简介已整理，未逐一阅览全部视频画面；当前没有核对完成的温度 / 噪声读数，推荐排序仍采用选型规则。分类按标题关键词初筛，可切换全部目录检查。`;
+    `采集日期 ${inventory.collectedAt.slice(0, 10)}。${inventory.publicArchiveComplete ? "已取得当前全部公开投稿目录。" : `目录尚未完整：取得 ${inventory.collectedCount} / ${inventory.reportedCount} 条，其余分页访问受限。`}已补充 ${entries.length - inventory.collectedCount} 条较早索引。现有 ${evidence.measurementCount} 条 51972 图表温度读数、2 条 GamersNexus 同噪对比读数和 ${catalog.overrides.length} 条官方安装记录。仅对已核对的条件使用数据，未完成全量视频与后续更正审计。`;
+  $("#review-benchmark").innerHTML = benchmarkData.groups
+    .map(
+      (group) =>
+        `<option value="${group.id}">${escape(group.cpu)} · ${group.powerW}W · ${escape(group.title)} · ${group.author}</option>`,
+    )
+    .join("");
+  const showBenchmark = () =>
+    ($("#review-benchmark-data").innerHTML = benchmarkTable(
+      benchmarkData.groups.find(
+        (group) => group.id === $("#review-benchmark").value,
+      ),
+    ));
+  $("#review-benchmark").addEventListener("change", showBenchmark);
+  showBenchmark();
+  $("#conflict-search").addEventListener("input", renderConflicts);
+  renderConflicts();
   $("#video-year").innerHTML =
     '<option value="all">全部年份</option>' +
     [...new Set(entries.map((video) => video.publishedAt.slice(0, 4)))]
@@ -75,7 +115,7 @@ async function init() {
   $("#test-groups").innerHTML = evidence.testGroups
     .map(
       (group) =>
-        `<article class="test-group"><small>${escape(group.label)}</small><h3>${escape(group.cpu)} · ${group.powerW} W</h3><p>${escape(group.fanMode)} / ${escape(group.pasteMode || "硅脂条件待核对")}<br>环境温度与具体结果待核对</p><a href="https://www.bilibili.com/video/${group.source}/?t=${group.timestamp}" target="_blank" rel="noopener noreferrer">查看测试章节 ↗</a></article>`,
+        `<article class="test-group"><small>${escape(group.label)}</small><h3>${escape(group.cpu)} · ${group.powerW} W</h3><p>${escape(group.fanMode)} / ${escape(group.pasteMode || "硅脂条件待核对")}<br>${group.results.length ? `${group.results.length} 条温度读数已核对` : "图表读数待核对"}</p><a href="https://www.bilibili.com/video/${group.source}/?t=${group.timestamp}" target="_blank" rel="noopener noreferrer">查看测试章节 ↗</a></article>`,
     )
     .join("");
   for (const selector of ["#video-search", "#video-category", "#video-year"])

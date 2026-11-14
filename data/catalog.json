@@ -32,6 +32,30 @@
       "basePower": 125,
       "turboPower": 253,
       "source": "https://www.intel.com/content/www/us/en/products/sku/236783/intel-core-i7-processor-14700k-33m-cache-up-to-5-60-ghz/specifications.html"
+    },
+    {
+      "id": "14900k",
+      "name": "Intel Core i9-14900K",
+      "socket": "LGA1700",
+      "basePower": 125,
+      "turboPower": 253,
+      "source": "https://www.intel.com/content/www/us/en/products/sku/236773/intel-core-i9-processor-14900k-36m-cache-up-to-6-00-ghz/specifications.html"
+    },
+    {
+      "id": "14900kf",
+      "name": "Intel Core i9-14900KF",
+      "socket": "LGA1700",
+      "basePower": 125,
+      "turboPower": 253,
+      "source": "https://www.intel.com/content/www/us/en/products/sku/236787/intel-core-i9-processor-14900kf-36m-cache-up-to-6-00-ghz/specifications.html"
+    },
+    {
+      "id": "270kplus",
+      "name": "Intel Core Ultra 7 270K Plus",
+      "socket": "LGA1851",
+      "basePower": 125,
+      "turboPower": 250,
+      "source": "https://www.intel.com/content/www/us/en/products/sku/245692/intel-core-ultra-7-processor-270k-plus-36m-cache-up-to-5-50-ghz/specifications.html"
     }
   ],
   "boards": [
@@ -46,6 +70,78 @@
       "name": "ASUS TUF GAMING B760M-PLUS WIFI II",
       "socket": "LGA1700",
       "source": "https://www.asus.com/motherboards-components/motherboards/tuf-gaming/tuf-gaming-b760m-plus-wifi-ii/techspec/"
+    },
+    {
+      "id": "strix-z690i",
+      "name": "ASUS ROG Strix Z690-I Gaming WIFI",
+      "socket": "LGA1700",
+      "source": "https://www.noctua.at/en/compatibility/by-components/motherboards/asus-rog-strix-z690-i-gaming-wifi"
+    },
+    {
+      "id": "strix-z690a-d4",
+      "name": "ASUS ROG Strix Z690-A Gaming WIFI D4",
+      "socket": "LGA1700",
+      "source": "https://www.noctua.at/en/compatibility/by-components/motherboards/asus-rog-strix-z690-a-gaming-wifi-d4"
+    },
+    {
+      "id": "strix-z690e",
+      "name": "ASUS ROG Strix Z690-E Gaming WIFI",
+      "socket": "LGA1700",
+      "source": "https://www.noctua.at/en/compatibility/by-components/motherboards/asus-rog-strix-z690-e-gaming-wifi"
+    },
+    {
+      "id": "asrock-b860i",
+      "name": "ASRock B860I WiFi",
+      "socket": "LGA1851",
+      "source": "https://www.noctua.at/en/compatibility/by-components/motherboards/asrock-b860i-wifi"
+    },
+    {
+      "id": "strix-b860i",
+      "name": "ASUS ROG Strix B860-I Gaming WIFI",
+      "socket": "LGA1851",
+      "source": "https://www.noctua.at/en/compatibility/by-components/motherboards/asus-rog-strix-b860-i-gaming-wifi"
+    },
+    {
+      "id": "maximus-z790-apex",
+      "name": "ASUS ROG Maximus Z790 Apex",
+      "socket": "LGA1700",
+      "source": "https://support.arctic.de/lf3-compatibility"
+    },
+    {
+      "id": "maximus-z790-encore",
+      "name": "ASUS ROG Maximus Z790 Apex Encore",
+      "socket": "LGA1700",
+      "source": "https://support.arctic.de/lf3-compatibility"
+    },
+    {
+      "id": "z690-aorus-master",
+      "name": "GIGABYTE Z690 AORUS Master",
+      "socket": "LGA1700",
+      "source": "https://support.arctic.de/lf3-compatibility"
+    },
+    {
+      "id": "proart-z890",
+      "name": "ASUS ProArt Z890-Creator WIFI",
+      "socket": "LGA1851",
+      "source": "https://support.arctic.de/lf3-compatibility"
+    },
+    {
+      "id": "msi-b860-plus",
+      "name": "MSI B860 Gaming Plus WIFI",
+      "socket": "LGA1851",
+      "source": "https://support.arctic.de/lf3-compatibility"
+    },
+    {
+      "id": "asrock-b760i",
+      "name": "ASRock Phantom Gaming B760I Lightning WiFi",
+      "socket": "LGA1700",
+      "source": "https://support.arctic.de/lf3-compatibility"
+    },
+    {
+      "id": "strix-z890i",
+      "name": "ASUS ROG Strix Z890-I Gaming WIFI",
+      "socket": "LGA1851",
+      "source": "https://support.arctic.de/lf3-compatibility"
     }
   ],
   "coolers": [
@@ -113,7 +209,192 @@
       "source": "https://www.arctic.de/en/Liquid-Freezer-III-360/ACFRE00136A",
       "extraSource": "https://www.arctic.de/media/16/63/19/1708429821/Spec_Sheet_Liquid_Freezer_III_360_Black_EN.pdf",
       "notes": "采用随附 Intel 安装方案，需按说明书操作并核对主板兼容性；冷排加风扇共 63 mm。"
+    },
+    {
+      "id": "d15g2hbc",
+      "brand": "NOCTUA · 猫头鹰",
+      "name": "NH-D15 G2 HBC",
+      "description": "HBC 高凸度底座版本，单独保留实测与安装记录。",
+      "type": "air",
+      "sockets": ["LGA1700", "LGA1851"],
+      "height": 168,
+      "ramClearance": 32,
+      "ramLift": true,
+      "tier": "large",
+      "maintenance": "低维护",
+      "source": "https://www.noctua.at/en/products/nh-d15-g2-hbc/specifications",
+      "extraSource": "https://www.noctua.at/en/support/faqs/what-is-the-ram-clearance-of-my-noctua-cpu-cooler",
+      "notes": "HBC 与标准版不能混用性能读数；默认双风扇，内存净空按官方 32 mm 核对。"
+    },
+    {
+      "id": "hyper612",
+      "brand": "COOLER MASTER · 酷冷至尊",
+      "name": "Hyper 612 APEX",
+      "description": "159 mm 单塔双风扇，已收录 Intel 横评读数。",
+      "type": "air",
+      "sockets": ["LGA1700", "LGA1851"],
+      "height": 159,
+      "ramClearance": null,
+      "ramLift": false,
+      "tier": "compact",
+      "maintenance": "低维护",
+      "source": "https://www.coolermaster.com/en-global/products/hyper-612-apex.html",
+      "notes": "双 Mobius 120P 风扇；主板组合与内存净空尚需逐项确认。"
+    },
+    {
+      "id": "nl-lc136",
+      "brand": "NOCTUA · 猫头鹰",
+      "name": "NL-LC1-36",
+      "description": "360 mm 一体式水冷，保留 51972 同噪测试条件。",
+      "type": "aio",
+      "sockets": ["LGA1700", "LGA1851"],
+      "radiatorSize": 360,
+      "radiatorLength": 399.5,
+      "radiatorWidth": 120,
+      "radiatorThickness": 30,
+      "fanThickness": 25,
+      "assemblyThickness": 59,
+      "tier": "aio360",
+      "maintenance": "含水泵与管路",
+      "source": "https://www.noctua.at/en/products/nl-lc1-36/specifications",
+      "notes": "官方总装厚度 59 mm，包含风扇与安装组件；不能只按 30+25=55 mm 判断空间。"
     }
   ],
-  "overrides": []
+  "overrides": [
+    {
+      "board": "strix-z690i",
+      "cooler": "u12a",
+      "state": "fail",
+      "detail": "官方确认 VRM 散热片高度造成机械干涉，需改选散热器。",
+      "source": "https://www.noctua.at/en/compatibility/by-components/motherboards/asus-rog-strix-z690-i-gaming-wifi",
+      "checkedAt": "2026-11-14",
+      "recheckRam": false
+    },
+    {
+      "board": "strix-z690i",
+      "cooler": "d15g2",
+      "state": "fail",
+      "detail": "官方确认 VRM 散热片高度造成机械干涉，需改选散热器。",
+      "source": "https://www.noctua.at/en/compatibility/by-components/motherboards/asus-rog-strix-z690-i-gaming-wifi",
+      "checkedAt": "2026-11-14",
+      "recheckRam": false
+    },
+    {
+      "board": "strix-z690i",
+      "cooler": "d15g2hbc",
+      "state": "fail",
+      "detail": "官方确认 VRM 散热片高度造成机械干涉，需改选散热器。",
+      "source": "https://www.noctua.at/en/compatibility/by-components/motherboards/asus-rog-strix-z690-i-gaming-wifi",
+      "checkedAt": "2026-11-14",
+      "recheckRam": false
+    },
+    {
+      "board": "strix-z690a-d4",
+      "cooler": "u12a",
+      "state": "conditional",
+      "detail": "标准朝 I/O 方向不兼容；须旋转 90° 朝机箱顶部吹风，并重新核对净空。2022-01-01 前购买产品需核对升级扣具。",
+      "source": "https://www.noctua.at/en/compatibility/by-components/motherboards/asus-rog-strix-z690-a-gaming-wifi-d4",
+      "checkedAt": "2026-11-14",
+      "recheckRam": true
+    },
+    {
+      "board": "strix-z690e",
+      "cooler": "u12a",
+      "state": "conditional",
+      "detail": "标准朝 I/O 方向不兼容；须旋转 90° 朝机箱顶部吹风，并重新核对净空。2022-01-01 前购买产品需核对升级扣具。",
+      "source": "https://www.noctua.at/en/compatibility/by-components/motherboards/asus-rog-strix-z690-e-gaming-wifi",
+      "checkedAt": "2026-11-14",
+      "recheckRam": true
+    },
+    {
+      "board": "asrock-b860i",
+      "cooler": "d15g2",
+      "state": "conditional",
+      "detail": "只可采用官方 orientation 1；超出主板北侧约 15 mm，需核对机箱边缘空间。",
+      "source": "https://www.noctua.at/en/compatibility/by-components/motherboards/asrock-b860i-wifi",
+      "checkedAt": "2026-11-14",
+      "recheckRam": true
+    },
+    {
+      "board": "strix-b860i",
+      "cooler": "d15g2",
+      "state": "conditional",
+      "detail": "只可采用官方 orientation 1；超出主板北侧约 20 mm，需核对机箱边缘空间。",
+      "source": "https://www.noctua.at/en/compatibility/by-components/motherboards/asus-rog-strix-b860-i-gaming-wifi",
+      "checkedAt": "2026-11-14",
+      "recheckRam": true
+    },
+    {
+      "board": "maximus-z790-apex",
+      "cooler": "lf3360",
+      "state": "conditional",
+      "detail": "M.2_1 散热片与泵体干涉；须按 ARCTIC 方案更换合适散热片，再确认安装。可附主板发票向官方申请替换件。",
+      "source": "https://support.arctic.de/lf3-compatibility",
+      "checkedAt": "2026-11-14",
+      "recheckRam": false
+    },
+    {
+      "board": "maximus-z790-encore",
+      "cooler": "lf3360",
+      "state": "conditional",
+      "detail": "M.2_1 散热片与泵体干涉；须按 ARCTIC 方案更换合适散热片，再确认安装。可附主板发票向官方申请替换件。",
+      "source": "https://support.arctic.de/lf3-compatibility",
+      "checkedAt": "2026-11-14",
+      "recheckRam": false
+    },
+    {
+      "board": "z690-aorus-master",
+      "cooler": "lf3360",
+      "state": "conditional",
+      "detail": "M.2_1 散热片与泵体干涉；须按 ARCTIC 方案更换合适散热片，再确认安装。可附主板发票向官方申请替换件。",
+      "source": "https://support.arctic.de/lf3-compatibility",
+      "checkedAt": "2026-11-14",
+      "recheckRam": false
+    },
+    {
+      "board": "proart-z890",
+      "cooler": "lf3360",
+      "state": "conditional",
+      "detail": "M.2_1 散热片与泵体干涉；须按 ARCTIC 方案更换合适散热片，再确认安装。可附主板发票向官方申请替换件。",
+      "source": "https://support.arctic.de/lf3-compatibility",
+      "checkedAt": "2026-11-14",
+      "recheckRam": false
+    },
+    {
+      "board": "msi-b860-plus",
+      "cooler": "lf3360",
+      "state": "conditional",
+      "detail": "M.2_1 散热片与泵体干涉；须按 ARCTIC 方案更换合适散热片，再确认安装。可附主板发票向官方申请替换件。",
+      "source": "https://support.arctic.de/lf3-compatibility",
+      "checkedAt": "2026-11-14",
+      "recheckRam": false
+    },
+    {
+      "board": "strix-z690i",
+      "cooler": "lf3360",
+      "state": "fail",
+      "detail": "ARCTIC 官方明确列为不兼容；不能把更换散热片的处理方案套用于此记录。",
+      "source": "https://support.arctic.de/lf3-compatibility",
+      "checkedAt": "2026-11-14",
+      "recheckRam": false
+    },
+    {
+      "board": "asrock-b760i",
+      "cooler": "lf3360",
+      "state": "fail",
+      "detail": "ARCTIC 官方明确列为不兼容；不能把更换散热片的处理方案套用于此记录。",
+      "source": "https://support.arctic.de/lf3-compatibility",
+      "checkedAt": "2026-11-14",
+      "recheckRam": false
+    },
+    {
+      "board": "strix-z890i",
+      "cooler": "lf3360",
+      "state": "fail",
+      "detail": "ARCTIC 官方明确列为不兼容；不能把更换散热片的处理方案套用于此记录。",
+      "source": "https://support.arctic.de/lf3-compatibility",
+      "checkedAt": "2026-11-14",
+      "recheckRam": false
+    }
+  ]
 }

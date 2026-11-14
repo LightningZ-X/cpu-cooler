@@ -1,8 +1,22 @@
+import { stackThickness } from "./benchmarks.js";
+
+export function resolveBoard(config, catalog) {
+  const direct = catalog.boards.find((board) => board.id === config.board);
+  if (direct) return direct;
+  if (config.board !== "custom" || !config.boardName) return null;
+  const key = (value) => value.trim().replace(/\s+/g, " ").toLowerCase();
+  return (
+    catalog.boards.find((board) => key(board.name) === key(config.boardName)) ||
+    null
+  );
+}
+
 export function evaluate(cooler, config, catalog) {
   const cpu = catalog.cpus.find((item) => item.id === config.cpu);
-  const board = catalog.boards.find((item) => item.id === config.board);
+  const board = resolveBoard(config, catalog);
   const checks = [];
-  const add = (state, title, detail) => checks.push({ state, title, detail });
+  const add = (state, title, detail, source = null) =>
+    checks.push({ state, title, detail, source });
   if (!cpu)
     return {
       status: "blocked",
@@ -38,9 +52,9 @@ export function evaluate(cooler, config, catalog) {
       `当前数据未确认 ${cpu.socket} 支持，需向厂商核对扣具`,
     );
   const pair = catalog.overrides.find(
-    (item) => item.board === config.board && item.cooler === cooler.id,
+    (item) => item.board === board?.id && item.cooler === cooler.id,
   );
-  if (pair) add(pair.state, "主板安装干涉", pair.detail);
+  if (pair) add(pair.state, "主板安装干涉", pair.detail, pair.source);
   else
     add(
       "unknown",
@@ -49,7 +63,13 @@ export function evaluate(cooler, config, catalog) {
     );
   let height = cooler.height ?? null;
   if (cooler.type === "air") {
-    if (cooler.ramOverhang === false)
+    if (pair?.recheckRam)
+      add(
+        "unknown",
+        "内存净空",
+        "该组合须改变安装方向，内存与机箱边缘净空需重新核对",
+      );
+    else if (cooler.ramOverhang === false)
       add("pass", "内存净空", "该 Intel 平台不覆盖内存插槽");
     else if (!config.ramHeight || cooler.ramClearance == null)
       add(
@@ -89,8 +109,9 @@ export function evaluate(cooler, config, catalog) {
         `所需 ${height} mm，超过机箱 ${config.caseHeight} mm 限高`,
       );
     else if (
-      cooler.ramOverhang !== false &&
-      (!config.ramHeight || cooler.ramClearance == null)
+      pair?.recheckRam ||
+      (cooler.ramOverhang !== false &&
+        (!config.ramHeight || cooler.ramClearance == null))
     )
       add(
         "unknown",
@@ -126,7 +147,7 @@ export function evaluate(cooler, config, catalog) {
         "冷排安装位",
         `标称规格满足；请核对 ${cooler.radiatorLength} × ${cooler.radiatorWidth} mm 本体及螺丝孔位`,
       );
-    const total = cooler.radiatorThickness + cooler.fanThickness;
+    const total = stackThickness(cooler);
     if (!config.radiatorSpace)
       add("unknown", "冷排总厚度", `冷排与风扇共 ${total} mm，请填写可用空间`);
     else if (config.radiatorSpace < total)
@@ -169,9 +190,7 @@ export function evaluate(cooler, config, catalog) {
 
 export function precheck(config, catalog) {
   const cpu = catalog.cpus.find((c) => c.id === config.cpu);
-  const socket =
-    catalog.boards.find((b) => b.id === config.board)?.socket ||
-    config.boardSocket;
+  const socket = resolveBoard(config, catalog)?.socket || config.boardSocket;
   return [
     {
       state: !socket ? "unknown" : socket === cpu?.socket ? "pass" : "fail",

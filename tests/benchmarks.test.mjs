@@ -33,6 +33,44 @@ test("原版与 HBC 实测记录不互相继承", () => {
   assert.equal(rows.find((c) => c.id === "d15g2").measured, null);
   assert.equal(rows.find((c) => c.id === "d15g2hbc").measured.value, 57.8);
 });
+test("新品有同组实测，仍不能把缺失高度视为零高度通过", () => {
+  const c = config({
+    cpu: "270kplus",
+    board: "tuf-z890",
+    powerLimit: 280,
+    benchmarkId: "51972-new-single-270kplus-280",
+  });
+  const rows = recommend(c, db);
+  assert.equal(rows.find((r) => r.id === "v8ace-intel").measured.value, 92);
+  const cq = rows.find((r) => r.id === "cq125");
+  assert.equal(cq.measured.value, 94);
+  assert.equal(cq.heightUsed, null);
+  assert.equal(cq.checks.find((r) => r.title === "机箱限高").state, "unknown");
+});
+test("V8 ACE 超出已证实内存净空时不外推风扇滑轨行程", () => {
+  const result = evaluate(cooler("v8ace-intel"), config({ ramHeight: 46 }), db);
+  assert.equal(result.checks.find((r) => r.title === "内存净空").state, "fail");
+  assert.equal(result.heightUsed, 168);
+});
+test("CQ125 未确认的 1700 扣具不能沿用 1851 测试支持", () => {
+  const result = evaluate(cooler("cq125"), config({}), db);
+  assert.equal(
+    result.checks.find((r) => r.title === "平台扣具").state,
+    "unknown",
+  );
+});
+test("新品和近似版本不继承旧 APEX、同系列实测", () => {
+  const rows = recommend(
+    config({
+      cpu: "14900k",
+      powerLimit: 240,
+      benchmarkId: "51972-single-14900k-240",
+    }),
+    db,
+  );
+  for (const row of rows.filter((r) => r.addedAt))
+    assert.equal(row.measured, null);
+});
 test("同组比较温差，跨 CPU、功耗或负载时不使用该实测排序", () => {
   assert.ok(matchingBenchmark(config({}), db));
   assert.equal(matchingBenchmark(config({ cpu: "14900k" }), db), null);

@@ -219,7 +219,7 @@ test("目录 ID 唯一，来源完整且规格数值有效", () => {
   for (const c of db.coolers)
     assert.ok(
       c.type === "air"
-        ? c.height > 0
+        ? c.height > 0 || (c.height === null && c.socketEvidence === "review")
         : c.radiatorThickness + c.fanThickness > 0,
     );
 });

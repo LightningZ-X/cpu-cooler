@@ -105,6 +105,14 @@ async function init() {
   showBenchmark();
   $("#conflict-search").addEventListener("input", renderConflicts);
   renderConflicts();
+  $("#new-model-list").innerHTML =
+    `<table class="conflict-table"><thead><tr><th>精确型号</th><th>安装高度</th><th>数据进度 / 出处</th></tr></thead><tbody>${catalog.coolers
+      .filter((c) => c.addedAt)
+      .map(
+        (c) =>
+          `<tr><td>${escape(c.brand)}<br><b>${escape(c.name)}</b></td><td>${c.height === null ? "待核对" : `${c.height} mm`}<br>${c.ramClearance == null ? "内存净空待核对" : `内存上限 ${c.ramClearance} mm`}</td><td><a href="${c.source}" target="_blank" rel="noopener noreferrer">${escape(c.sourceLabel || "官方规格")} ↗</a><br>${c.reviewUrl ? `<a href="${c.reviewUrl}" target="_blank" rel="noopener noreferrer">${escape(c.reviewNote)} ↗</a>` : "实测版本待核对"}</td></tr>`,
+      )
+      .join("")}</tbody></table>`;
   $("#video-year").innerHTML =
     '<option value="all">全部年份</option>' +
     [...new Set(entries.map((video) => video.publishedAt.slice(0, 4)))]

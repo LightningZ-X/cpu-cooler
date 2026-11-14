@@ -43,7 +43,9 @@ export function evaluate(cooler, config, catalog) {
     add(
       "pass",
       "平台扣具",
-      `当前官方规格支持 ${cpu.socket}；购买时核对随盒扣具版本`,
+      cooler.socketEvidence === "review"
+        ? `原始评测已在 ${cpu.socket} 平台测试；随盒扣具版本仍需核对`
+        : `当前官方规格支持 ${cpu.socket}；购买时核对随盒扣具版本`,
     );
   else
     add(
@@ -100,7 +102,13 @@ export function evaluate(cooler, config, catalog) {
         "内存净空",
         `${config.ramHeight} mm ≤ ${cooler.ramClearance} mm`,
       );
-    if (!config.caseHeight)
+    if (height === null)
+      add(
+        "unknown",
+        "机箱限高",
+        "整机安装高度缺少一手规格证据，暂不能判断是否容纳",
+      );
+    else if (!config.caseHeight)
       add("unknown", "机箱限高", "请填写机箱允许的 CPU 风冷散热器高度");
     else if (height > config.caseHeight)
       add(

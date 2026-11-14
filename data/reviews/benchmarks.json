@@ -258,6 +258,42 @@
           "rpm": 1820
         }
       ]
+    },
+    {
+      "id": "51972-new-single-270kplus-280",
+      "title": "新品单塔 · CQ125 / V8 ACE · 全速",
+      "author": "51972",
+      "cpuId": "270kplus",
+      "cpu": "Core Ultra 7 270K Plus",
+      "socket": "LGA1851",
+      "powerW": 280,
+      "fanMode": "full",
+      "noiseDbA": null,
+      "ambientC": 24,
+      "metric": "absolute-chart",
+      "unit": "℃",
+      "sourceUrl": "https://www.bilibili.com/video/BV1M9KB6GE9D/?t=100",
+      "sourceLabel": "2026单塔风冷新品体验速览 · 01:40 附近",
+      "publishedAt": "2026-07-19",
+      "timestamp": 100,
+      "conditions": "原视频 Intel U7 270K PLUS 全速图表，标注功耗约 280W、室温 24℃（±0.2）。保留实际转速。",
+      "limitations": "280W 高于该 CPU 官方最大睿频功耗 250W，非默认设置。温度平均/峰值、完整 BIOS、硅脂和机箱条件尚未核对；不是同噪比较。仅摘录已核对的两款，不能与 2025 图表直接混排。",
+      "results": [
+        {
+          "coolerId": "v8ace-intel",
+          "name": "Cooler Master V8 ACE 3DHP（Intel 测试）",
+          "type": "air",
+          "value": 92,
+          "rpm": 2553
+        },
+        {
+          "coolerId": "cq125",
+          "name": "VK CQ125（无光单风扇）",
+          "type": "air",
+          "value": 94,
+          "rpm": 2366
+        }
+      ]
     }
   ]
 }

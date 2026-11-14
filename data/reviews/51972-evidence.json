@@ -1,7 +1,7 @@
 {
   "author": "51972",
   "checkedAt": "2026-11-14",
-  "measurementCount": 19,
+  "measurementCount": 21,
   "sources": [
     {
       "bvid": "BV1C54E6fEPD",
@@ -85,6 +85,15 @@
       "category": "installation",
       "url": "https://www.bilibili.com/video/BV1qu41147Dq/",
       "note": "主板测试来源索引；需逐章节确认功耗设置及具体安装情况，不直接生成散热器兼容结论。"
+    },
+    {
+      "bvid": "BV1M9KB6GE9D",
+      "title": "2026单塔风冷新品体验速览",
+      "publishedAt": "2026-07-19",
+      "status": "measurements-partial",
+      "category": "cooling",
+      "url": "https://www.bilibili.com/video/BV1M9KB6GE9D/",
+      "note": "已核对 Intel 270K Plus 约 280W 全速图表中的 CQ125、V8 ACE 温度与转速；其他图表和后续更正待核对。"
     }
   ],
   "testGroups": [
@@ -362,6 +371,31 @@
           "type": "aio",
           "value": 105,
           "rpm": 1820
+        }
+      ]
+    },
+    {
+      "label": "2026 新品单塔",
+      "cpu": "Core Ultra 7 270K Plus",
+      "powerW": 280,
+      "fanMode": "原装风扇全速",
+      "pasteMode": "硅脂条件待核对",
+      "source": "BV1M9KB6GE9D",
+      "timestamp": 100,
+      "results": [
+        {
+          "coolerId": "v8ace-intel",
+          "name": "Cooler Master V8 ACE 3DHP（Intel 测试）",
+          "type": "air",
+          "value": 92,
+          "rpm": 2553
+        },
+        {
+          "coolerId": "cq125",
+          "name": "VK CQ125（无光单风扇）",
+          "type": "air",
+          "value": 94,
+          "rpm": 2366
         }
       ]
     }

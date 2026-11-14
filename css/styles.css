@@ -608,6 +608,9 @@ input::placeholder {
   align-items: center;
   margin: 25px 0 13px;
 }
+#cooler-search {
+  margin-bottom: 16px;
+}
 .tabs {
   display: flex;
   gap: 5px;

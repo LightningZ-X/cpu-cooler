@@ -1,0 +1,218 @@
+{
+  "author": "51972",
+  "checkedAt": "2026-11-14",
+  "measurementCount": 0,
+  "sources": [
+    {
+      "bvid": "BV1C54E6fEPD",
+      "title": "2026水冷横评",
+      "publishedAt": "2026-11-07",
+      "status": "metadata-only",
+      "category": "cooling",
+      "url": "https://www.bilibili.com/video/BV1C54E6fEPD/",
+      "note": "已取得本人投稿目录与简介；性能图表待逐项核对。"
+    },
+    {
+      "bvid": "BV1PUgp6NEn7",
+      "title": "2026年主流风冷与水冷之间的性能差距有多大？",
+      "publishedAt": "2026-08-13",
+      "status": "metadata-only",
+      "category": "cooling",
+      "url": "https://www.bilibili.com/video/BV1PUgp6NEn7/",
+      "note": "可作为风冷与水冷同条件对比的优先核对来源，尚未提取数值。"
+    },
+    {
+      "bvid": "BV1yCSPBVEg1",
+      "title": "2025风冷横评",
+      "publishedAt": "2025-11-30",
+      "status": "conditions-only",
+      "category": "cooling",
+      "url": "https://www.bilibili.com/video/BV1yCSPBVEg1/",
+      "note": "已核对本人简介中的 Intel 测试平台、功耗与章节位置；尚未核对各产品温度、噪声与名次。"
+    },
+    {
+      "bvid": "BV1FFKZzcEf7",
+      "title": "2025水冷横评",
+      "publishedAt": "2025-06-26",
+      "status": "metadata-only",
+      "category": "cooling",
+      "url": "https://www.bilibili.com/video/BV1FFKZzcEf7/",
+      "note": "本人简介列出 15 款参赛产品，包含散热性能与可靠性测试；不能由参赛名单推导性能排名。"
+    },
+    {
+      "bvid": "BV1Wm411Q7zV",
+      "title": "2023旗舰360水冷横评",
+      "publishedAt": "2024-02-09",
+      "status": "metadata-only",
+      "category": "cooling",
+      "url": "https://www.bilibili.com/video/BV1Wm411Q7zV/",
+      "note": "以原视频标题为准：标题年份为 2023，发布日期为 2024，避免按年份错误归档。"
+    },
+    {
+      "bvid": "BV1sc411m7o7",
+      "title": "2023旗舰单塔风冷横评",
+      "publishedAt": "2023-12-15",
+      "status": "metadata-only",
+      "category": "cooling",
+      "url": "https://www.bilibili.com/video/BV1sc411m7o7/",
+      "note": "本人简介包含 NH-U12A 等参赛型号；参测信息不等于推荐结论。",
+      "coolerIds": ["u12a"]
+    },
+    {
+      "bvid": "BV1tu4y1D7Aq",
+      "title": "2023旗舰风冷横评",
+      "publishedAt": "2023-08-27",
+      "status": "metadata-only",
+      "category": "cooling",
+      "url": "https://www.bilibili.com/video/BV1tu4y1D7Aq/",
+      "note": "历史横评来源；需要区分当时产品版本、平台与扣具。"
+    },
+    {
+      "bvid": "BV1ii421k7sP",
+      "title": "旗舰B760M主板横评",
+      "publishedAt": "2024-05-07",
+      "status": "metadata-only",
+      "category": "installation",
+      "url": "https://www.bilibili.com/video/BV1ii421k7sP/",
+      "note": "简介包含 TUF GAMING B760M-PLUS WIFI II。主板参与横评不能证明其与任意散热器安装兼容。",
+      "boardIds": ["tuf-b760"]
+    },
+    {
+      "bvid": "BV1qu41147Dq",
+      "title": "8款热销H610主板横评",
+      "publishedAt": "2023-05-09",
+      "status": "metadata-only",
+      "category": "installation",
+      "url": "https://www.bilibili.com/video/BV1qu41147Dq/",
+      "note": "主板测试来源索引；需逐章节确认功耗设置及具体安装情况，不直接生成散热器兼容结论。"
+    }
+  ],
+  "testGroups": [
+    {
+      "id": "2025-air-single-14900k-240-full",
+      "source": "BV1yCSPBVEg1",
+      "timestamp": 353,
+      "label": "单塔组 · 全速",
+      "cpu": "i9-14900K",
+      "socket": "LGA1700",
+      "powerW": 240,
+      "fanMode": "原装风扇全速",
+      "pasteMode": "统一硅脂",
+      "ambientC": null,
+      "noiseDbA": null,
+      "results": []
+    },
+    {
+      "id": "2025-air-single-14900k-240-noise",
+      "source": "BV1yCSPBVEg1",
+      "timestamp": 531,
+      "label": "单塔组 · 统一噪声",
+      "cpu": "i9-14900K",
+      "socket": "LGA1700",
+      "powerW": 240,
+      "fanMode": "统一噪声",
+      "pasteMode": null,
+      "ambientC": null,
+      "noiseDbA": null,
+      "results": []
+    },
+    {
+      "id": "2025-air-single-265k-250",
+      "source": "BV1yCSPBVEg1",
+      "timestamp": 677,
+      "label": "单塔组 · 全速",
+      "cpu": "Core Ultra 7 265K",
+      "socket": "LGA1851",
+      "powerW": 250,
+      "fanMode": "原装风扇全速",
+      "pasteMode": "统一硅脂",
+      "ambientC": null,
+      "noiseDbA": null,
+      "results": []
+    },
+    {
+      "id": "2025-air-single-14600kf-185",
+      "source": "BV1yCSPBVEg1",
+      "timestamp": 861,
+      "label": "单塔组 · 全速",
+      "cpu": "i5-14600KF",
+      "socket": "LGA1700",
+      "powerW": 185,
+      "fanMode": "原装风扇全速",
+      "pasteMode": "统一硅脂",
+      "ambientC": null,
+      "noiseDbA": null,
+      "results": []
+    },
+    {
+      "id": "2025-air-dual-14900k-260",
+      "source": "BV1yCSPBVEg1",
+      "timestamp": 1205,
+      "label": "双塔组 · 全速",
+      "cpu": "i9-14900K",
+      "socket": "LGA1700",
+      "powerW": 260,
+      "fanMode": "原装风扇全速",
+      "pasteMode": "统一硅脂",
+      "ambientC": null,
+      "noiseDbA": null,
+      "results": []
+    },
+    {
+      "id": "2025-air-dual-14900k-290",
+      "source": "BV1yCSPBVEg1",
+      "timestamp": 1291,
+      "label": "双塔组 · 解除限制",
+      "cpu": "i9-14900K",
+      "socket": "LGA1700",
+      "powerW": 290,
+      "fanMode": "原装风扇全速",
+      "pasteMode": null,
+      "ambientC": null,
+      "noiseDbA": null,
+      "results": []
+    },
+    {
+      "id": "2025-air-285k-290",
+      "source": "BV1yCSPBVEg1",
+      "timestamp": 1608,
+      "label": "合并测试 · 全速",
+      "cpu": "Core Ultra 9 285K",
+      "socket": "LGA1851",
+      "powerW": 290,
+      "fanMode": "原装风扇全速",
+      "pasteMode": "统一硅脂",
+      "ambientC": null,
+      "noiseDbA": null,
+      "results": []
+    },
+    {
+      "id": "2025-air-265k-280",
+      "source": "BV1yCSPBVEg1",
+      "timestamp": 1645,
+      "label": "合并测试 · 全速",
+      "cpu": "Core Ultra 7 265K",
+      "socket": "LGA1851",
+      "powerW": 280,
+      "fanMode": "原装风扇全速",
+      "pasteMode": "统一硅脂",
+      "ambientC": null,
+      "noiseDbA": null,
+      "results": []
+    },
+    {
+      "id": "2025-air-14600kf-200",
+      "source": "BV1yCSPBVEg1",
+      "timestamp": 1722,
+      "label": "合并测试 · 全速",
+      "cpu": "i5-14600KF",
+      "socket": "LGA1700",
+      "powerW": 200,
+      "fanMode": "原装风扇全速",
+      "pasteMode": "统一硅脂",
+      "ambientC": null,
+      "noiseDbA": null,
+      "results": []
+    }
+  ]
+}

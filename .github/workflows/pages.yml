@@ -21,7 +21,7 @@ jobs:
       - name: Prepare static website
         run: |
           mkdir public
-          cp index.html public/
+          cp index.html reviews.html public/
           cp -r css js data assets public/
       - uses: actions/upload-pages-artifact@v3
         if: github.event_name != 'pull_request'

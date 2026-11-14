@@ -1,0 +1,519 @@
+{
+  "author": "51972",
+  "uid": 64391344,
+  "profile": "https://space.bilibili.com/64391344",
+  "collectedAt": "2026-11-14T15:50:40.346619+08:00",
+  "reportedCount": 214,
+  "collectedCount": 50,
+  "publicArchiveComplete": false,
+  "failures": [
+    {
+      "page": 2,
+      "error": "Archive page 2: API code -799"
+    }
+  ],
+  "scope": "当前公开投稿目录；不包括删除、隐藏及无法公开访问的内容。已读取标题与简介，未逐一阅览视频画面。",
+  "classification": "标题关键词初筛，可能存在漏分；可切换全部目录人工检查。",
+  "videos": [
+    {
+      "bvid": "BV1HmWx6zE79",
+      "title": "完美体验DLSS5究竟需要什么显卡？",
+      "publishedAt": "2026-11-09T15:00:00+08:00",
+      "duration": "28:58",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV1HmWx6zE79/",
+      "descriptionExcerpt": "本期特别感谢AOC旗下品牌爱攻AGON电竞的大力支持！\n\n测试机器配置：\nCPU：AMD RYZEN 7 9800X3D\n主板：微星X870 TOMAHAWK WIFI7\n内存：芝奇DDR5 6000MHz 16GBX2\nSSD：佰维NV7400 2TB NVMe\n散热：VK MC360\n机箱：骨伽MX600MAX\n电",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1C54E6fEPD",
+      "title": "2026水冷横评",
+      "publishedAt": "2026-11-07T18:34:57+08:00",
+      "duration": "27:19",
+      "category": "cooling",
+      "url": "https://www.bilibili.com/video/BV1C54E6fEPD/",
+      "descriptionExcerpt": "今年应该是水冷性能提升最小的一届，本期参赛选手：\n\nVK MA360\n超频3 逐浪DB360\n九州风神 LT360 VISION\n银昕 S360 PRO\n钛游 HD360 PRO\nBe quiet! Be quite! Silent Loop3 360\n乔思伯 TX-360\n酷冷至尊 龙影二代Pro 黑金限量版 \n微星",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1P2Hf6aEJy",
+      "title": "最好的魔兽世界硬件攻略",
+      "publishedAt": "2026-10-06T17:05:47+08:00",
+      "duration": "32:19",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV1P2Hf6aEJy/",
+      "descriptionExcerpt": "2026年硬件飞涨的当下，玩《魔兽世界》正式服与《魔兽世界：无限》硬件该怎么选？电脑卡顿该怎么升级？不同的分辨率用什么显卡？多大容量的内存够玩？要不要加内存？CPU重要还是显卡重要，今天一个视频给你讲清楚。\n\n本次测试包含39款CPU、78款显卡、16套不同规格内存、54套配置方案，三种不同分辨率测试。\n\n特别鸣谢：\n",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1awHY6iEWZ",
+      "title": "RYZEN平台反向超频补测、EXPO ULL、DDR5 Refresh （Normal、FGR、Mixed）三种模式对比测试",
+      "publishedAt": "2026-10-03T15:00:40+08:00",
+      "duration": "11:38",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV1awHY6iEWZ/",
+      "descriptionExcerpt": "上次4400反向超频的评论区有很多热心观众的反馈建议，我们将它们收集到了一起，进行了一轮综合测试。分为三部分：\n1.4400MHz反向超频搭配9700X是否效果更佳？\n2.EXPO VS EXPO ULL内存 差距有多大？\n3.Mixed、FGR、Normal搭配不同的颗粒是否存在一个绝对最优解？",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1MeaR6nEwF",
+      "title": "缩缸乌龙:一个操作让你的电脑快速缩缸",
+      "publishedAt": "2026-09-30T15:15:54+08:00",
+      "duration": "05:44",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV1MeaR6nEwF/",
+      "descriptionExcerpt": "一位观众通过粉丝群找到我后，说他有一颗缩缸的9850X3D，花了近一周事件进行排查，最终发现是闹了场乌龙。",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV17yat6oEA7",
+      "title": "什么显卡才能爽玩《极限竞速:地平线6》？ 77款消费级主流显卡性能测试",
+      "publishedAt": "2026-09-27T14:53:41+08:00",
+      "duration": "23:04",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV17yat6oEA7/",
+      "descriptionExcerpt": "想爽玩地平线6到底需要什么规格的显卡呢？我们分别测试了三种不同的分辨率以及诸多画质，正在纠结怎么挑选显卡的小伙伴可以通过本期内容找到答案。",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1Xsht6mESN",
+      "title": "【速评】追风者EX5机箱测试报告",
+      "publishedAt": "2026-09-23T16:51:17+08:00",
+      "duration": "08:36",
+      "category": "installation",
+      "url": "https://www.bilibili.com/video/BV1Xsht6mESN/",
+      "descriptionExcerpt": "这是今年最吸引我的机箱之一，一起来看看它的实际性能表现与结构亮点吧！",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1BNeJ6gEwG",
+      "title": "【速评】万丽30周年限定RTX5080 OC 测试报告",
+      "publishedAt": "2026-09-15T11:59:49+08:00",
+      "duration": "05:47",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV1BNeJ6gEwG/",
+      "descriptionExcerpt": "万丽最新推出的这款30周年限定版，在用料、性能、功能上基本做到了六边形战士，如果你近期正好有购买5080的打算，可以考虑以下它哦。",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV12DbH6UEek",
+      "title": "三角洲行动DLSS/FSR显卡测试",
+      "publishedAt": "2026-09-06T16:45:20+08:00",
+      "duration": "24:34",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV12DbH6UEek/",
+      "descriptionExcerpt": "三个月前，我们曾做过一期75款显卡大战《三角洲》的内容，但那期内容并不被小伙伴们认可，认为画质过高，偏离了大部分玩家的实际游玩设置，于是我们花了些时间，重启了这个项目。这次加测了DLSS/FSR、更换NVIDIA模型等测试。希望能对各位有所帮助。",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1eJ4y6HEUv",
+      "title": "AAA全国可飞高价上门回收电脑",
+      "publishedAt": "2026-08-29T17:51:18+08:00",
+      "duration": "07:32",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV1eJ4y6HEUv/",
+      "descriptionExcerpt": "毕总亲自COS了下神秘眼镜女，亲自上门回收电脑了！",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1z78v6kE3c",
+      "title": "ROG水冷的岁月变迁：飞龙4代发展史",
+      "publishedAt": "2026-08-24T18:00:00+08:00",
+      "duration": "30:39",
+      "category": "cooling",
+      "url": "https://www.bilibili.com/video/BV1z78v6kE3c/",
+      "descriptionExcerpt": "今天让我们换个视角来看看ROG水冷——飞龙系列的岁月变迁。",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1PUgp6NEn7",
+      "title": "2026年主流风冷与水冷之间的性能差距有多大？",
+      "publishedAt": "2026-08-13T18:43:30+08:00",
+      "duration": "07:30",
+      "category": "cooling",
+      "url": "https://www.bilibili.com/video/BV1PUgp6NEn7/",
+      "descriptionExcerpt": "还在纠结该买风冷还是水冷吗？结合实际使用场景对照看看吧！",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV189GF6JE5e",
+      "title": "9800X3D卡顿、抽帧排查实录：帧数很高，游戏为什么还是卡？",
+      "publishedAt": "2026-07-31T14:36:42+08:00",
+      "duration": "24:23",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV189GF6JE5e/",
+      "descriptionExcerpt": "如果你也使用的是AMD X3D系列CPU，你也面临着同样问题的困扰，那今天这期内容应该能够让你获取到一些有用的帮助，以及让你感同身受。如果看完这期内容你的故障仍没有解决，欢迎私信我们。",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1MB3b6FEQ8",
+      "title": "对话银昕:如何看待当下水冷产品 S360Pro 简测",
+      "publishedAt": "2026-07-30T22:29:14+08:00",
+      "duration": "13:56",
+      "category": "cooling",
+      "url": "https://www.bilibili.com/video/BV1MB3b6FEQ8/",
+      "descriptionExcerpt": "在今年的BW期间，老牌机电散品牌“银昕”给我们发来消息，说他们的最新水冷产品在性能方面有重大突破，想和我们当面交流探讨，于是在BW的行程结束后，我们赶赴广东清远，当面了解了S360这款产品，并与银昕沟通了他们对当前水冷产品发展的看法。",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1JB3E6JEwr",
+      "title": "贯流风机散热很强吗？睿温 AirJet360实测",
+      "publishedAt": "2026-07-26T17:23:56+08:00",
+      "duration": "07:26",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV1JB3E6JEwr/",
+      "descriptionExcerpt": "有不少小伙伴想知道贯流/横流风扇的散热效果，正好睿温给我们寄送了一台，我们亲自上机实测了一番。",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1TFge6qERP",
+      "title": "该买高端散热器还是该买空调？不同室温对于电脑散热的影响",
+      "publishedAt": "2026-07-24T15:44:37+08:00",
+      "duration": "08:58",
+      "category": "cooling",
+      "url": "https://www.bilibili.com/video/BV1TFge6qERP/",
+      "descriptionExcerpt": "在散热产品的讨论区我们总是能看到一个观点是：不如买空调。\n那空调和散热器之间的关系又是怎么样的呢？\n不同室温下的不同规格的散热器又会有多大的性能差异呢？",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1M9KB6GE9D",
+      "title": "2026单塔风冷新品体验速览",
+      "publishedAt": "2026-07-19T19:16:16+08:00",
+      "duration": "06:59",
+      "category": "cooling",
+      "url": "https://www.bilibili.com/video/BV1M9KB6GE9D/",
+      "descriptionExcerpt": "前些日子大伙投票想看的单塔测试做好了，一共八款产品。\n\n\nVK CQ125\n酷冷至尊 V8 ACE 3DHP\nID-COOLING 雪格510 AMD限定\n版超频三 RZ700D\n超频三 RZ700D PRO ARGB\n九州风神 AK500S 数显青春版\n九州风神 AK700 数显版\n九州风神 AG500 G2 性能版",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1HTNH61E9R",
+      "title": "兄弟懂你！BW2026 Day1 Vlog",
+      "publishedAt": "2026-07-11T00:55:51+08:00",
+      "duration": "02:01",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV1HTNH61E9R/",
+      "descriptionExcerpt": "感谢ROG的盛情邀请，让我们又见到了许多硬件新品以及敬业的COSER老师！",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1v5KZ66Eay",
+      "title": "机箱风扇真的越大越好吗？",
+      "publishedAt": "2026-06-30T14:54:02+08:00",
+      "duration": "34:05",
+      "category": "fan",
+      "url": "https://www.bilibili.com/video/BV1v5KZ66Eay/",
+      "descriptionExcerpt": "我们使用市面上主流的6款大扇机箱进行了详细的散热对比测试。\n就如片中所说，控噪、散热、防尘是一个不可能同时实现的三角。\n一起来看看各款机箱的表现吧！\n\n本次测试所有机箱均采用默认风扇配置，风冷测试功耗设定为210W，水冷设定220W。\n\n骨伽乘风MX600 MAX（前置双20厘米大扇 后置无风扇）\n华硕ProArt P",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1KcKD6TEqq",
+      "title": "【气流演示】主流大扇机箱风道气流交换效率对比",
+      "publishedAt": "2026-06-29T13:32:00+08:00",
+      "duration": "03:11",
+      "category": "installation",
+      "url": "https://www.bilibili.com/video/BV1KcKD6TEqq/",
+      "descriptionExcerpt": "这是一个对比演示视频，正片明日上传。",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1Muj16QEik",
+      "title": "39元价位段的风冷该怎么选？",
+      "publishedAt": "2026-06-23T14:45:35+08:00",
+      "duration": "12:19",
+      "category": "cooling",
+      "url": "https://www.bilibili.com/video/BV1Muj16QEik/",
+      "descriptionExcerpt": "因为内存和硬盘涨价，大家在装机时都恨不得把预算抠到极限。这期我们就给大伙来个亲民的测试，我们把市面上价格低于39元的塔式风冷散热都买了回来，体验了他们的性能表现。",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1du7N6pEZu",
+      "title": "给游戏队友送一台电脑",
+      "publishedAt": "2026-06-22T21:29:38+08:00",
+      "duration": "10:21",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV1du7N6pEZu/",
+      "descriptionExcerpt": "善待队友，珍惜美好游戏时光！",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1p5Eg6EEeu",
+      "title": "老卡别扔！双卡邪修！能让5080变5090？保真吗？",
+      "publishedAt": "2026-06-08T18:15:10+08:00",
+      "duration": "05:19",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV1p5Eg6EEeu/",
+      "descriptionExcerpt": "这期我们尝试了网上流传的双卡邪修表现，一起来看看最终的实际结果吧！",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1JEVn6ZEPW",
+      "title": "【速评】LIANLI O11 Vision M测试报告:小身形 巨凉爽",
+      "publishedAt": "2026-05-31T14:30:22+08:00",
+      "duration": "08:11",
+      "category": "installation",
+      "url": "https://www.bilibili.com/video/BV1JEVn6ZEPW/",
+      "descriptionExcerpt": "在Ultra 290K PLUS的测评内容中，我们使用的是联力为我们赞助的隐流2代OLED一体式水冷，联力在给我们赞助水冷的同时，还寄送了一台O11 Vision M机箱，不过当时由于工作繁忙，同事忘记告诉我它是随水冷一起来的。事后打扫战场，我才看到这台被搁在一旁的小家伙……",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1wZGj6QEMk",
+      "title": "AMD 4400MHz反向超频有用吗？",
+      "publishedAt": "2026-05-24T16:28:39+08:00",
+      "duration": "05:32",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV1wZGj6QEMk/",
+      "descriptionExcerpt": "我们这次用4400C24的反向超频设定对比了6400C26与8000C34几类不同设定，一起来看看它们的性能差异吧",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1ZSL46mE2b",
+      "title": "【速评】钛游ZE360PRO测试报告",
+      "publishedAt": "2026-05-21T14:59:59+08:00",
+      "duration": "04:17",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV1ZSL46mE2b/",
+      "descriptionExcerpt": "299-399的一体式水冷卷出了天际，一起来看看这款钛游ZE360PRO的表现吧。",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1rwLB6JEet",
+      "title": "U9 290K PLUS性能实测:取消发布的真相",
+      "publishedAt": "2026-05-19T16:22:47+08:00",
+      "duration": "08:14",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV1rwLB6JEet/",
+      "descriptionExcerpt": "这期给大家看个比较新鲜的产品:U9-290K PLUS,原本这是每年的必看节目 蓝红大战之一，结果今年老英突然取消了发布，不过粉丝里有大牛，帮我找了一颗完全体。一起来看看他与9950X3D2之间的性能差距吧！",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV17x5Q67EqE",
+      "title": "寻访中国超频第一人：见证极限主频9.2GHz诞生",
+      "publishedAt": "2026-05-15T19:00:00+08:00",
+      "duration": "33:07",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV17x5Q67EqE/",
+      "descriptionExcerpt": "每一次超频失败，我都会问自己：眼下这条路还有意义吗？超频与发烧硬件，是不是只属于钱人？普通玩家是否只能认命，按下 AUTO 就好？\n这是我长久以来的困惑，也可能是屏幕前的你正在纠结的问题。\n这一次，我和团队怀揣着好奇和敬意，来到福州，找到了中国超频第一人 Wytiwx。面对面探讨，他如何平衡热爱、现实与极限挑战，了解他",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1r75Q6XEZC",
+      "title": "75款主流消费显卡大战三角洲行动:1080p/1440p/2160p全分辨率测试",
+      "publishedAt": "2026-05-14T15:06:23+08:00",
+      "duration": "17:26",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV1r75Q6XEZC/",
+      "descriptionExcerpt": "还在纠结打三角洲用什么显卡？这次我们实测了75张市面上的主流级消费显卡,希望能解决你的选择困难症：\n\nRTX 5090 32G\nRTX 5090D V2 24G\nRTX 4080 SUPER 16G\nRTX 4090 24G\nRTX 5070 Ti 16G\nRTX 5080 16G\nRTX 4080 16G\nRTX 4",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1z85y6hEi4",
+      "title": "【速评】七彩虹iGame X870E Vulcan OC V14火神测试报告",
+      "publishedAt": "2026-05-13T21:34:54+08:00",
+      "duration": "08:31",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV1z85y6hEi4/",
+      "descriptionExcerpt": "深度体验三个月，我们认为这张iGame X870E Vulcan OC V14 火神相较于以往的旗舰产品有了很大的进步，但仍有一些路要走。",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1mx5E6MEmx",
+      "title": "【速评】七彩虹 RTX5070 Ultra OC 黑色版测试报告",
+      "publishedAt": "2026-05-10T16:55:46+08:00",
+      "duration": "02:40",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV1mx5E6MEmx/",
+      "descriptionExcerpt": "补全RTX5070系列又增加了一张卡 RTX5070 ULTRA OC 黑色款，一起来看看它的性能表现吧！",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1d2RQB5EXr",
+      "title": "U7-270K PLUS如何搭配内存？4800-8800MHz表现全览",
+      "publishedAt": "2026-05-09T14:32:10+08:00",
+      "duration": "07:48",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV1d2RQB5EXr/",
+      "descriptionExcerpt": "这期我们测试了270K PLUS搭配4800-8800MHz在各款游戏下的表现:\n具体型号如下：\n\n4800MHz CL40-40-40-77  F5-5600J3636C16GX2-TZ5K（基于主板默认）\n5600MHz CL48-47-47-90  F5-5600J3636C16GX2-TZ5K（基于主板默认）\n",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1sASSBMEj1",
+      "title": "【速评】乔思伯CC90双塔风冷散热器测试报告",
+      "publishedAt": "2026-04-05T16:40:19+08:00",
+      "duration": "03:20",
+      "category": "cooling",
+      "url": "https://www.bilibili.com/video/BV1sASSBMEj1/",
+      "descriptionExcerpt": "我们频道在年初收到了来自老牌机电散厂商乔思伯寄送的CC90双塔风冷散热器，在我的个人印象中，近些年乔思伯似乎更倾向于在机箱产品上发力，而散热部分一直没有太大的动作，这期让我们来一起看看这款CC90的散热表现吧。",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1pk9KB4E1P",
+      "title": "装机VLOG：别担心，会有彩虹的！",
+      "publishedAt": "2026-04-03T16:26:31+08:00",
+      "duration": "33:59",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV1pk9KB4E1P/",
+      "descriptionExcerpt": "COS了一把装机师傅，给一位特殊的粉丝进行了机器升级，希望他接下来的直播会顺利起来！也是通过这次上门我们才了解到原来Vtuber直播二游这么吃硬件配置。",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV128XrBtEEy",
+      "title": "买主板到底要不要多花几十买带Wi-Fi版？自己扩展Wi-Fi会比主板自带的Wi-Fi更好吗？",
+      "publishedAt": "2026-03-31T19:39:55+08:00",
+      "duration": "07:44",
+      "category": "installation",
+      "url": "https://www.bilibili.com/video/BV128XrBtEEy/",
+      "descriptionExcerpt": "因为一条私信留言看到了贴吧因为要不要买Wi-Fi版本的主板问题吵了好几百楼，于是花了一点时间做了实测。希望能对选购纠结，预算有线的小伙伴有所帮助。",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1MCQRBPE8u",
+      "title": "【速评】 U7-270K PLUS 测试报告:我就知道你不是U7！Ultra 200S  PLUS测评",
+      "publishedAt": "2026-03-23T21:05:00+08:00",
+      "duration": "10:18",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV1MCQRBPE8u/",
+      "descriptionExcerpt": "让我们一期看看U7-270K PLUS的真面目！我就知道你不是U7，而是U9-285K OC版！",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1BTQZBsEmn",
+      "title": "CPU也要打驱动了吗？Ultra 200S PLUS 驱动设置教程",
+      "publishedAt": "2026-03-23T21:00:00+08:00",
+      "duration": "02:05",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV1BTQZBsEmn/",
+      "descriptionExcerpt": "老主板、新主板买了Ultra 200S PLUS系列处理器，如270K PLUS和250K PLUS 一定要做的几个操作！",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1CWAgztEKG",
+      "title": "【速评】追风者Glacier One M25 LCD测试报告",
+      "publishedAt": "2026-03-22T15:13:49+08:00",
+      "duration": "02:44",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV1CWAgztEKG/",
+      "descriptionExcerpt": "水冷屏显竞赛中，追风者也交出了自己的答卷，让我们来一起看看这款Glacier One M25 LCD的表现吧！",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV13gAczjEBK",
+      "title": "【速评】九州风神LT360 VISION 360一体式水冷测试报告",
+      "publishedAt": "2026-03-21T11:31:52+08:00",
+      "duration": "04:23",
+      "category": "cooling",
+      "url": "https://www.bilibili.com/video/BV13gAczjEBK/",
+      "descriptionExcerpt": "来看看九州2026开年第一次常规性能升级的带屏水冷LT360 VISION的性能表现吧！",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV16KcKziELY",
+      "title": "内存飞涨!生产力刚需,需要加价买大容量旗舰内存吗？  Origin Code Vortex VS DW100 96GB实测",
+      "publishedAt": "2026-02-09T15:55:00+08:00",
+      "duration": "18:05",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV16KcKziELY/",
+      "descriptionExcerpt": "引用视频中的关点：各行业目前纷纷投入AI怀抱的主要原因是这类工作投资少、见效快，当创作者们将原本购置个人硬件的的费用都充值成各类AI平台的PLUS会员时，势必会增速AI服务商们扩建自己的服务器集群，在颗粒厂产能有限时，便会进入一个死循环。",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1XbFfzqEgm",
+      "title": "【速评】ROG龙王4代标准版水冷与ProArt PF120风扇测试报告",
+      "publishedAt": "2026-02-08T18:00:00+08:00",
+      "duration": "06:42",
+      "category": "cooling",
+      "url": "https://www.bilibili.com/video/BV1XbFfzqEgm/",
+      "descriptionExcerpt": "ROG在近期推出了基于Asetek 8代V2的的长管版龙王4代与ProArt PF120风扇 一起来看看它们的实测表现吧！",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1CuFKz6EUf",
+      "title": "6款RTX 5070Ti 显卡补测",
+      "publishedAt": "2026-02-02T15:42:30+08:00",
+      "duration": "09:24",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV1CuFKz6EUf/",
+      "descriptionExcerpt": "花了点时间帮大伙补测了六款近期推出的RTX5070Ti显卡\n分别是\n七彩虹白火神、铭瑄瑷珈、影驰名人堂黑魂X、盈通豪华版、水着、映众超级冰龙",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1KB6vB1EtX",
+      "title": "禁用插件提升游戏性能是个谣言！魔兽世界12.0至暗之夜前夕VS11.27地心之战游戏流畅度测试",
+      "publishedAt": "2026-01-30T16:40:55+08:00",
+      "duration": "13:26",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV1KB6vB1EtX/",
+      "descriptionExcerpt": "实测魔兽世界12.0至暗之夜的游戏性能表现相较于11.27是拉了坨大的。\n既然提升不了性能，也没有改变玩法，为什么要禁用掉战斗API？为什么要把第三方无偿创作者的权限回收做成整合在游戏内的内置功能？\n难道是岗位变化莫测，有人怕丢了饭碗所以干脆一做不做二不休做成了需要永久维护的功能来占坑？",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1gYraBLEeA",
+      "title": "分区设计能改善多少度散热?九州风神CL6600/CL600体验报告",
+      "publishedAt": "2026-01-12T13:46:34+08:00",
+      "duration": "08:05",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV1gYraBLEeA/",
+      "descriptionExcerpt": "初代的CL6600已经能看到分区散热的优势了，对于CPU部分的散热改善较为明显，希望接下来升级衍生出更多分仓散热产品。",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1WQiZB8E4u",
+      "title": "【速评】酷冷至尊Hyper612 PRO测试报告",
+      "publishedAt": "2026-01-06T11:12:31+08:00",
+      "duration": "02:29",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV1WQiZB8E4u/",
+      "descriptionExcerpt": "相较于原先的HYPER612 APEX，你更喜欢哪个呢？",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1GxiMBNEBZ",
+      "title": "进步可观 七彩虹CVN B850M ARK FROZEN V14 深度体验报告",
+      "publishedAt": "2025-12-31T18:58:55+08:00",
+      "duration": "18:59",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV1GxiMBNEBZ/",
+      "descriptionExcerpt": "时隔多年，七彩虹的AMD系列主板进步可以用飞速来形容，本期我们花了近一个月时间深度体验了这款主板的方方面面，我与我的同事们认为该产品已经逐渐追上了御三家的脚步。",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1H4m1BJEiA",
+      "title": "有手就会:简单到可以边睡边超的AMD PBO教程",
+      "publishedAt": "2025-12-15T17:45:29+08:00",
+      "duration": "09:33",
+      "category": "other",
+      "url": "https://www.bilibili.com/video/BV1H4m1BJEiA/",
+      "descriptionExcerpt": "这是一期超级简单，简单到可以边睡边OC的教程，只要你有一张B850的主板，RYZEN9000或7000处理器，动动手指就可以实现！为了方便大家复制，给大家准备了一些永久有效的CD-KEY：\n\nGVC8LPH9HH17AVF\nGVC62S9VZDL226C\nGVC2L9QGDDVSNDD\nGVC2ZE8KU6TCR5Q\n",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV19F2jBnEyc",
+      "title": "廉价RGB风扇怎么选？9.9-19.9元热销RGB风扇横评",
+      "publishedAt": "2025-12-05T16:37:32+08:00",
+      "duration": "13:34",
+      "category": "fan",
+      "url": "https://www.bilibili.com/video/BV19F2jBnEyc/",
+      "descriptionExcerpt": "购买整机的小伙伴们，在遇到卖家让你加RGB风扇时，是不是被市面上的各种棱镜风扇搞晕了？这次我们用一个视频告诉你这些风扇的差异。\n\n本次测试型号：\nEVESKY 棱镜5代PRO\n子意棱镜4代\n酷月棱镜7PRO \nSilentEdge棱镜7RPO\n先马境界V3\n玩嘉棱镜四代ARGB\n丛林豹棱镜6PRO\nPowerTrain",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1yCSPBVEg1",
+      "title": "2025风冷横评",
+      "publishedAt": "2025-11-30T12:15:23+08:00",
+      "duration": "58:07",
+      "category": "cooling",
+      "url": "https://www.bilibili.com/video/BV1yCSPBVEg1/",
+      "descriptionExcerpt": "久等了各位，2025风冷横评，终于肝完了，耗费三个月，真的是测了个爽，本期内容较长，我把时间轴提前给大伙到这：\n\n00:00:00-00:00:40前言&赛事回顾\n00:40-03:32: 各品牌体质一致性测试\n03:32-05:02 赞助商及测试平台介绍\n05:06-05:53 陪跑嘉宾介绍\n05:53-19:17 ",
+      "reviewStatus": "metadata-only"
+    },
+    {
+      "bvid": "BV1yo1QBNE7u",
+      "title": "【速评】追风者EVOLV S2 视界之窗 测试报告",
+      "publishedAt": "2025-11-09T08:00:00+08:00",
+      "duration": "03:43",
+      "category": "installation",
+      "url": "https://www.bilibili.com/video/BV1yo1QBNE7u/",
+      "descriptionExcerpt": "相较于追风者EVOLV X2的1299售价，S2仅售549，颜值与性能没有大幅度缩水，还赠送4个风扇，对于看腻了传统海景房，又希望有个性外观的小伙伴是十分不错的选择。",
+      "reviewStatus": "metadata-only"
+    }
+  ]
+}

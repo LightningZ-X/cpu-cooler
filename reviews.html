@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>评测资料库 · CoolerGuide</title>
+    <meta
+      name="description"
+      content="51972 往期评测视频目录、Intel 测试条件和实测数据核对进度。保留原始出处，区分已核对结果和待提取资料。"
+    />
+    <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/reviews.css" />
+    <script type="module" src="js/reviews.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="./"
+          ><img src="assets/logo.svg" width="32" height="32" alt="" /><span
+            >CoolerGuide<small>散热器选择指南</small></span
+          ></a
+        ><a href="./" class="outline-button">← 返回选型</a>
+      </div>
+    </header>
+    <main class="review-main">
+      <section class="review-intro">
+        <p class="eyebrow">TESTS WITH CONTEXT</p>
+        <h1>让每一条数据，<span>有据可查。</span></h1>
+        <p>
+          51972
+          往期内容索引。保留测试条件与原视频出处，让散热建议逐步建立在可核对的实测之上。
+        </p>
+        <a
+          href="https://space.bilibili.com/64391344"
+          target="_blank"
+          rel="noopener noreferrer"
+          >前往 51972 的 Bilibili 主页 ↗</a
+        >
+      </section>
+      <section
+        id="collection-stats"
+        class="review-stats"
+        aria-label="资料核对进度"
+      ></section>
+      <p class="review-scope" id="collection-scope">正在读取目录…</p>
+      <section class="review-conditions">
+        <div class="review-heading">
+          <div>
+            <p class="eyebrow">INTEL TEST CONDITIONS</p>
+            <h2>已核对的测试条件</h2>
+          </div>
+          <span class="badge pending">图表数值待核对</span>
+        </div>
+        <p>
+          以下来自《2025风冷横评》本人发布的章节简介。功耗是该次测试设定，不是
+          CPU 官方默认值；不同组别不能直接合并排名。
+        </p>
+        <div id="test-groups" class="test-groups"></div>
+      </section>
+      <section class="review-library">
+        <div class="review-heading">
+          <div>
+            <p class="eyebrow">VIDEO LIBRARY</p>
+            <h2>往期评测目录</h2>
+          </div>
+          <span id="video-count"></span>
+        </div>
+        <div class="review-controls">
+          <label for="video-search" class="sr-only">搜索视频标题</label
+          ><input
+            id="video-search"
+            type="search"
+            placeholder="搜索标题、型号或 BV 号…"
+          /><label for="video-category" class="sr-only">视频类别</label
+          ><select id="video-category">
+            <option value="related">散热 / 风扇 / 安装相关</option>
+            <option value="cooling">散热器与水冷</option>
+            <option value="fan">风扇与气流</option>
+            <option value="installation">主板与机箱</option>
+            <option value="all">全部已取得投稿</option></select
+          ><label for="video-year" class="sr-only">视频年份</label
+          ><select id="video-year">
+            <option value="all">全部年份</option>
+          </select>
+        </div>
+        <div id="video-list" class="video-list" aria-live="polite"></div>
+      </section>
+      <section class="review-method">
+        <h2>怎样把评测转为可用数据</h2>
+        <div>
+          <article>
+            <b>01 / 核对原始画面</b>
+            <p>
+              记录具体产品版本、温度 /
+              温差、噪声、时间点和读数方式。简介、标题与评论不能代替测试结果。
+            </p>
+          </article>
+          <article>
+            <b>02 / 保留完整条件</b>
+            <p>
+              区分
+              CPU、功耗、环境温度、机箱、原装或替换风扇、转速与噪声目标。条件未知时不跨期排名。
+            </p>
+          </article>
+          <article>
+            <b>03 / 复核后参与推荐</b>
+            <p>
+              只有核对完成的结果才进入计算；样品老化记录不直接等同于整款产品的故障率。
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <a class="brand" href="./">CoolerGuide</a
+      ><span>原视频与评测内容归作者所有 · 本页提供出处索引与测试条件整理</span>
+    </footer>
+  </body>
+</html>

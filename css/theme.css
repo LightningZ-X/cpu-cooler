@@ -690,3 +690,156 @@ th:first-child {
     display: none !important;
   }
 }
+
+/* Product photos retain their original colours and aspect ratio. */
+.cooler-card .card-main {
+  grid-template-columns: 154px minmax(0, 1fr);
+  gap: 22px;
+}
+.product-art {
+  align-self: start;
+  min-height: 0;
+  padding: 12px 8px 24px;
+}
+.product-art.official-photo {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+}
+.product-art button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+}
+.product-art img {
+  display: block;
+  width: 100%;
+  height: 144px;
+  object-fit: contain;
+  filter: none;
+  opacity: 1;
+}
+.product-art.official-photo span {
+  color: #56606b;
+  font-size: 9px;
+  letter-spacing: 0;
+  bottom: 6px;
+}
+.product-art.illustration span {
+  color: var(--muted);
+  font-size: 8px;
+}
+.product-art button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.product-art button:hover img {
+  transform: scale(1.03);
+}
+.construction-strip {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1.35fr;
+  gap: 12px;
+  padding: 12px 0;
+  margin: 12px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.construction-strip div {
+  min-width: 0;
+}
+.construction-strip dt {
+  font-size: 10px;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+.construction-strip dd {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+.construction-details {
+  margin: 22px 0;
+  padding: 16px;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+}
+.construction-details > h3:first-child {
+  margin-top: 0;
+}
+.construction-details p {
+  font-size: 12px;
+}
+.construction-details a {
+  margin-left: 4px;
+}
+.thermal-boundary {
+  border-left: 2px solid var(--accent);
+  padding: 10px 12px;
+  color: var(--text-2);
+  font-size: 12px;
+  line-height: 1.8;
+}
+.photo-view {
+  text-align: center;
+  padding: 14px;
+}
+.photo-view img {
+  display: block;
+  width: 100%;
+  height: min(58vh, 580px);
+  object-fit: contain;
+  background: #fff;
+}
+.photo-view p {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 16px 0 8px;
+}
+.photo-view a {
+  font-size: 12px;
+  color: var(--accent);
+}
+@media (max-width: 700px) {
+  .cooler-card .card-main {
+    grid-template-columns: 104px minmax(0, 1fr);
+    gap: 14px;
+  }
+  .product-art img {
+    height: 105px;
+  }
+  .product-art.official-photo span {
+    font-size: 7px;
+  }
+  .construction-strip {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .construction-strip div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+    align-items: baseline;
+  }
+  .construction-strip dt {
+    margin: 0;
+  }
+  .construction-details {
+    padding: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .product-art button:hover img {
+    transform: none;
+  }
+}
+.product-data-note {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.8;
+  margin: 10px 0 16px;
+}

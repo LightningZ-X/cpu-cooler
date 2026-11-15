@@ -428,7 +428,38 @@
       "tier": "dual",
       "maintenance": "低维护",
       "source": "https://www.thermalright.com/product/phantom-spirit-120-se/",
-      "notes": "内存净空未收录。官方现行页面支持 LGA1851，早期库存仍需核对具体包装扣具。"
+      "notes": "内存净空未收录。官方现行页面支持 LGA1851，早期库存仍需核对具体包装扣具。",
+      "image": {
+        "path": "assets/products/ps120se.webp",
+        "source": "https://www.thermalright.com/product/phantom-spirit-120-se/",
+        "original": "https://www.thermalright.com/wp-content/uploads/2026/08/phantom-spirit-120-se.png",
+        "checkedAt": "2026-11-15"
+      },
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": 7,
+          "diameterMm": 6,
+          "detail": "官网规格/介绍确认根数；热管端头数不等于完整热管根数。",
+          "source": "https://www.thermalright.com/product/phantom-spirit-120-se/"
+        },
+        "finJoint": {
+          "method": "unknown",
+          "detail": "已查官方页面未明确说明热管与鳍片连接方式；不从直触、铜底焊接或产品图推断。",
+          "source": "https://www.thermalright.com/product/phantom-spirit-120-se/"
+        },
+        "baseContact": {
+          "method": "copper-base",
+          "detail": "官方明确铜底座；这不说明底座焊接方法或热管与鳍片连接工艺。",
+          "source": "https://www.thermalright.com/product/phantom-spirit-120-se/"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "source": "https://www.thermalright.com/product/phantom-spirit-120-se/",
+          "detail": "未核实该型号的厂商整机 TDP 瓦数；不按塔体、热管根数或冷排尺寸估算。"
+        }
+      }
     },
     {
       "id": "u12a",
@@ -444,7 +475,39 @@
       "maintenance": "低维护",
       "source": "https://www.noctua.at/en/products/nh-u12a/specifications",
       "extraSource": "https://www.noctua.at/en/products/nh-u12a/features",
-      "notes": "在收录的 Intel 平台不覆盖内存插槽；早期库存请核对随盒扣具。"
+      "notes": "在收录的 Intel 平台不覆盖内存插槽；早期库存请核对随盒扣具。",
+      "image": {
+        "path": "assets/products/u12a.webp",
+        "source": "https://www.noctua.at/en/products/nh-u12a/specifications",
+        "original": "https://cdn.noctua.at/media/noctua_nh_u12a_1.jpg",
+        "checkedAt": "2026-11-15"
+      },
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": 7,
+          "diameterMm": 6,
+          "detail": "官网规格/介绍确认根数；热管端头数不等于完整热管根数。",
+          "source": "https://www.noctua.at/en/products/nh-u12a/specifications"
+        },
+        "finJoint": {
+          "method": "soldered",
+          "detail": "官方规格明确热管/鳍片接口为焊接（Soldered）；未说明具体回流焊制程。",
+          "source": "https://www.noctua.at/en/products/nh-u12a/specifications"
+        },
+        "baseContact": {
+          "method": "copper-base",
+          "detail": "官方明确铜底座；这不说明底座焊接方法或热管与鳍片连接工艺。",
+          "source": "https://www.noctua.at/en/products/nh-u12a/specifications"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "source": "https://www.noctua.at/en/products/nh-u12a/specifications",
+          "detail": "官方 NSPR 169，是无瓦数的品牌性能分级，不能写成 169 W。",
+          "nspr": 169
+        }
+      }
     },
     {
       "id": "d15g2",
@@ -460,7 +523,39 @@
       "maintenance": "低维护",
       "source": "https://www.noctua.at/en/products/nh-d15-g2/specifications",
       "extraSource": "https://www.noctua.at/en/support/faqs/what-is-the-ram-clearance-of-my-noctua-cpu-cooler",
-      "notes": "标准版、默认双风扇布局。高于 32 mm 的内存需抬高前风扇，并增加机箱所需限高。"
+      "notes": "标准版、默认双风扇布局。高于 32 mm 的内存需抬高前风扇，并增加机箱所需限高。",
+      "image": {
+        "path": "assets/products/d15g2.webp",
+        "source": "https://www.noctua.at/en/products/nh-d15-g2/specifications",
+        "original": "https://cdn.noctua.at/media/nh_d15_g2_11-improved.png",
+        "checkedAt": "2026-11-15"
+      },
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": 8,
+          "diameterMm": 6,
+          "detail": "官网规格/介绍确认根数；热管端头数不等于完整热管根数。",
+          "source": "https://www.noctua.at/en/products/nh-d15-g2/specifications"
+        },
+        "finJoint": {
+          "method": "soldered",
+          "detail": "官方规格明确热管/鳍片接口为焊接（Soldered）；未说明具体回流焊制程。",
+          "source": "https://www.noctua.at/en/products/nh-d15-g2/specifications"
+        },
+        "baseContact": {
+          "method": "copper-base",
+          "detail": "官方明确铜底座；这不说明底座焊接方法或热管与鳍片连接工艺。",
+          "source": "https://www.noctua.at/en/products/nh-d15-g2/specifications"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "source": "https://www.noctua.at/en/products/nh-d15-g2/specifications",
+          "detail": "官方 NSPR 228，是无瓦数的品牌性能分级，不能写成 228 W。",
+          "nspr": 228
+        }
+      }
     },
     {
       "id": "lf3360",
@@ -478,7 +573,38 @@
       "maintenance": "含水泵与管路",
       "source": "https://www.arctic.de/en/Liquid-Freezer-III-360/ACFRE00136A",
       "extraSource": "https://www.arctic.de/media/16/63/19/1708429821/Spec_Sheet_Liquid_Freezer_III_360_Black_EN.pdf",
-      "notes": "采用随附 Intel 安装方案，需按说明书操作并核对主板兼容性；冷排加风扇共 63 mm。"
+      "notes": "采用随附 Intel 安装方案，需按说明书操作并核对主板兼容性；冷排加风扇共 63 mm。",
+      "image": {
+        "path": "assets/products/lf3360.webp",
+        "source": "https://www.arctic.de/en/Liquid-Freezer-III-360/ACFRE00136A",
+        "original": "https://www.arctic.de/media/9d/26/30/1725369416/Liquid_Freezer_III_360_Black_G01_eha_3_awards.png",
+        "checkedAt": "2026-11-15"
+      },
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": null,
+          "diameterMm": null,
+          "detail": "一体式水冷；不适用风冷热管数量。",
+          "source": "https://www.arctic.de/en/Liquid-Freezer-III-360/ACFRE00136A"
+        },
+        "finJoint": {
+          "method": "not-applicable",
+          "detail": "一体式水冷，不套用风冷热管与鳍片连接工艺。",
+          "source": "https://www.arctic.de/en/Liquid-Freezer-III-360/ACFRE00136A"
+        },
+        "baseContact": {
+          "method": "unknown",
+          "detail": "本轮未单独确认接触底座材质/制程。",
+          "source": "https://www.arctic.de/en/Liquid-Freezer-III-360/ACFRE00136A"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "source": "https://www.arctic.de/en/faq/detail/why-doesn-t-arctic-specify-tdp-values",
+          "detail": "ARCTIC 官方说明不公开散热器 TDP 值；不得把风扇/水泵电功耗当作解热能力。"
+        }
+      }
     },
     {
       "id": "d15g2hbc",
@@ -494,7 +620,39 @@
       "maintenance": "低维护",
       "source": "https://www.noctua.at/en/products/nh-d15-g2-hbc/specifications",
       "extraSource": "https://www.noctua.at/en/support/faqs/what-is-the-ram-clearance-of-my-noctua-cpu-cooler",
-      "notes": "HBC 与标准版不能混用性能读数；默认双风扇，内存净空按官方 32 mm 核对。"
+      "notes": "HBC 与标准版不能混用性能读数；默认双风扇，内存净空按官方 32 mm 核对。",
+      "image": {
+        "path": "assets/products/d15g2hbc.webp",
+        "source": "https://www.noctua.at/en/products/nh-d15-g2-hbc/specifications",
+        "original": "https://cdn.noctua.at/media/nh_d15_g2_11-improved-2.png",
+        "checkedAt": "2026-11-15"
+      },
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": 8,
+          "diameterMm": 6,
+          "detail": "官网规格/介绍确认根数；热管端头数不等于完整热管根数。",
+          "source": "https://www.noctua.at/en/products/nh-d15-g2-hbc/specifications"
+        },
+        "finJoint": {
+          "method": "soldered",
+          "detail": "官方规格明确热管/鳍片接口为焊接（Soldered）；未说明具体回流焊制程。",
+          "source": "https://www.noctua.at/en/products/nh-d15-g2-hbc/specifications"
+        },
+        "baseContact": {
+          "method": "copper-base",
+          "detail": "官方明确铜底座；这不说明底座焊接方法或热管与鳍片连接工艺。",
+          "source": "https://www.noctua.at/en/products/nh-d15-g2-hbc/specifications"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "source": "https://www.noctua.at/en/products/nh-d15-g2-hbc/specifications",
+          "detail": "官方 NSPR 228，是无瓦数的品牌性能分级，不能写成 228 W。",
+          "nspr": 228
+        }
+      }
     },
     {
       "id": "hyper612",
@@ -509,7 +667,38 @@
       "tier": "compact",
       "maintenance": "低维护",
       "source": "https://www.coolermaster.com/en-global/products/hyper-612-apex.html",
-      "notes": "双 Mobius 120P 风扇；主板组合与内存净空尚需逐项确认。"
+      "notes": "双 Mobius 120P 风扇；主板组合与内存净空尚需逐项确认。",
+      "image": {
+        "path": "assets/products/hyper612.webp",
+        "source": "https://www.coolermaster.com/en-global/products/hyper-612-apex.html",
+        "original": "https://www.coolermaster.com/on/demandware.static/-/Sites-cooler-master-main/default/dw46ae70f9/Assets/hyper-612-apex/large/gallary-01.png",
+        "checkedAt": "2026-11-15"
+      },
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": 6,
+          "diameterMm": null,
+          "detail": "官网规格/介绍确认根数；热管端头数不等于完整热管根数。",
+          "source": "https://www.coolermaster.com/en-global/products/hyper-612-apex.html"
+        },
+        "finJoint": {
+          "method": "unknown",
+          "detail": "已查官方页面未明确说明热管与鳍片连接方式；不从直触、铜底焊接或产品图推断。",
+          "source": "https://www.coolermaster.com/en-global/products/hyper-612-apex.html"
+        },
+        "baseContact": {
+          "method": "unknown",
+          "detail": "本轮未单独确认接触底座材质/制程。",
+          "source": "https://www.coolermaster.com/en-global/products/hyper-612-apex.html"
+        },
+        "thermalRating": {
+          "watts": 260,
+          "label": "厂商标称 TDP",
+          "source": "https://www.coolermaster.com/en-global/cpu-compatibility.html",
+          "detail": "仅记录厂商标称，不代表指定环境/CPU/噪声下保证可压制的功耗，也不跨品牌直接排名。"
+        }
+      }
     },
     {
       "id": "nl-lc136",
@@ -527,7 +716,39 @@
       "tier": "aio360",
       "maintenance": "含水泵与管路",
       "source": "https://www.noctua.at/en/products/nl-lc1-36/specifications",
-      "notes": "官方总装厚度 59 mm，包含风扇与安装组件；不能只按 30+25=55 mm 判断空间。"
+      "notes": "官方总装厚度 59 mm，包含风扇与安装组件；不能只按 30+25=55 mm 判断空间。",
+      "image": {
+        "path": "assets/products/nl-lc136.webp",
+        "source": "https://www.noctua.at/en/products/nl-lc1-36/specifications",
+        "original": "https://cdn.noctua.at/media/02ef2e75/NL-LC1-36.png",
+        "checkedAt": "2026-11-15"
+      },
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": null,
+          "diameterMm": null,
+          "detail": "一体式水冷；不适用风冷热管数量。",
+          "source": "https://www.noctua.at/en/products/nl-lc1-36/specifications"
+        },
+        "finJoint": {
+          "method": "not-applicable",
+          "detail": "一体式水冷，不套用风冷热管与鳍片连接工艺。",
+          "source": "https://www.noctua.at/en/products/nl-lc1-36/specifications"
+        },
+        "baseContact": {
+          "method": "unknown",
+          "detail": "本轮未单独确认接触底座材质/制程。",
+          "source": "https://www.noctua.at/en/products/nl-lc1-36/specifications"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "source": "https://www.noctua.at/en/products/nl-lc1-36/specifications",
+          "detail": "官方 NSPR 248，是无瓦数的品牌性能分级，不能写成 248 W。",
+          "nspr": 248
+        }
+      }
     },
     {
       "type": "air",
@@ -542,12 +763,37 @@
       "height": null,
       "sockets": ["LGA1851"],
       "socketEvidence": "review",
-      "description": "六热管单塔单风扇；已核对 51972 的 Intel 测试读数。",
+      "description": "单塔单风扇；已核对 51972 的 Intel 测试读数，官方热管规格待核对。",
       "source": "https://www.bilibili.com/video/BV1M9KB6GE9D/",
       "sourceLabel": "51972 原始评测",
       "notes": "已确认 270K Plus / LGA1851 测试。官方公开下载目录未找到 CQ125 安装说明，整机高度、内存净空与 LGA1700 扣具仍待一手资料核对；不以零高度判断机箱适配。ARGB / 白色版本不共享成绩。",
       "reviewUrl": "https://www.bilibili.com/video/BV1M9KB6GE9D/",
-      "reviewNote": "51972 新品速览 · Intel 图表已核对"
+      "reviewNote": "51972 新品速览 · Intel 图表已核对",
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": null,
+          "diameterMm": null,
+          "detail": "未取得可核对的该版本官方规格，保持未知。",
+          "source": null
+        },
+        "finJoint": {
+          "method": "unknown",
+          "detail": "已查官方页面未明确说明热管与鳍片连接方式；不从直触、铜底焊接或产品图推断。",
+          "source": null
+        },
+        "baseContact": {
+          "method": "unknown",
+          "detail": "本轮未单独确认接触底座材质/制程。",
+          "source": null
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "source": null,
+          "detail": "未核实该型号的厂商整机 TDP 瓦数；不按塔体、热管根数或冷排尺寸估算。"
+        }
+      }
     },
     {
       "type": "air",
@@ -566,7 +812,38 @@
       "extraSource": "https://www.cybenetics.com/evaluations/coolers/126/cn/",
       "notes": "官网规格表 167.3 mm，概览及 Cybenetics Intel 样品为 168 mm；筛选保守采用 168 mm。官方内存净空上限 45 mm，不外推滑轨额外抬升量。Intel 与 AMD 版本底座和热管不同，不能混用。",
       "reviewUrl": "https://www.bilibili.com/video/BV1M9KB6GE9D/",
-      "reviewNote": "51972 新品速览 · Intel 图表已核对"
+      "reviewNote": "51972 新品速览 · Intel 图表已核对",
+      "image": {
+        "path": "assets/products/v8ace-intel.webp",
+        "source": "https://www.coolermaster.com/en-us/products/v8-ace-3dhp.html",
+        "original": "https://www.coolermaster.com/on/demandware.static/-/Sites-cooler-master-main/default/dw24c80eb0/v8-ace-3dhp-v2/hero-product.webp",
+        "checkedAt": "2026-11-15"
+      },
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": 6,
+          "diameterMm": null,
+          "detail": "6 根完整热管：2 根 3DHP + 4 根 SCCHP；分支并非额外完整热管。",
+          "source": "https://www.coolermaster.com/en-us/products/v8-ace-3dhp.html"
+        },
+        "finJoint": {
+          "method": "unknown",
+          "detail": "已查官方页面未明确说明热管与鳍片连接方式；不从直触、铜底焊接或产品图推断。",
+          "source": "https://www.coolermaster.com/en-us/products/v8-ace-3dhp.html"
+        },
+        "baseContact": {
+          "method": "convex-base",
+          "detail": "Intel 版使用凸底；与 AMD 平底版本分开，不能挪用其测试成绩。",
+          "source": "https://www.coolermaster.com/en-us/products/v8-ace-3dhp.html"
+        },
+        "thermalRating": {
+          "watts": 300,
+          "label": "厂商标称 TDP",
+          "source": "https://www.coolermaster.com/en-global/cpu-compatibility.html",
+          "detail": "仅记录厂商标称，不代表指定环境/CPU/噪声下保证可压制的功耗，也不跨品牌直接排名。 官网另述 Intel 90 W Q-Max 为热管传热容量，不是整机 CPU 功耗。"
+        }
+      }
     },
     {
       "type": "air",
@@ -584,7 +861,38 @@
       "source": "https://www.jonsbo.com/products/CC90.html",
       "notes": "官方整机 135 × 130 × 158 mm；内存净空未知。数显需 USB 2.0 接针及软件。黑色与白色版本需分别核对。",
       "reviewUrl": "https://www.bilibili.com/video/BV1sASSBMEj1/",
-      "reviewNote": "51972 独立速评 · 图表读数待核对"
+      "reviewNote": "51972 独立速评 · 图表读数待核对",
+      "image": {
+        "path": "assets/products/cc90.webp",
+        "source": "https://www.jonsbo.com/products/CC90.html",
+        "original": "https://www.jonsbo.com/Upfiles/Prod_X/20263238774.webp",
+        "checkedAt": "2026-11-15"
+      },
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": 6,
+          "diameterMm": 6,
+          "detail": "官网规格/介绍确认根数；热管端头数不等于完整热管根数。",
+          "source": "https://www.jonsbo.com/products/CC90.html"
+        },
+        "finJoint": {
+          "method": "unknown",
+          "detail": "已查官方页面未明确说明热管与鳍片连接方式；不从直触、铜底焊接或产品图推断。",
+          "source": "https://www.jonsbo.com/products/CC90.html"
+        },
+        "baseContact": {
+          "method": "machined-base",
+          "detail": "官方介绍明确 CNC 精工微雕底座；本轮可读文字未明确材质，不推断为铜底或焊接方式。",
+          "source": "https://www.jonsbo.com/products/CC90.html"
+        },
+        "thermalRating": {
+          "watts": 285,
+          "label": "厂商 D-TDP",
+          "source": "https://www.jonsbo.com/products/CC90.html",
+          "detail": "官网明确 D-TDP 285 W；仅厂商标称，未给出可跨品牌复现的统一测试条件。"
+        }
+      }
     },
     {
       "type": "air",
@@ -600,7 +908,38 @@
       "sockets": ["LGA1700", "LGA1851"],
       "description": "五热管单塔，数显版；与 SE 青春版分开记录。",
       "source": "https://global.deepcool.com/products/Cooling/cpuaircoolers/AK500S-DIGITAL-CPU-Cooler-With-Status-Display-1851-1700-AM5/2023/17235.shtml",
-      "notes": "含风扇 / 数显整机高度 160 mm，不使用裸塔 155 mm。料号 R-AK500S-BKADMN-G；内存数字净空未知，USB 2.0 / ARGB 接口需核对。新品视频的青春版未确认同料号，不关联其读数。"
+      "notes": "含风扇 / 数显整机高度 160 mm，不使用裸塔 155 mm。料号 R-AK500S-BKADMN-G；内存数字净空未知，USB 2.0 / ARGB 接口需核对。新品视频的青春版未确认同料号，不关联其读数。",
+      "image": {
+        "path": "assets/products/ak500s-digital.webp",
+        "source": "https://global.deepcool.com/products/Cooling/cpuaircoolers/AK500S-DIGITAL-CPU-Cooler-With-Status-Display-1851-1700-AM5/2023/17235.shtml",
+        "original": "https://cdn.deepcool.com/public/ProductFile/DEEPCOOL/Cooling/CPUAirCoolers/AK500S_DIGITAL/Gallery/800X800/01.jpg?auto=format,compress&q=90",
+        "checkedAt": "2026-11-15"
+      },
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": 5,
+          "diameterMm": 6,
+          "detail": "官网规格/介绍确认根数；热管端头数不等于完整热管根数。",
+          "source": "https://global.deepcool.com/products/Cooling/cpuaircoolers/AK500S-DIGITAL-CPU-Cooler-With-Status-Display-1851-1700-AM5/2023/17235.shtml"
+        },
+        "finJoint": {
+          "method": "unknown",
+          "detail": "已查官方页面未明确说明热管与鳍片连接方式；不从直触、铜底焊接或产品图推断。",
+          "source": "https://global.deepcool.com/products/Cooling/cpuaircoolers/AK500S-DIGITAL-CPU-Cooler-With-Status-Display-1851-1700-AM5/2023/17235.shtml"
+        },
+        "baseContact": {
+          "method": "direct-contact",
+          "detail": "官方明确热管直接接触 CPU；这不说明热管与鳍片是否焊接。",
+          "source": "https://global.deepcool.com/products/Cooling/cpuaircoolers/AK500S-DIGITAL-CPU-Cooler-With-Status-Display-1851-1700-AM5/2023/17235.shtml"
+        },
+        "thermalRating": {
+          "watts": 240,
+          "label": "厂商标称 TDP",
+          "source": "https://www.deepcool.com/ProductCompatibilityS_New/",
+          "detail": "仅记录厂商标称，不代表指定环境/CPU/噪声下保证可压制的功耗，也不跨品牌直接排名。"
+        }
+      }
     },
     {
       "type": "air",
@@ -616,7 +955,38 @@
       "sockets": ["LGA1700", "LGA1851"],
       "description": "数显单塔，精确区分 VC 与普通版本。",
       "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/AK700-DIGITAL-NYX-AI-Dynamic-Adjustment-CPU-Cooler-with-Digital-Display/2025/21815.shtml",
-      "notes": "整机 126 × 98 × 157 mm；料号 R-AK700-BKNNMN-GJD-1。内存数字净空未知；数显需 USB 2.0 与软件。未确认与视频 AK700 数显样品完全一致，暂不映射读数。"
+      "notes": "整机 126 × 98 × 157 mm；料号 R-AK700-BKNNMN-GJD-1。内存数字净空未知；数显需 USB 2.0 与软件。未确认与视频 AK700 数显样品完全一致，暂不映射读数。",
+      "image": {
+        "path": "assets/products/ak700-digital-nyx.webp",
+        "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/AK700-DIGITAL-NYX-AI-Dynamic-Adjustment-CPU-Cooler-with-Digital-Display/2025/21815.shtml",
+        "original": "https://cdn.deepcool.com/public/ProductFile/DEEPCOOL/Cooling/CPUAirCoolers/AK700_DIGITAL_NYX/Gallery/800X800/01.jpg?auto=format,compress&q=90",
+        "checkedAt": "2026-11-15"
+      },
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": 7,
+          "diameterMm": 6,
+          "detail": "官网规格/介绍确认根数；热管端头数不等于完整热管根数。",
+          "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/AK700-DIGITAL-NYX-AI-Dynamic-Adjustment-CPU-Cooler-with-Digital-Display/2025/21815.shtml"
+        },
+        "finJoint": {
+          "method": "unknown",
+          "detail": "已查官方页面未明确说明热管与鳍片连接方式；不从直触、铜底焊接或产品图推断。",
+          "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/AK700-DIGITAL-NYX-AI-Dynamic-Adjustment-CPU-Cooler-with-Digital-Display/2025/21815.shtml"
+        },
+        "baseContact": {
+          "method": "copper-base",
+          "detail": "官方明确铜底座；这不说明底座焊接方法或热管与鳍片连接工艺。",
+          "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/AK700-DIGITAL-NYX-AI-Dynamic-Adjustment-CPU-Cooler-with-Digital-Display/2025/21815.shtml"
+        },
+        "thermalRating": {
+          "watts": 280,
+          "label": "厂商标称 TDP",
+          "source": "https://www.deepcool.com/ProductCompatibilityS_New/",
+          "detail": "仅记录厂商标称，不代表指定环境/CPU/噪声下保证可压制的功耗，也不跨品牌直接排名。"
+        }
+      }
     },
     {
       "type": "air",
@@ -632,7 +1002,38 @@
       "sockets": ["LGA1700", "LGA1851"],
       "description": "五热管单塔，补充官方安装规格。",
       "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/AG500-G2-Superior-Performance-5-Heatpipe-Single-Tower-CPU-Cooler/2026/22855.shtml",
-      "notes": "整机 125 × 95 × 156 mm；料号 R-AG500-BKNPMG2-G。内存净空未知；ARGB 风扇参数不同，不能共享成绩。视频性能版未完成料号对应，读数暂不映射。"
+      "notes": "整机 125 × 95 × 156 mm；料号 R-AG500-BKNPMG2-G。内存净空未知；ARGB 风扇参数不同，不能共享成绩。视频性能版未完成料号对应，读数暂不映射。",
+      "image": {
+        "path": "assets/products/ag500g2.webp",
+        "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/AG500-G2-Superior-Performance-5-Heatpipe-Single-Tower-CPU-Cooler/2026/22855.shtml",
+        "original": "https://cdn.deepcool.com/public/ProductFile/DEEPCOOL/Cooling/CPUAirCoolers/AG500_G2/Gallery/800X800/01.jpg?auto=format,compress&q=90",
+        "checkedAt": "2026-11-15"
+      },
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": 5,
+          "diameterMm": 6,
+          "detail": "官网规格/介绍确认根数；热管端头数不等于完整热管根数。",
+          "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/AG500-G2-Superior-Performance-5-Heatpipe-Single-Tower-CPU-Cooler/2026/22855.shtml"
+        },
+        "finJoint": {
+          "method": "unknown",
+          "detail": "已查官方页面未明确说明热管与鳍片连接方式；不从直触、铜底焊接或产品图推断。",
+          "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/AG500-G2-Superior-Performance-5-Heatpipe-Single-Tower-CPU-Cooler/2026/22855.shtml"
+        },
+        "baseContact": {
+          "method": "direct-contact",
+          "detail": "官方明确热管直接接触 CPU；这不说明热管与鳍片是否焊接。",
+          "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/AG500-G2-Superior-Performance-5-Heatpipe-Single-Tower-CPU-Cooler/2026/22855.shtml"
+        },
+        "thermalRating": {
+          "watts": 250,
+          "label": "厂商标称 TDP",
+          "source": "https://www.deepcool.com/ProductCompatibilityS_New/",
+          "detail": "仅记录厂商标称，不代表指定环境/CPU/噪声下保证可压制的功耗，也不跨品牌直接排名。"
+        }
+      }
     },
     {
       "type": "air",
@@ -648,7 +1049,38 @@
       "height": 157,
       "description": "七热管双塔，独立区分 EVO 与 SE 风扇版本。",
       "source": "https://www.thermalright.com/product/phantom-spirit-120-evo/",
-      "notes": "官方塔体标称高度157mm，含风扇实际安装总高需结合内存确认；内存净空未知。EVO不沿用SE的实测成绩，购买时核对随盒扣具。"
+      "notes": "官方塔体标称高度157mm，含风扇实际安装总高需结合内存确认；内存净空未知。EVO不沿用SE的实测成绩，购买时核对随盒扣具。",
+      "image": {
+        "path": "assets/products/ps120evo.webp",
+        "source": "https://www.thermalright.com/product/phantom-spirit-120-evo/",
+        "original": "https://www.thermalright.com/wp-content/uploads/2026/08/phantom-spirit-120-evo.png",
+        "checkedAt": "2026-11-15"
+      },
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": 7,
+          "diameterMm": 6,
+          "detail": "官网规格/介绍确认根数；热管端头数不等于完整热管根数。",
+          "source": "https://www.thermalright.com/product/phantom-spirit-120-evo/"
+        },
+        "finJoint": {
+          "method": "unknown",
+          "detail": "已查官方页面未明确说明热管与鳍片连接方式；不从直触、铜底焊接或产品图推断。",
+          "source": "https://www.thermalright.com/product/phantom-spirit-120-evo/"
+        },
+        "baseContact": {
+          "method": "copper-base",
+          "detail": "官方明确铜底座；这不说明底座焊接方法或热管与鳍片连接工艺。",
+          "source": "https://www.thermalright.com/product/phantom-spirit-120-evo/"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "source": "https://www.thermalright.com/product/phantom-spirit-120-evo/",
+          "detail": "未核实该型号的厂商整机 TDP 瓦数；不按塔体、热管根数或冷排尺寸估算。"
+        }
+      }
     },
     {
       "type": "air",
@@ -664,7 +1096,38 @@
       "height": 155,
       "description": "六热管双塔双风扇，补充主流风冷选择。",
       "source": "https://www.thermalright.com/product/peerless-assassin-120-se/",
-      "notes": "官方标称塔体155mm、TL-C12C风扇，实际风扇总高受内存影响。净空未确认；V2/V3、BLACK、ARGB与原版分开，不共享测试或扣具假设。"
+      "notes": "官方标称塔体155mm、TL-C12C风扇，实际风扇总高受内存影响。净空未确认；V2/V3、BLACK、ARGB与原版分开，不共享测试或扣具假设。",
+      "image": {
+        "path": "assets/products/pa120se.webp",
+        "source": "https://www.thermalright.com/product/peerless-assassin-120-se/",
+        "original": "https://www.thermalright.com/wp-content/uploads/2026/08/peerless-assassin-120-se.png",
+        "checkedAt": "2026-11-15"
+      },
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": 6,
+          "diameterMm": 6,
+          "detail": "官网规格/介绍确认根数；热管端头数不等于完整热管根数。",
+          "source": "https://www.thermalright.com/product/peerless-assassin-120-se/"
+        },
+        "finJoint": {
+          "method": "unknown",
+          "detail": "已查官方页面未明确说明热管与鳍片连接方式；不从直触、铜底焊接或产品图推断。",
+          "source": "https://www.thermalright.com/product/peerless-assassin-120-se/"
+        },
+        "baseContact": {
+          "method": "copper-base",
+          "detail": "官方明确铜底座；这不说明底座焊接方法或热管与鳍片连接工艺。",
+          "source": "https://www.thermalright.com/product/peerless-assassin-120-se/"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "source": "https://www.thermalright.com/product/peerless-assassin-120-se/",
+          "detail": "未核实该型号的厂商整机 TDP 瓦数；不按塔体、热管根数或冷排尺寸估算。"
+        }
+      }
     },
     {
       "type": "air",
@@ -681,7 +1144,38 @@
       "description": "四热管单塔双风扇，官方整机高度159mm。",
       "source": "https://www.arctic.de/en/Freezer-36-Black/ACFRE00123A",
       "extraSource": "https://www.arctic.de/media/6b/50/57/1709195123/Spec_Sheet_Freezer_36_EN.pdf",
-      "notes": "ACFRE00123A；含风扇104×126×159mm。Intel按官方方案安装，内存净空与逐主板安装证据未知。与Freezer36-S、ARGB版本分开。"
+      "notes": "ACFRE00123A；含风扇104×126×159mm。Intel按官方方案安装，内存净空与逐主板安装证据未知。与Freezer36-S、ARGB版本分开。",
+      "image": {
+        "path": "assets/products/freezer36black.webp",
+        "source": "https://www.arctic.de/en/Freezer-36-Black/ACFRE00123A",
+        "original": "https://www.arctic.de/media/9f/f3/51/1706615786/Freezer_36_Black_G00.png",
+        "checkedAt": "2026-11-15"
+      },
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": 4,
+          "diameterMm": 6,
+          "detail": "官网规格/介绍确认根数；热管端头数不等于完整热管根数。",
+          "source": "https://www.arctic.de/en/Freezer-36-Black/ACFRE00123A"
+        },
+        "finJoint": {
+          "method": "unknown",
+          "detail": "已查官方页面未明确说明热管与鳍片连接方式；不从直触、铜底焊接或产品图推断。",
+          "source": "https://www.arctic.de/en/Freezer-36-Black/ACFRE00123A"
+        },
+        "baseContact": {
+          "method": "unknown",
+          "detail": "本轮未单独确认接触底座材质/制程。",
+          "source": "https://www.arctic.de/en/Freezer-36-Black/ACFRE00123A"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "source": "https://www.arctic.de/en/faq/detail/why-doesn-t-arctic-specify-tdp-values",
+          "detail": "ARCTIC 官方说明不公开散热器 TDP 值；不得把风扇/水泵电功耗当作解热能力。"
+        }
+      }
     },
     {
       "type": "air",
@@ -697,7 +1191,38 @@
       "height": 152,
       "description": "四热管单塔单风扇，152mm整机高度。",
       "source": "https://www.coolermaster.com/en-global/products/hyper-212-pro.html",
-      "notes": "RR-212S-25PZ-R1；整机125×74×152mm，4-pin PWM与5V ARGB连接需核对。内存净空未知；不沿用Hyper212其他版本测试。"
+      "notes": "RR-212S-25PZ-R1；整机125×74×152mm，4-pin PWM与5V ARGB连接需核对。内存净空未知；不沿用Hyper212其他版本测试。",
+      "image": {
+        "path": "assets/products/hyper212pro.webp",
+        "source": "https://www.coolermaster.com/en-global/products/hyper-212-pro.html",
+        "original": "https://www.coolermaster.com/on/demandware.static/-/Sites-cooler-master-main/default/dw0b8f146d/Assets/hyper-212-pro/large/hyper-212-pro-01-gallery-01.png",
+        "checkedAt": "2026-11-15"
+      },
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": 4,
+          "diameterMm": null,
+          "detail": "官网规格/介绍确认根数；热管端头数不等于完整热管根数。",
+          "source": "https://www.coolermaster.com/en-global/products/hyper-212-pro.html"
+        },
+        "finJoint": {
+          "method": "unknown",
+          "detail": "已查官方页面未明确说明热管与鳍片连接方式；不从直触、铜底焊接或产品图推断。",
+          "source": "https://www.coolermaster.com/en-global/products/hyper-212-pro.html"
+        },
+        "baseContact": {
+          "method": "direct-contact",
+          "detail": "官方明确热管直接接触 CPU；这不说明热管与鳍片是否焊接。",
+          "source": "https://www.coolermaster.com/en-global/products/hyper-212-pro.html"
+        },
+        "thermalRating": {
+          "watts": 230,
+          "label": "厂商标称 TDP",
+          "source": "https://www.coolermaster.com/en-global/cpu-compatibility.html",
+          "detail": "仅记录厂商标称，不代表指定环境/CPU/噪声下保证可压制的功耗，也不跨品牌直接排名。"
+        }
+      }
     },
     {
       "type": "air",
@@ -713,7 +1238,38 @@
       "height": 159,
       "description": "六热管双塔，含风扇整机高度159mm。",
       "source": "https://deepcool.com/products/Cooling/cpuaircoolers/AK620-G2-Wood-Grain-Top-Cover-CPU-Cooler/2025/21864.shtml",
-      "notes": "R-AK620G2-BKNNMN-GJD；整机127×144×159mm，不用153mm裸塔高度。内存净空未知，不套用AK620旧款或DIGITAL NYX成绩。"
+      "notes": "R-AK620G2-BKNNMN-GJD；整机127×144×159mm，不用153mm裸塔高度。内存净空未知，不套用AK620旧款或DIGITAL NYX成绩。",
+      "image": {
+        "path": "assets/products/ak620g2.webp",
+        "source": "https://deepcool.com/products/Cooling/cpuaircoolers/AK620-G2-Wood-Grain-Top-Cover-CPU-Cooler/2025/21864.shtml",
+        "original": "https://cdn.deepcool.com/public/ProductFile/DEEPCOOL/Cooling/CPUAirCoolers/AK620_G2/Gallery/800X800/01.jpg?auto=format,compress&q=90",
+        "checkedAt": "2026-11-15"
+      },
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": 6,
+          "diameterMm": 6,
+          "detail": "官网规格/介绍确认根数；热管端头数不等于完整热管根数。",
+          "source": "https://deepcool.com/products/Cooling/cpuaircoolers/AK620-G2-Wood-Grain-Top-Cover-CPU-Cooler/2025/21864.shtml"
+        },
+        "finJoint": {
+          "method": "unknown",
+          "detail": "已查官方页面未明确说明热管与鳍片连接方式；不从直触、铜底焊接或产品图推断。",
+          "source": "https://deepcool.com/products/Cooling/cpuaircoolers/AK620-G2-Wood-Grain-Top-Cover-CPU-Cooler/2025/21864.shtml"
+        },
+        "baseContact": {
+          "method": "copper-base",
+          "detail": "官方明确铜底座；这不说明底座焊接方法或热管与鳍片连接工艺。",
+          "source": "https://deepcool.com/products/Cooling/cpuaircoolers/AK620-G2-Wood-Grain-Top-Cover-CPU-Cooler/2025/21864.shtml"
+        },
+        "thermalRating": {
+          "watts": 300,
+          "label": "厂商标称 TDP",
+          "source": "https://www.deepcool.com/ProductCompatibilityS_New/",
+          "detail": "仅记录厂商标称，不代表指定环境/CPU/噪声下保证可压制的功耗，也不跨品牌直接排名。"
+        }
+      }
     },
     {
       "type": "air",
@@ -730,7 +1286,38 @@
       "description": "七热管双塔方案，官方整机高度164mm。",
       "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/Assassin-IV-Premium-CPU-Air-Cooler-1851-1700-AM5/2024/17129.shtml",
       "notes": "默认双风扇布局、整机144×147×164mm；官方说明Intel LGA1700/1851内存无阻挡。加装第三颗风扇后需重新核对净空与总高。不套用4S、VC或VC VISION版本成绩。",
-      "ramOverhang": false
+      "ramOverhang": false,
+      "image": {
+        "path": "assets/products/assassiniv.webp",
+        "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/Assassin-IV-Premium-CPU-Air-Cooler-1851-1700-AM5/2024/17129.shtml",
+        "original": "https://cdn.deepcool.com/public/ProductFile/DEEPCOOL/Cooling/CPUAirCoolers/ASSASSIN_IV/Gallery/800X800/01.jpg?auto=format,compress&q=90",
+        "checkedAt": "2026-11-15"
+      },
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": 7,
+          "diameterMm": 6,
+          "detail": "官网规格/介绍确认根数；热管端头数不等于完整热管根数。",
+          "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/Assassin-IV-Premium-CPU-Air-Cooler-1851-1700-AM5/2024/17129.shtml"
+        },
+        "finJoint": {
+          "method": "unknown",
+          "detail": "已查官方页面未明确说明热管与鳍片连接方式；不从直触、铜底焊接或产品图推断。",
+          "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/Assassin-IV-Premium-CPU-Air-Cooler-1851-1700-AM5/2024/17129.shtml"
+        },
+        "baseContact": {
+          "method": "unknown",
+          "detail": "本轮未单独确认接触底座材质/制程。",
+          "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/Assassin-IV-Premium-CPU-Air-Cooler-1851-1700-AM5/2024/17129.shtml"
+        },
+        "thermalRating": {
+          "watts": 280,
+          "label": "厂商标称 TDP",
+          "source": "https://www.deepcool.com/ProductCompatibilityS_New/",
+          "detail": "仅记录厂商标称，不代表指定环境/CPU/噪声下保证可压制的功耗，也不跨品牌直接排名。"
+        }
+      }
     },
     {
       "id": "lf3pro240",
@@ -750,7 +1337,38 @@
       "source": "https://www.arctic.de/en/Liquid-Freezer-III-Pro-240/ACFRE00178A",
       "extraSource": "https://www.arctic.de/media/3f/c1/fb/1744190700/Spec_Sheet_Liquid_Freezer_III_Pro_240_EN.pdf",
       "notes": "ACFRE00178A；冷排277×120×38mm。官方尺寸图总装厚度66mm，包含超出38+25mm的结构，不使用简单相加。Intel按专用安装方案操作，主板适配需独立核对，不自动继承非Pro的冲突表或实测。",
-      "addedAt": "2026-11-14"
+      "addedAt": "2026-11-14",
+      "image": {
+        "path": "assets/products/lf3pro240.webp",
+        "source": "https://www.arctic.de/en/Liquid-Freezer-III-Pro-240/ACFRE00178A",
+        "original": "https://www.arctic.de/media/64/9c/a1/1780903832/Liquid_Freezer_III_Pro_240_Black_g00_eha_award.png",
+        "checkedAt": "2026-11-15"
+      },
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": null,
+          "diameterMm": null,
+          "detail": "一体式水冷；不适用风冷热管数量。",
+          "source": "https://www.arctic.de/en/Liquid-Freezer-III-Pro-240/ACFRE00178A"
+        },
+        "finJoint": {
+          "method": "not-applicable",
+          "detail": "一体式水冷，不套用风冷热管与鳍片连接工艺。",
+          "source": "https://www.arctic.de/en/Liquid-Freezer-III-Pro-240/ACFRE00178A"
+        },
+        "baseContact": {
+          "method": "unknown",
+          "detail": "本轮未单独确认接触底座材质/制程。",
+          "source": "https://www.arctic.de/en/Liquid-Freezer-III-Pro-240/ACFRE00178A"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "source": "https://www.arctic.de/en/faq/detail/why-doesn-t-arctic-specify-tdp-values",
+          "detail": "ARCTIC 官方说明不公开散热器 TDP 值；不得把风扇/水泵电功耗当作解热能力。"
+        }
+      }
     },
     {
       "id": "lf3pro360",
@@ -770,7 +1388,38 @@
       "source": "https://www.arctic.de/en/Liquid-Freezer-III-Pro-360/ACFRE00180A",
       "extraSource": "https://www.arctic.de/media/e3/d9/86/1741780098/Spec_Sheet_Liquid_Freezer_III_Pro_360_EN.pdf",
       "notes": "ACFRE00180A；冷排398×120×38mm。官方尺寸图总装厚度66mm，包含超出38+25mm的结构，不使用简单相加。Intel按专用安装方案操作，主板适配需独立核对，不自动继承非Pro的冲突表或实测。",
-      "addedAt": "2026-11-14"
+      "addedAt": "2026-11-14",
+      "image": {
+        "path": "assets/products/lf3pro360.webp",
+        "source": "https://www.arctic.de/en/Liquid-Freezer-III-Pro-360/ACFRE00180A",
+        "original": "https://www.arctic.de/media/ea/1c/c7/1780903910/Liquid_Freezer_III_Pro_360_Black_g00_eha_award.png",
+        "checkedAt": "2026-11-15"
+      },
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": null,
+          "diameterMm": null,
+          "detail": "一体式水冷；不适用风冷热管数量。",
+          "source": "https://www.arctic.de/en/Liquid-Freezer-III-Pro-360/ACFRE00180A"
+        },
+        "finJoint": {
+          "method": "not-applicable",
+          "detail": "一体式水冷，不套用风冷热管与鳍片连接工艺。",
+          "source": "https://www.arctic.de/en/Liquid-Freezer-III-Pro-360/ACFRE00180A"
+        },
+        "baseContact": {
+          "method": "unknown",
+          "detail": "本轮未单独确认接触底座材质/制程。",
+          "source": "https://www.arctic.de/en/Liquid-Freezer-III-Pro-360/ACFRE00180A"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "source": "https://www.arctic.de/en/faq/detail/why-doesn-t-arctic-specify-tdp-values",
+          "detail": "ARCTIC 官方说明不公开散热器 TDP 值；不得把风扇/水泵电功耗当作解热能力。"
+        }
+      }
     },
     {
       "type": "air",
@@ -787,7 +1436,38 @@
       "height": 155,
       "description": "四热管单塔，官方整机155mm。",
       "source": "https://global.deepcool.com/products/Cooling/cpuaircoolers/AK400-Performance-CPU-Cooler-1851-1700-AM5/2024/15222.shtml",
-      "notes": "R-AK400-BKNNMN-G-1；整机127×97×155mm，不用152mm裸塔高度。内存净空未知，不套用DIGITAL、PLUS、G2成绩。"
+      "notes": "R-AK400-BKNNMN-G-1；整机127×97×155mm，不用152mm裸塔高度。内存净空未知，不套用DIGITAL、PLUS、G2成绩。",
+      "image": {
+        "path": "assets/products/ak400.webp",
+        "source": "https://global.deepcool.com/products/Cooling/cpuaircoolers/AK400-Performance-CPU-Cooler-1851-1700-AM5/2024/15222.shtml",
+        "original": "https://cdn.deepcool.com/public/ProductFile/DEEPCOOL/Cooling/CPUAirCoolers/AK400/Gallery/800X800/01.jpg?auto=format,compress&q=90",
+        "checkedAt": "2026-11-15"
+      },
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": 4,
+          "diameterMm": 6,
+          "detail": "官网规格/介绍确认根数；热管端头数不等于完整热管根数。",
+          "source": "https://global.deepcool.com/products/Cooling/cpuaircoolers/AK400-Performance-CPU-Cooler-1851-1700-AM5/2024/15222.shtml"
+        },
+        "finJoint": {
+          "method": "unknown",
+          "detail": "已查官方页面未明确说明热管与鳍片连接方式；不从直触、铜底焊接或产品图推断。",
+          "source": "https://global.deepcool.com/products/Cooling/cpuaircoolers/AK400-Performance-CPU-Cooler-1851-1700-AM5/2024/15222.shtml"
+        },
+        "baseContact": {
+          "method": "direct-contact",
+          "detail": "官方明确热管直接接触 CPU；这不说明热管与鳍片是否焊接。",
+          "source": "https://global.deepcool.com/products/Cooling/cpuaircoolers/AK400-Performance-CPU-Cooler-1851-1700-AM5/2024/15222.shtml"
+        },
+        "thermalRating": {
+          "watts": 220,
+          "label": "厂商标称 TDP",
+          "source": "https://www.deepcool.com/ProductCompatibilityS_New/",
+          "detail": "仅记录厂商标称，不代表指定环境/CPU/噪声下保证可压制的功耗，也不跨品牌直接排名。"
+        }
+      }
     },
     {
       "type": "air",
@@ -804,7 +1484,38 @@
       "height": 159,
       "description": "四热管数显单塔，与普通DIGITAL分开记录。",
       "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/AK400-Digital-Pro-Cooler-With-Multi-line-Display-1851-1700-AM5/2024/18680.shtml",
-      "notes": "R-AK400-BKAPMN-G；整机126×97×159mm，内存净空未知。数显需USB2.0接针与软件，ARGB须5V接口。非PRO版高度不同。"
+      "notes": "R-AK400-BKAPMN-G；整机126×97×159mm，内存净空未知。数显需USB2.0接针与软件，ARGB须5V接口。非PRO版高度不同。",
+      "image": {
+        "path": "assets/products/ak400digitalpro.webp",
+        "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/AK400-Digital-Pro-Cooler-With-Multi-line-Display-1851-1700-AM5/2024/18680.shtml",
+        "original": "https://cdn.deepcool.com/public/ProductFile/DEEPCOOL/Cooling/CPUAirCoolers/AK400_DIGITAL_PRO/Gallery/800X800/01.jpg?auto=format,compress&q=90",
+        "checkedAt": "2026-11-15"
+      },
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": 4,
+          "diameterMm": 6,
+          "detail": "官网规格/介绍确认根数；热管端头数不等于完整热管根数。",
+          "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/AK400-Digital-Pro-Cooler-With-Multi-line-Display-1851-1700-AM5/2024/18680.shtml"
+        },
+        "finJoint": {
+          "method": "unknown",
+          "detail": "已查官方页面未明确说明热管与鳍片连接方式；不从直触、铜底焊接或产品图推断。",
+          "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/AK400-Digital-Pro-Cooler-With-Multi-line-Display-1851-1700-AM5/2024/18680.shtml"
+        },
+        "baseContact": {
+          "method": "direct-contact",
+          "detail": "官方明确热管直接接触 CPU；这不说明热管与鳍片是否焊接。",
+          "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/AK400-Digital-Pro-Cooler-With-Multi-line-Display-1851-1700-AM5/2024/18680.shtml"
+        },
+        "thermalRating": {
+          "watts": 220,
+          "label": "厂商标称 TDP",
+          "source": "https://www.deepcool.com/ProductCompatibilityS_New/",
+          "detail": "仅记录厂商标称，不代表指定环境/CPU/噪声下保证可压制的功耗，也不跨品牌直接排名。"
+        }
+      }
     },
     {
       "type": "air",
@@ -821,7 +1532,38 @@
       "height": 156,
       "description": "六热管双塔，前置薄扇布局。",
       "source": "https://www.thermalright.com/product/royal-knight-120/",
-      "notes": "官方塔体标称156mm，TL-H12-X28与TL-H12015B风扇。内存与风扇调整行程未知，实际总高待核对；不与SE版混用。"
+      "notes": "官方塔体标称156mm，TL-H12-X28与TL-H12015B风扇。内存与风扇调整行程未知，实际总高待核对；不与SE版混用。",
+      "image": {
+        "path": "assets/products/rk120.webp",
+        "source": "https://www.thermalright.com/product/royal-knight-120/",
+        "original": "https://www.thermalright.com/wp-content/uploads/2026/08/royal-knight-120.png",
+        "checkedAt": "2026-11-15"
+      },
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": 6,
+          "diameterMm": 6,
+          "detail": "官网规格/介绍确认根数；热管端头数不等于完整热管根数。",
+          "source": "https://www.thermalright.com/product/royal-knight-120/"
+        },
+        "finJoint": {
+          "method": "unknown",
+          "detail": "已查官方页面未明确说明热管与鳍片连接方式；不从直触、铜底焊接或产品图推断。",
+          "source": "https://www.thermalright.com/product/royal-knight-120/"
+        },
+        "baseContact": {
+          "method": "copper-base",
+          "detail": "官方明确铜底座；这不说明底座焊接方法或热管与鳍片连接工艺。",
+          "source": "https://www.thermalright.com/product/royal-knight-120/"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "source": "https://www.thermalright.com/product/royal-knight-120/",
+          "detail": "未核实该型号的厂商整机 TDP 瓦数；不按塔体、热管根数或冷排尺寸估算。"
+        }
+      }
     },
     {
       "type": "air",
@@ -838,7 +1580,38 @@
       "height": 158,
       "description": "双塔120/140mm混合风扇方案。",
       "source": "https://www.thermalright.com/product/peerless-assassin-140-black/",
-      "notes": "官方塔体标称158mm，TL-C12B V2及TL-D14CB风扇。内存净空和抬升量未知，实际总高需核对；与140 SE/ARGB独立。"
+      "notes": "官方塔体标称158mm，TL-C12B V2及TL-D14CB风扇。内存净空和抬升量未知，实际总高需核对；与140 SE/ARGB独立。",
+      "image": {
+        "path": "assets/products/pa140black.webp",
+        "source": "https://www.thermalright.com/product/peerless-assassin-140-black/",
+        "original": "https://www.thermalright.com/wp-content/uploads/2026/08/peerless-assassin-140-black.png",
+        "checkedAt": "2026-11-15"
+      },
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": 6,
+          "diameterMm": 6,
+          "detail": "官网规格/介绍确认根数；热管端头数不等于完整热管根数。",
+          "source": "https://www.thermalright.com/product/peerless-assassin-140-black/"
+        },
+        "finJoint": {
+          "method": "unknown",
+          "detail": "已查官方页面未明确说明热管与鳍片连接方式；不从直触、铜底焊接或产品图推断。",
+          "source": "https://www.thermalright.com/product/peerless-assassin-140-black/"
+        },
+        "baseContact": {
+          "method": "copper-base",
+          "detail": "官方明确铜底座；这不说明底座焊接方法或热管与鳍片连接工艺。",
+          "source": "https://www.thermalright.com/product/peerless-assassin-140-black/"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "source": "https://www.thermalright.com/product/peerless-assassin-140-black/",
+          "detail": "未核实该型号的厂商整机 TDP 瓦数；不按塔体、热管根数或冷排尺寸估算。"
+        }
+      }
     },
     {
       "type": "air",
@@ -856,7 +1629,39 @@
       "ramOverhang": false,
       "description": "单塔单120mm风扇，Intel默认布局不覆盖内存槽。",
       "source": "https://www.noctua.at/en/products/nh-u12s-redux/specifications",
-      "notes": "含风扇125×71×158mm；官方说明不覆盖内存槽，仍需逐主板适配核对。早期库存核对1700/1851扣具。不是NH-U12A或标准NH-U12S。"
+      "notes": "含风扇125×71×158mm；官方说明不覆盖内存槽，仍需逐主板适配核对。早期库存核对1700/1851扣具。不是NH-U12A或标准NH-U12S。",
+      "image": {
+        "path": "assets/products/u12sredux.webp",
+        "source": "https://www.noctua.at/en/products/nh-u12s-redux/specifications",
+        "original": "https://cdn.noctua.at/media/nh_u12s_redux_1.jpg",
+        "checkedAt": "2026-11-15"
+      },
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": 4,
+          "diameterMm": 6,
+          "detail": "官网规格/介绍确认根数；热管端头数不等于完整热管根数。",
+          "source": "https://www.noctua.at/en/products/nh-u12s-redux/specifications"
+        },
+        "finJoint": {
+          "method": "press-fit",
+          "detail": "官方规格明确热管/鳍片接口为压合穿 Fin（Press-fit）。",
+          "source": "https://www.noctua.at/en/products/nh-u12s-redux/specifications"
+        },
+        "baseContact": {
+          "method": "copper-base",
+          "detail": "官方明确铜底座；这不说明底座焊接方法或热管与鳍片连接工艺。",
+          "source": "https://www.noctua.at/en/products/nh-u12s-redux/specifications"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "source": "https://www.noctua.at/en/products/nh-u12s-redux/specifications",
+          "detail": "官方 NSPR 129，是无瓦数的品牌性能分级，不能写成 129 W。",
+          "nspr": 129
+        }
+      }
     },
     {
       "type": "air",
@@ -873,7 +1678,32 @@
       "height": 168,
       "description": "七热管双塔双风扇，保留模式切换与安装空间要求。",
       "source": "https://www.bequiet.com/en/cpucooler/4466",
-      "notes": "BK036；官方整体145×136×168mm。前风扇可调，但具体内存净空与抬升量未入库，实际总高待核对；不继承Dark Rock Pro 4/6或Elite成绩。"
+      "notes": "BK036；官方整体145×136×168mm。前风扇可调，但具体内存净空与抬升量未入库，实际总高待核对；不继承Dark Rock Pro 4/6或Elite成绩。",
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": 7,
+          "diameterMm": 6,
+          "detail": "官网规格/介绍确认根数；热管端头数不等于完整热管根数。",
+          "source": "https://www.bequiet.com/en/cpucooler/4466"
+        },
+        "finJoint": {
+          "method": "unknown",
+          "detail": "已查官方页面未明确说明热管与鳍片连接方式；不从直触、铜底焊接或产品图推断。",
+          "source": "https://www.bequiet.com/en/cpucooler/4466"
+        },
+        "baseContact": {
+          "method": "copper-base",
+          "detail": "官方明确铜底座；这不说明底座焊接方法或热管与鳍片连接工艺。",
+          "source": "https://www.bequiet.com/en/cpucooler/4466"
+        },
+        "thermalRating": {
+          "watts": 270,
+          "label": "厂商标称 TDP",
+          "source": "https://www.bequiet.com/en/cpucooler/4466",
+          "detail": "仅记录厂商标称，不代表指定环境/CPU/噪声下保证可压制的功耗，也不跨品牌直接排名。"
+        }
+      }
     },
     {
       "id": "ls520sedigital",
@@ -892,7 +1722,38 @@
       "source": "https://uk.deepcool.com/products/Cooling/cpuliquidcoolers/LS520-SE-DIGITAL-240mm-Liquid-Cooler-With-Status-Display-1851-1700-AM5/2024/17474.shtml",
       "notes": "R-LS520-BKAMMD-G-1；冷排282×120×27mm，风扇25mm，名义堆叠52mm，安装额外间隙另核对。专用7-pin风扇链、3-pin水泵、5V ARGB与USB2.0数显线按说明书连接；不将非DIGITAL版接线或实测套用。",
       "addedAt": "2026-11-15",
-      "checkedAt": "2026-11-15"
+      "checkedAt": "2026-11-15",
+      "image": {
+        "path": "assets/products/ls520sedigital.webp",
+        "source": "https://uk.deepcool.com/products/Cooling/cpuliquidcoolers/LS520-SE-DIGITAL-240mm-Liquid-Cooler-With-Status-Display-1851-1700-AM5/2024/17474.shtml",
+        "original": "https://cdn.deepcool.com/public/ProductFile/DEEPCOOL/Cooling/CPULiquidCoolers/LS520_SE_DIGITAL/Gallery/800X800/01.jpg?auto=format,compress&q=90",
+        "checkedAt": "2026-11-15"
+      },
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": null,
+          "diameterMm": null,
+          "detail": "一体式水冷；不适用风冷热管数量。",
+          "source": "https://uk.deepcool.com/products/Cooling/cpuliquidcoolers/LS520-SE-DIGITAL-240mm-Liquid-Cooler-With-Status-Display-1851-1700-AM5/2024/17474.shtml"
+        },
+        "finJoint": {
+          "method": "not-applicable",
+          "detail": "一体式水冷，不套用风冷热管与鳍片连接工艺。",
+          "source": "https://uk.deepcool.com/products/Cooling/cpuliquidcoolers/LS520-SE-DIGITAL-240mm-Liquid-Cooler-With-Status-Display-1851-1700-AM5/2024/17474.shtml"
+        },
+        "baseContact": {
+          "method": "unknown",
+          "detail": "本轮未单独确认接触底座材质/制程。",
+          "source": "https://uk.deepcool.com/products/Cooling/cpuliquidcoolers/LS520-SE-DIGITAL-240mm-Liquid-Cooler-With-Status-Display-1851-1700-AM5/2024/17474.shtml"
+        },
+        "thermalRating": {
+          "watts": 280,
+          "label": "厂商标称 TDP",
+          "source": "https://www.deepcool.com/ProductCompatibilityS_New/",
+          "detail": "仅记录厂商标称，不代表指定环境/CPU/噪声下保证可压制的功耗，也不跨品牌直接排名。"
+        }
+      }
     },
     {
       "id": "ls720sedigital",
@@ -911,7 +1772,38 @@
       "source": "https://deepcool.com/products/Cooling/cpuliquidcoolers/LS720-SE-DIGITAL-360mm-Liquid-Cooler-With-Status-Display-1851-1700-AM5/2024/17234.shtml",
       "notes": "R-LS720-BKAMMD-G-1；冷排402×120×27mm，风扇25mm，名义堆叠52mm，安装额外间隙另核对。专用7-pin风扇链、3-pin水泵、5V ARGB与USB2.0数显线按说明书连接；不将非DIGITAL版接线或实测套用。",
       "addedAt": "2026-11-15",
-      "checkedAt": "2026-11-15"
+      "checkedAt": "2026-11-15",
+      "image": {
+        "path": "assets/products/ls720sedigital.webp",
+        "source": "https://deepcool.com/products/Cooling/cpuliquidcoolers/LS720-SE-DIGITAL-360mm-Liquid-Cooler-With-Status-Display-1851-1700-AM5/2024/17234.shtml",
+        "original": "https://cdn.deepcool.com/public/ProductFile/DEEPCOOL/Cooling/CPULiquidCoolers/LS720_SE_DIGITAL/Gallery/800X800/01.jpg?auto=format,compress&q=90",
+        "checkedAt": "2026-11-15"
+      },
+      "construction": {
+        "checkedAt": "2026-11-15",
+        "heatpipes": {
+          "count": null,
+          "diameterMm": null,
+          "detail": "一体式水冷；不适用风冷热管数量。",
+          "source": "https://deepcool.com/products/Cooling/cpuliquidcoolers/LS720-SE-DIGITAL-360mm-Liquid-Cooler-With-Status-Display-1851-1700-AM5/2024/17234.shtml"
+        },
+        "finJoint": {
+          "method": "not-applicable",
+          "detail": "一体式水冷，不套用风冷热管与鳍片连接工艺。",
+          "source": "https://deepcool.com/products/Cooling/cpuliquidcoolers/LS720-SE-DIGITAL-360mm-Liquid-Cooler-With-Status-Display-1851-1700-AM5/2024/17234.shtml"
+        },
+        "baseContact": {
+          "method": "unknown",
+          "detail": "本轮未单独确认接触底座材质/制程。",
+          "source": "https://deepcool.com/products/Cooling/cpuliquidcoolers/LS720-SE-DIGITAL-360mm-Liquid-Cooler-With-Status-Display-1851-1700-AM5/2024/17234.shtml"
+        },
+        "thermalRating": {
+          "watts": 300,
+          "label": "厂商标称 TDP",
+          "source": "https://www.deepcool.com/ProductCompatibilityS_New/",
+          "detail": "仅记录厂商标称，不代表指定环境/CPU/噪声下保证可压制的功耗，也不跨品牌直接排名。"
+        }
+      }
     }
   ],
   "overrides": [

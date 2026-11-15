@@ -73,3 +73,7 @@ npm test
 ## v1.6.0 型号补充
 
 新增 8 款散热器与 18 款主板，覆盖 B760/Z790 和 B860/Z890，并保留 D4、WIFI II、MAX 与硬件修订号。新增 5 条 ASSASSIN IV 官方禁装记录，只作用于对应完整型号。主板支持搜索和插槽分组。新增散热器只有官方规格，未添加或借用温度成绩；内存净空、装机空间和 BIOS 未确认项继续待核对。证据见 `docs/cooler-expansion-2026-11-15.md` 与 `docs/motherboard-expansion-2026-11-15.md`。
+
+## v1.7.0 产品图、工艺与标称功耗
+
+27款对应官方产品图转换为本地WebP，保留原图/型号页出处；CQ125和Dark Rock Pro 5暂用明确标注的示意图。卡片图片可放大。新增22款风冷热管根数、4款有据的热管/鳍片连接方式和14款厂商标称TDP/D-TDP。官方仅写Soldered时标记焊接，不推断具体回流工序；未证实的型号保持未知。详情将底座结构、鳍片连接、厂商标称W与已录入实测负载分开，NSPR/Q-Max不作为整机瓦数。标称瓦数不参与推荐分数或兼容判断。证据见`docs/product-images.md`和`docs/cooler-construction-research.md`。

@@ -1,8 +1,10 @@
+import { constructionSummary, recordedTests } from "./product-specs.js";
 import { precheck, resolveBoard } from "./compatibility.js";
 import {
   benchmarkTable,
   matchingBenchmark,
   stackThickness,
+  metricLabel,
 } from "./benchmarks.js";
 import { recommend, statusText } from "./recommendation.js";
 import { defaults, normalize, load, save } from "./storage.js";
@@ -152,6 +154,32 @@ function renderBenchmark() {
       ? "全速成绩不参与当前静音偏好的排名。"
       : "当前配置与测试条件不同，以下读数仅供参考。";
 }
+function productArt(c) {
+  const image = c.image;
+  return `<div class="product-art${image ? " official-photo" : " illustration"}">${image ? `<button type="button" data-photo="${c.id}" aria-label="放大 ${escape(c.name)} 官方产品图">` : ""}<img src="${image?.path || `assets/${c.type === "air" ? "cooler" : "aio"}.svg`}" alt="${image ? escape(c.name) + " 官方产品图" : "散热器类型示意，非该型号实拍"}" loading="lazy" decoding="async" width="240" height="240">${image ? "</button>" : ""}<span>${image ? "官方产品图 · 点击放大" : "类型示意 · 非产品实拍"}</span></div>`;
+}
+function specStrip(c) {
+  const spec = constructionSummary(c);
+  return `<dl class="construction-strip"><div><dt>热管</dt><dd>${escape(spec.heatpipes)}</dd></div><div><dt>热管 / 鳍片连接</dt><dd>${escape(spec.finJoint)}</dd></div><div><dt>标称解热 / TDP</dt><dd>${escape(spec.rating)}</dd></div></dl>`;
+}
+function constructionDetails(c) {
+  const e = c.construction || {};
+  const spec = constructionSummary(c);
+  const evidence = (item) =>
+    item?.source
+      ? `<a href="${escape(item.source)}" target="_blank" rel="noopener noreferrer">官方依据 ↗</a>`
+      : "";
+  const tests = recordedTests(c.id, catalog);
+  return `<section class="construction-details"><h3>散热结构与功耗依据</h3><p>结构资料核对：${escape(e.checkedAt || "待核对")}</p>${specStrip(c)}<p><b>底座接触：</b>${escape(spec.base)} ${evidence(e.baseContact)}</p><p>${escape(e.heatpipes?.detail || "热管参数尚待逐型号核对。")}${evidence(e.heatpipes)}</p><p>${escape(e.finJoint?.detail || (c.type === "aio" ? "水冷通过冷头、水路与冷排传热，不使用风冷热管穿 Fin 分类。" : "未取得热管与鳍片连接的一手依据，不能从底座直触、外观或同系列推断。"))}${evidence(e.finJoint)}</p><p>${escape(e.thermalRating?.detail || "未取得该型号厂商公开的解热瓦数，不按热管数或冷排尺寸估算。")}${evidence(e.thermalRating)}</p><aside class="thermal-boundary">最大解热瓦数没有统一的跨品牌测试口径。厂商标称 TDP 不代表任意 CPU 都能在该功耗下压住温度，也不用于本页的兼容通过或性能排名。焊接不等于已确认使用回流工序；底座热管直触也不等于鳍片连接方式。</aside><h3>已收录的实测负载</h3>${tests.length ? tests.map(({ group, row }) => `<p><a href="${escape(group.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escape(group.author)} · ${escape(group.cpu)} · ${group.powerW} W ↗</a><br>${escape(group.title)} · ${escape(metricLabel(group))} ${row.value}${escape(group.unit)}。测试口径与完整限制见评测资料库。</p>`).join("") : "<p>暂无该精确版本的已核对读数。</p>"}<p>这里列的是测试条件，不能视为散热器最大能力或满载温度保证。<a href="reviews.html#verified-tests">查看测试条件与限制 ↗</a></p></section>`;
+}
+function photo(id) {
+  const c = catalog.coolers.find((c) => c.id === id);
+  if (!c?.image) return;
+  dialog(
+    c.name,
+    `<div class="photo-view"><img src="${c.image.path}" alt="${escape(c.name)} 官方产品图"><p>官网外观展示；底座版本、内部工艺和随盒扣具需另核对。</p><a href="${c.image.source}" target="_blank" rel="noopener noreferrer">图片来源 · 官方型号页面 ↗</a></div>`,
+  );
+}
 function card(c, featured) {
   const spec =
     c.type === "air"
@@ -161,14 +189,14 @@ function card(c, featured) {
       : `${c.radiatorSize} mm 冷排`;
   return `<article class="cooler-card${featured ? " featured" : ""}" data-id="${c.id}">
     ${featured ? '<div class="card-ribbon"><span>✧ 优先考察</span><span>基于当前用途与已知条件</span></div>' : ""}
-    <div class="card-main"><div class="product-art"><img src="assets/${c.type === "air" ? "cooler" : "aio"}.svg" alt=""><span>类型示意 · 非产品实拍</span></div><div><p class="product-brand">${escape(c.brand)}</p><div class="product-title"><h3>${escape(c.name)}</h3><span class="badge ${c.status}">${statusText[c.status]}</span></div><p class="product-description">${escape(c.description)}</p><div class="specs"><span>${c.type === "air" ? "塔式风冷" : "一体式水冷"}</span><span>${spec}</span><span>${c.maintenance}</span></div><p class="reason">${c.status === "blocked" ? "× " + escape(c.checks.find((check) => check.state === "fail").detail) : "↳ " + escape(c.checks.find((check) => check.title === "主板安装干涉" && check.state === "conditional")?.detail || c.reasons[0])}</p>${c.reviewUrl ? `<p class="measurement-note"><a href="${c.reviewUrl}" target="_blank" rel="noopener noreferrer">${escape(c.reviewNote)} ↗</a></p>` : c.addedAt ? '<p class="measurement-note">官方规格已收录 · 实测版本待核对</p>' : ""}${c.measured ? `<p class="measurement-note">实测参考 ${c.measured.value}${c.measured.unit} · ${c.measured.author} <a href="${c.measured.sourceUrl}" target="_blank" rel="noopener noreferrer">原始实测 ↗</a></p>` : ""}</div></div>
+    <div class="card-main">${productArt(c)}<div><p class="product-brand">${escape(c.brand)}</p><div class="product-title"><h3>${escape(c.name)}</h3><span class="badge ${c.status}">${statusText[c.status]}</span></div><p class="product-description">${escape(c.description)}</p><div class="specs"><span>${c.type === "air" ? "塔式风冷" : "一体式水冷"}</span><span>${spec}</span><span>${c.maintenance}</span></div>${specStrip(c)}<p class="reason">${c.status === "blocked" ? "× " + escape(c.checks.find((check) => check.state === "fail").detail) : "↳ " + escape(c.checks.find((check) => check.title === "主板安装干涉" && check.state === "conditional")?.detail || c.reasons[0])}</p>${c.reviewUrl ? `<p class="measurement-note"><a href="${c.reviewUrl}" target="_blank" rel="noopener noreferrer">${escape(c.reviewNote)} ↗</a></p>` : c.addedAt ? '<p class="measurement-note">官方规格已收录 · 实测版本待核对</p>' : ""}${c.measured ? `<p class="measurement-note">实测参考 ${c.measured.value}${c.measured.unit} · ${c.measured.author} <a href="${c.measured.sourceUrl}" target="_blank" rel="noopener noreferrer">原始实测 ↗</a></p>` : ""}</div></div>
     <div class="card-bottom"><label class="price-group" for="price-${c.id}">报价 ¥ <input id="price-${c.id}" data-price="${c.id}" type="number" min="1" max="20000" placeholder="待填写" value="${c.price ?? ""}" aria-label="${escape(c.name)} 实际报价"> <span>非实时售价</span></label><div class="card-actions"><label class="compare-label"><input type="checkbox" data-compare="${c.id}" ${compare.has(c.id) ? "checked" : ""}>加入对比</label><button class="details-button" type="button" data-detail="${c.id}">检查详情 ↗</button></div></div></article>`;
 }
 function details(id) {
   const c = results.find((c) => c.id === id);
   dialog(
     c.name,
-    `<div class="dialog-copy"><span class="badge ${c.status}">${statusText[c.status]}</span><p>${escape(c.notes)}</p>${c.checks.map((check) => `<div class="detail-check">${icon(check.state)}<div><b>${check.title} · ${{ pass: "通过", fail: "冲突", unknown: "待确认", conditional: "需调整 / 核对" }[check.state]}</b><p>${escape(check.detail)}</p>${check.source ? `<a class="source-evidence" href="${check.source}" target="_blank" rel="noopener noreferrer">官方适配依据 ↗</a>` : ""}</div></div>`).join("")}<h3>${c.status === "blocked" ? "该型号的实测参考（已排除推荐）" : "为什么出现在候选中"}</h3>${c.reasons.map((reason) => `<p>${escape(reason)}</p>`).join("")}<p>选型规则提供考察方向，不承诺具体温度或噪声表现。规格核对日期：${c.checkedAt || catalog.checkedAt}。</p><a class="source-link" href="${c.source}" target="_blank" rel="noopener noreferrer">${escape(c.sourceLabel || "官方产品规格")} ↗</a>${c.extraSource ? `<a class="source-link" href="${c.extraSource}" target="_blank" rel="noopener noreferrer">安装 / 尺寸依据 ↗</a>` : ""}</div>`,
+    `<div class="dialog-copy"><span class="badge ${c.status}">${statusText[c.status]}</span><p>${escape(c.notes)}</p>${constructionDetails(c)}${c.checks.map((check) => `<div class="detail-check">${icon(check.state)}<div><b>${check.title} · ${{ pass: "通过", fail: "冲突", unknown: "待确认", conditional: "需调整 / 核对" }[check.state]}</b><p>${escape(check.detail)}</p>${check.source ? `<a class="source-evidence" href="${check.source}" target="_blank" rel="noopener noreferrer">官方适配依据 ↗</a>` : ""}</div></div>`).join("")}<h3>${c.status === "blocked" ? "该型号的实测参考（已排除推荐）" : "为什么出现在候选中"}</h3>${c.reasons.map((reason) => `<p>${escape(reason)}</p>`).join("")}<p>选型规则提供考察方向，不承诺具体温度或噪声表现。规格核对日期：${c.checkedAt || catalog.checkedAt}。</p><a class="source-link" href="${c.source}" target="_blank" rel="noopener noreferrer">${escape(c.sourceLabel || "官方产品规格")} ↗</a>${c.extraSource ? `<a class="source-link" href="${c.extraSource}" target="_blank" rel="noopener noreferrer">安装 / 尺寸依据 ↗</a>` : ""}</div>`,
   );
 }
 function updateCompare() {
@@ -181,6 +209,10 @@ function openComparison() {
   const rows = [
     ["类型", (c) => (c.type === "air" ? "塔式风冷" : "一体式水冷")],
     ["安装状态", (c) => statusText[c.status]],
+    ["热管", (c) => constructionSummary(c).heatpipes],
+    ["热管 / 鳍片连接", (c) => constructionSummary(c).finJoint],
+    ["底座接触", (c) => constructionSummary(c).base],
+    ["标称解热 / TDP（非实测上限）", (c) => constructionSummary(c).rating],
     [
       "尺寸",
       (c) =>
@@ -213,7 +245,7 @@ function openComparison() {
   ];
   dialog(
     "散热方案对比",
-    `<div class="table-scroll"><table><thead><tr><th>对比项目</th>${items.map((c) => `<th>${escape(c.name)}</th>`).join("")}</tr></thead><tbody>${rows.map(([name, get]) => `<tr><th scope="row">${name}</th>${items.map((c) => `<td>${name === "官方依据" ? get(c) : escape(get(c))}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`,
+    `<div class="table-scroll"><table><thead><tr><th>对比项目</th>${items.map((c) => `<th>${escape(c.name)}</th>`).join("")}</tr></thead><tbody>${rows.map(([name, get]) => `<tr><th scope="row">${name}</th>${items.map((c) => `<td>${name === "规格 / 原始依据" ? get(c) : escape(get(c))}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`,
   );
 }
 function guide() {
@@ -222,6 +254,10 @@ function guide() {
     `<div class="dialog-copy"><h3>1. 从真实配置开始</h3><p>选择 CPU 和主板完整型号。插槽相同只说明平台匹配，主板 CPU 支持列表与 BIOS 版本仍需核对。未收录主板可填写型号和插槽。</p><h3>2. 风冷同时看内存与机箱</h3><p>机箱限高指 CPU 散热器安装限高，并非机箱外壳宽度。若前风扇覆盖内存，抬高风扇会增加安装高度。接近限高时应实测。</p><h3>3. 水冷同时看尺寸与位置</h3><p>“支持 360 冷排”不等于所有 360 水冷都能安装。还要核对冷排实际长宽、孔位、冷排与风扇总厚度、主板与显卡干涉、管路路径，以及水泵连接方式。</p><h3>4. 结合负载和功耗设置</h3><p>持续渲染与游戏的热负载不同。主板自动设置可能改变功耗限制；解除限制时，选型无法保证满载温度。静音取决于机箱风道、实际负载和风扇曲线。</p><h3>5. 用实际报价决定预算</h3><p>填入你看到的实际购买价格，设置预算后会排除已知超预算的产品。未知报价保留为待核对，不会被当成免费。</p></div>`,
   );
 }
+$("#dialog-body").addEventListener("click", (event) => {
+  const picture = event.target.closest("[data-photo]");
+  if (picture) photo(picture.dataset.photo);
+});
 function sources() {
   dialog(
     "数据来源与推荐方法",
@@ -401,6 +437,8 @@ async function init() {
   );
   $("#cooler-search").addEventListener("input", render);
   $("#cards").addEventListener("click", (event) => {
+    const picture = event.target.closest("[data-photo]");
+    if (picture) photo(picture.dataset.photo);
     const button = event.target.closest("[data-detail]");
     if (button) details(button.dataset.detail);
   });

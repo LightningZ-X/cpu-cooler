@@ -1,4 +1,5 @@
 import { constructionSummary, recordedTests } from "./product-specs.js";
+import { modelMatches } from "./search.js";
 import { precheck, resolveBoard } from "./compatibility.js";
 import {
   benchmarkTable,
@@ -51,8 +52,11 @@ function fillForm() {
     }
   }
   updateMeta();
+  validateForm();
 }
 function readForm() {
+  updateMeta();
+  if (!validateForm()) return false;
   const raw = Object.fromEntries(new FormData(form));
   raw.radiatorFit = $("#radiator-fit").checked;
   raw.headers = $("#headers").checked;
@@ -67,6 +71,54 @@ function readForm() {
         "#config=" +
         encodeURIComponent(JSON.stringify(config)),
     );
+  return true;
+}
+function validateForm() {
+  const invalid = [...form.elements].filter(
+    (input) => input.willValidate && !input.validity.valid,
+  );
+  for (const input of form.elements) {
+    if (input.willValidate && !input.validity.valid)
+      input.setAttribute("aria-invalid", "true");
+    else input.removeAttribute("aria-invalid");
+  }
+  const message = invalid
+    .map((input) => {
+      const label = input.labels?.[0]?.textContent.trim() || "输入值";
+      return input.type === "number" && input.min && input.max
+        ? `${label}应为 ${input.min}–${input.max} 之间的有效数值`
+        : `请检查${label}`;
+    })
+    .join("；");
+  $("#input-errors").hidden = !invalid.length;
+  $("#input-errors").textContent = message
+    ? `${message}。修正前保留上次有效配置的建议。`
+    : "";
+  return !invalid.length;
+}
+function updateSearchOptions() {
+  for (const [kind, hint] of [
+    ["cpu", "#cpu-search-hint"],
+    ["board", "#board-search-hint"],
+  ]) {
+    const query = $(`#${kind}-search`).value;
+    const models = kind === "cpu" ? catalog.cpus : catalog.boards;
+    const hits = models.filter((model) => modelMatches(model, query));
+    const ids = new Set(hits.map((model) => model.id));
+    for (const option of $(`#${kind}`).options)
+      option.hidden = Boolean(
+        query.trim() &&
+          option.value &&
+          option.value !== "custom" &&
+          option.value !== config[kind] &&
+          !ids.has(option.value),
+      );
+    $(hint).textContent = query.trim()
+      ? `${hits.length} 款匹配；当前选择保留，请选择精确型号。`
+      : kind === "board"
+        ? "按完整型号、后缀和修订号选择。"
+        : "支持空格、连字符及全角输入。";
+  }
 }
 function updateMeta() {
   const cpu = catalog.cpus.find((c) => c.id === $("#cpu").value);
@@ -79,8 +131,10 @@ function updateMeta() {
     : "未确认主板型号时，仅提供初步选型建议。";
   $("#custom-board-fields").hidden = $("#board").value !== "custom";
   $("#power-limit-field").hidden = $("#power").value !== "limited";
+  $("#power-limit").disabled = $("#power").value !== "limited";
 }
 function render() {
+  updateSearchOptions();
   results = recommend(config, catalog, prices);
   const cpu = catalog.cpus.find((c) => c.id === config.cpu);
   const board = resolveBoard(config, catalog);
@@ -129,10 +183,9 @@ function render() {
   const eligible = results.filter(
     (c) => c.status !== "blocked" && !c.overBudget,
   );
-  const term = $("#cooler-search").value.toLowerCase().replace(/\s+/g, "");
+  const term = $("#cooler-search").value;
   const matches = (c) =>
-    (filter === "all" || c.type === filter) &&
-    `${c.brand} ${c.name}`.toLowerCase().replace(/\s+/g, "").includes(term);
+    (filter === "all" || c.type === filter) && modelMatches(c, term);
   const visible = results.filter((c) => matches(c) && !c.overBudget);
   $("#result-count").textContent =
     `${eligible.filter(matches).length} 款候选 · ${catalog.coolers.length} 款已收录`;
@@ -190,7 +243,7 @@ function card(c, featured) {
   return `<article class="cooler-card${featured ? " featured" : ""}" data-id="${c.id}">
     ${featured ? '<div class="card-ribbon"><span>✧ 优先考察</span><span>基于当前用途与已知条件</span></div>' : ""}
     <div class="card-main">${productArt(c)}<div><p class="product-brand">${escape(c.brand)}</p><div class="product-title"><h3>${escape(c.name)}</h3><span class="badge ${c.status}">${statusText[c.status]}</span></div><p class="product-description">${escape(c.description)}</p><div class="specs"><span>${c.type === "air" ? "塔式风冷" : "一体式水冷"}</span><span>${spec}</span><span>${c.maintenance}</span></div>${specStrip(c)}<p class="reason">${c.status === "blocked" ? "× " + escape(c.checks.find((check) => check.state === "fail").detail) : "↳ " + escape(c.checks.find((check) => check.title === "主板安装干涉" && check.state === "conditional")?.detail || c.reasons[0])}</p>${c.reviewUrl ? `<p class="measurement-note"><a href="${c.reviewUrl}" target="_blank" rel="noopener noreferrer">${escape(c.reviewNote)} ↗</a></p>` : c.addedAt ? '<p class="measurement-note">官方规格已收录 · 实测版本待核对</p>' : ""}${c.measured ? `<p class="measurement-note">实测参考 ${c.measured.value}${c.measured.unit} · ${c.measured.author} <a href="${c.measured.sourceUrl}" target="_blank" rel="noopener noreferrer">原始实测 ↗</a></p>` : ""}</div></div>
-    <div class="card-bottom"><label class="price-group" for="price-${c.id}">报价 ¥ <input id="price-${c.id}" data-price="${c.id}" type="number" min="1" max="20000" placeholder="待填写" value="${c.price ?? ""}" aria-label="${escape(c.name)} 实际报价"> <span>非实时售价</span></label><div class="card-actions"><label class="compare-label"><input type="checkbox" data-compare="${c.id}" ${compare.has(c.id) ? "checked" : ""}>加入对比</label><button class="details-button" type="button" data-detail="${c.id}">检查详情 ↗</button></div></div></article>`;
+    <div class="card-bottom"><label class="price-group" for="price-${c.id}">报价 ¥ <input id="price-${c.id}" data-price="${c.id}" type="number" step="any" min="1" max="20000" placeholder="待填写" value="${c.price ?? ""}" aria-label="${escape(c.name)} 实际报价"> <span>非实时售价</span></label><div class="card-actions"><label class="compare-label"><input type="checkbox" data-compare="${c.id}" ${compare.has(c.id) ? "checked" : ""}>加入对比</label><button class="details-button" type="button" data-detail="${c.id}">检查详情 ↗</button></div></div></article>`;
 }
 function details(id) {
   const c = results.find((c) => c.id === id);
@@ -349,15 +402,13 @@ async function init() {
     toast("已应用测试 CPU 与功耗，请继续核对你的主板和安装空间");
   });
   form.addEventListener("change", () => {
-    readForm();
-    updateMeta();
+    if (!readForm()) return;
     persist();
     render();
   });
   form.addEventListener("submit", (event) => {
     event.preventDefault();
-    readForm();
-    updateMeta();
+    if (!readForm()) return;
     const stored = persist();
     render();
     if (!stored) toast("浏览器无法保存配置，本次仍可使用");
@@ -370,21 +421,15 @@ async function init() {
       });
   });
   $("#cpu-search").addEventListener("input", (event) => {
-    const term = event.target.value.toLowerCase().trim();
-    for (const option of $("#cpu").options)
-      option.hidden =
-        !option.textContent.toLowerCase().includes(term) &&
-        option.value !== config.cpu;
-    const hits = catalog.cpus.filter((c) =>
-      c.name.toLowerCase().includes(term),
-    );
+    const term = event.target.value.trim();
+    const hits = catalog.cpus.filter((c) => modelMatches(c, term));
     if (term && hits.length === 1) {
       $("#cpu").value = hits[0].id;
-      readForm();
-      updateMeta();
+      if (!readForm()) return;
       persist();
       render();
     }
+    updateSearchOptions();
   });
   $("#reset").addEventListener("click", () => {
     config = { ...defaults };
@@ -408,23 +453,20 @@ async function init() {
     toast("已重置配置与报价");
   });
   $("#board-search").addEventListener("input", (event) => {
-    const key = (value) => value.toLowerCase().replace(/[\s-]+/g, "");
-    const term = key(event.target.value);
-    for (const option of $("#board").options)
-      option.hidden = Boolean(
-        term &&
-          option.value &&
-          option.value !== "custom" &&
-          option.value !== config.board &&
-          !key(option.textContent).includes(term),
-      );
-    const count = catalog.boards.filter((b) =>
-      key(b.name).includes(term),
-    ).length;
-    $("#board-search-hint").textContent = term
-      ? `${count} 款匹配；当前选择保留，请选择精确后缀与修订号。`
-      : "按完整型号、后缀和修订号选择。";
+    updateSearchOptions();
   });
+  form.addEventListener("input", (event) => {
+    if (event.target.type === "number") validateForm();
+  });
+  form.addEventListener(
+    "invalid",
+    (event) => {
+      validateForm();
+      const disclosure = event.target.closest("details");
+      if (disclosure) disclosure.open = true;
+    },
+    true,
+  );
   document.querySelectorAll("[data-filter]").forEach((button) =>
     button.addEventListener("click", () => {
       filter = button.dataset.filter;
@@ -468,7 +510,7 @@ async function init() {
   });
   $("#share").addEventListener("click", async () => {
     if (!form.reportValidity()) return;
-    readForm();
+    if (!readForm()) return;
     render();
     const url = new URL(location.href);
     url.hash = "config=" + encodeURIComponent(JSON.stringify(config));

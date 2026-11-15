@@ -843,3 +843,14 @@ th:first-child {
   line-height: 1.8;
   margin: 10px 0 16px;
 }
+.input-errors {
+  border: 1px solid var(--amber);
+  background: var(--warn-bg);
+  color: var(--ink);
+  padding: 12px 14px;
+  font-size: 12px;
+  line-height: 1.8;
+}
+#config-form [aria-invalid="true"] {
+  border-color: var(--red);
+}

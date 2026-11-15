@@ -116,6 +116,9 @@
               required
               aria-describedby="cpu-meta"
             ></select>
+            <p class="field-note" id="cpu-search-hint">
+              支持空格、连字符及全角输入。
+            </p>
             <p class="field-note" id="cpu-meta"></p>
             <label for="board">主板</label>
             <label class="sr-only" for="board-search">搜索主板型号</label>
@@ -155,6 +158,7 @@
                     id="case-height"
                     name="caseHeight"
                     type="number"
+                    step="any"
                     min="30"
                     max="300"
                     placeholder="例如 170"
@@ -168,6 +172,7 @@
                     id="ram-height"
                     name="ramHeight"
                     type="number"
+                    step="any"
                     min="15"
                     max="100"
                     placeholder="例如 35"
@@ -191,6 +196,7 @@
                   id="radiator-space"
                   name="radiatorSpace"
                   type="number"
+                  step="any"
                   min="20"
                   max="150"
                   placeholder="冷排与风扇总空间"
@@ -230,6 +236,7 @@
                 id="power-limit"
                 name="powerLimit"
                 type="number"
+                step="any"
                 min="35"
                 max="500"
                 placeholder="例如 150"
@@ -250,6 +257,7 @@
                 id="budget"
                 name="budget"
                 type="number"
+                step="any"
                 min="1"
                 max="20000"
                 placeholder="输入你的预算"
@@ -322,6 +330,7 @@
             </div>
             <span id="result-count"></span>
           </div>
+          <p id="input-errors" class="input-errors" role="alert" hidden></p>
           <div class="recommendation-note" id="recommendation-note"></div>
           <label class="sr-only" for="cooler-search">搜索散热器型号</label>
           <input

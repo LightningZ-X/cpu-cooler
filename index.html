@@ -117,8 +117,18 @@
               aria-describedby="cpu-meta"
             ></select>
             <p class="field-note" id="cpu-meta"></p>
-            <label for="board">主板</label
-            ><select id="board" name="board"></select>
+            <label for="board">主板</label>
+            <label class="sr-only" for="board-search">搜索主板型号</label>
+            <input
+              id="board-search"
+              type="search"
+              class="search-field"
+              placeholder="搜索主板，如 B760、MORTAR、Z890…"
+            />
+            <select id="board" name="board"></select>
+            <p class="field-note" id="board-search-hint">
+              按完整型号、后缀和修订号选择。
+            </p>
             <p class="field-note" id="board-meta"></p>
             <div id="custom-board-fields" hidden>
               <label for="board-name">主板型号（可选）</label
@@ -361,7 +371,7 @@
           alt=""
         />CoolerGuide</a
       ><span>让散热器选购，更有依据。</span
-      ><span>Intel 首版 · 规格核对于 2026.11.14</span>
+      ><span>Intel 桌面平台 · 资料持续更新</span>
     </footer>
     <div id="compare-tray" class="compare-tray" hidden>
       <span id="compare-count"></span

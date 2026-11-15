@@ -286,6 +286,132 @@
       "name": "ASUS ROG Strix Z890-I Gaming WIFI",
       "socket": "LGA1851",
       "source": "https://support.arctic.de/lf3-compatibility"
+    },
+    {
+      "id": "tuf-b760-original",
+      "name": "ASUS TUF GAMING B760M-PLUS WIFI",
+      "socket": "LGA1700",
+      "source": "https://www.asus.com/motherboards-components/motherboards/tuf-gaming/tuf-gaming-b760m-plus-wifi/techspec/",
+      "checkedAt": "2026-11-15"
+    },
+    {
+      "id": "prime-b760a-d4",
+      "name": "ASUS PRIME B760M-A WIFI D4",
+      "socket": "LGA1700",
+      "source": "https://www.asus.com/motherboards-components/motherboards/prime/prime-b760m-a-wifi-d4/techspec/",
+      "checkedAt": "2026-11-15"
+    },
+    {
+      "id": "strix-b760g",
+      "name": "ASUS ROG STRIX B760-G GAMING WIFI",
+      "socket": "LGA1700",
+      "source": "https://rog.asus.com/motherboards/rog-strix/rog-strix-b760-g-gaming-wifi/spec/",
+      "checkedAt": "2026-11-15"
+    },
+    {
+      "id": "strix-z790h",
+      "name": "ASUS ROG STRIX Z790-H GAMING WIFI",
+      "socket": "LGA1700",
+      "source": "https://rog.asus.com/motherboards/rog-strix/rog-strix-z790-h-gaming-wifi-model/spec/",
+      "checkedAt": "2026-11-15"
+    },
+    {
+      "id": "strix-z690f",
+      "name": "ASUS ROG STRIX Z690-F GAMING WIFI",
+      "socket": "LGA1700",
+      "source": "https://rog.asus.com/fi/motherboards/rog-strix/rog-strix-z690-f-gaming-wifi-model/spec/",
+      "checkedAt": "2026-11-15"
+    },
+    {
+      "id": "strix-z790i",
+      "name": "ASUS ROG STRIX Z790-I GAMING WIFI",
+      "socket": "LGA1700",
+      "source": "https://dlcdnets.asus.com/pub/ASUS/mb/LGA1700/ROG_STRIX_Z790-I_GAMING_WIFI/E21241_ROG_STRIX_Z790-I_GAMING_WIFI_UM_V2_WEB.pdf",
+      "checkedAt": "2026-11-15"
+    },
+    {
+      "id": "msi-b760m-mortar-ii",
+      "name": "MSI MAG B760M MORTAR WIFI II",
+      "socket": "LGA1700",
+      "source": "https://www.msi.com/Motherboard/MAG-B760M-MORTAR-WIFI-II/Specification",
+      "checkedAt": "2026-11-15"
+    },
+    {
+      "id": "msi-pro-b760ma-d4",
+      "name": "MSI PRO B760M-A WIFI DDR4",
+      "socket": "LGA1700",
+      "source": "https://www.msi.com/Motherboard/PRO-B760M-A-WIFI-DDR4/Specification",
+      "checkedAt": "2026-11-15"
+    },
+    {
+      "id": "msi-b760-gaming-plus",
+      "name": "MSI B760 GAMING PLUS WIFI",
+      "socket": "LGA1700",
+      "source": "https://www.msi.com/Motherboard/B760-GAMING-PLUS-WIFI/Specification",
+      "checkedAt": "2026-11-15"
+    },
+    {
+      "id": "msi-z790-tomahawk-max",
+      "name": "MSI MAG Z790 TOMAHAWK MAX WIFI",
+      "socket": "LGA1700",
+      "source": "https://www.msi.com/Motherboard/MAG-Z790-TOMAHAWK-MAX-WIFI/Specification",
+      "checkedAt": "2026-11-15"
+    },
+    {
+      "id": "msi-pro-z890a",
+      "name": "MSI PRO Z890-A WIFI",
+      "socket": "LGA1851",
+      "source": "https://www.msi.com/Motherboard/PRO-Z890-A-WIFI/Specification",
+      "checkedAt": "2026-11-15"
+    },
+    {
+      "id": "msi-z890-tomahawk",
+      "name": "MSI MAG Z890 TOMAHAWK WIFI",
+      "socket": "LGA1851",
+      "source": "https://www.msi.com/Motherboard/MAG-Z890-TOMAHAWK-WIFI/Specification",
+      "checkedAt": "2026-11-15"
+    },
+    {
+      "id": "msi-b860m-mortar",
+      "name": "MSI MAG B860M MORTAR WIFI",
+      "socket": "LGA1851",
+      "source": "https://www.msi.com/Motherboard/MAG-B860M-MORTAR-WIFI/Specification",
+      "checkedAt": "2026-11-15"
+    },
+    {
+      "id": "b760m-aorus-elite-ax-12",
+      "name": "GIGABYTE B760M AORUS ELITE AX (rev. 1.2/1.3)",
+      "socket": "LGA1700",
+      "source": "https://www.aorus.com/motherboards/b760m-aorus-elite-ax-rev-12-13/specification",
+      "checkedAt": "2026-11-15"
+    },
+    {
+      "id": "b760m-ds3h-d4-10",
+      "name": "GIGABYTE B760M DS3H DDR4 (rev. 1.0)",
+      "socket": "LGA1700",
+      "source": "https://www.gigabyte.com/Motherboard/B760M-DS3H-DDR4-rev-10/sp",
+      "checkedAt": "2026-11-15"
+    },
+    {
+      "id": "z790-aorus-elite-ax-10",
+      "name": "GIGABYTE Z790 AORUS ELITE AX (rev. 1.0)",
+      "socket": "LGA1700",
+      "source": "https://www.gigabyte.com/us/Motherboard/Z790-AORUS-ELITE-AX-rev-10/sp",
+      "checkedAt": "2026-11-15"
+    },
+    {
+      "id": "z890-aorus-elite-wifi7",
+      "name": "GIGABYTE Z890 AORUS ELITE WIFI7",
+      "socket": "LGA1851",
+      "source": "https://www.gigabyte.com/Motherboard/Z890-AORUS-ELITE-WIFI7/sp",
+      "checkedAt": "2026-11-15"
+    },
+    {
+      "id": "b860m-aorus-elite-ice",
+      "name": "GIGABYTE B860M AORUS ELITE WIFI6E ICE",
+      "socket": "LGA1851",
+      "source": "https://www.gigabyte.com/de/Motherboard/B860M-AORUS-ELITE-WIFI6E-ICE/sp",
+      "checkedAt": "2026-11-15"
     }
   ],
   "coolers": [
@@ -645,6 +771,147 @@
       "extraSource": "https://www.arctic.de/media/e3/d9/86/1741780098/Spec_Sheet_Liquid_Freezer_III_Pro_360_EN.pdf",
       "notes": "ACFRE00180A；冷排398×120×38mm。官方尺寸图总装厚度66mm，包含超出38+25mm的结构，不使用简单相加。Intel按专用安装方案操作，主板适配需独立核对，不自动继承非Pro的冲突表或实测。",
       "addedAt": "2026-11-14"
+    },
+    {
+      "type": "air",
+      "sockets": ["LGA1700", "LGA1851"],
+      "ramClearance": null,
+      "ramLift": false,
+      "tier": "compact",
+      "maintenance": "低维护",
+      "addedAt": "2026-11-15",
+      "checkedAt": "2026-11-15",
+      "id": "ak400",
+      "brand": "DeepCool 九州风神",
+      "name": "AK400（标准黑色版）",
+      "height": 155,
+      "description": "四热管单塔，官方整机155mm。",
+      "source": "https://global.deepcool.com/products/Cooling/cpuaircoolers/AK400-Performance-CPU-Cooler-1851-1700-AM5/2024/15222.shtml",
+      "notes": "R-AK400-BKNNMN-G-1；整机127×97×155mm，不用152mm裸塔高度。内存净空未知，不套用DIGITAL、PLUS、G2成绩。"
+    },
+    {
+      "type": "air",
+      "sockets": ["LGA1700", "LGA1851"],
+      "ramClearance": null,
+      "ramLift": false,
+      "tier": "compact",
+      "maintenance": "低维护",
+      "addedAt": "2026-11-15",
+      "checkedAt": "2026-11-15",
+      "id": "ak400digitalpro",
+      "brand": "DeepCool 九州风神",
+      "name": "AK400 DIGITAL PRO（黑色）",
+      "height": 159,
+      "description": "四热管数显单塔，与普通DIGITAL分开记录。",
+      "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/AK400-Digital-Pro-Cooler-With-Multi-line-Display-1851-1700-AM5/2024/18680.shtml",
+      "notes": "R-AK400-BKAPMN-G；整机126×97×159mm，内存净空未知。数显需USB2.0接针与软件，ARGB须5V接口。非PRO版高度不同。"
+    },
+    {
+      "type": "air",
+      "sockets": ["LGA1700", "LGA1851"],
+      "ramClearance": null,
+      "ramLift": false,
+      "tier": "dual",
+      "maintenance": "低维护",
+      "addedAt": "2026-11-15",
+      "checkedAt": "2026-11-15",
+      "id": "rk120",
+      "brand": "Thermalright 利民",
+      "name": "Royal Knight 120（标准版）",
+      "height": 156,
+      "description": "六热管双塔，前置薄扇布局。",
+      "source": "https://www.thermalright.com/product/royal-knight-120/",
+      "notes": "官方塔体标称156mm，TL-H12-X28与TL-H12015B风扇。内存与风扇调整行程未知，实际总高待核对；不与SE版混用。"
+    },
+    {
+      "type": "air",
+      "sockets": ["LGA1700", "LGA1851"],
+      "ramClearance": null,
+      "ramLift": false,
+      "tier": "large",
+      "maintenance": "低维护",
+      "addedAt": "2026-11-15",
+      "checkedAt": "2026-11-15",
+      "id": "pa140black",
+      "brand": "Thermalright 利民",
+      "name": "Peerless Assassin 140 BLACK",
+      "height": 158,
+      "description": "双塔120/140mm混合风扇方案。",
+      "source": "https://www.thermalright.com/product/peerless-assassin-140-black/",
+      "notes": "官方塔体标称158mm，TL-C12B V2及TL-D14CB风扇。内存净空和抬升量未知，实际总高需核对；与140 SE/ARGB独立。"
+    },
+    {
+      "type": "air",
+      "sockets": ["LGA1700", "LGA1851"],
+      "ramClearance": null,
+      "ramLift": false,
+      "tier": "compact",
+      "maintenance": "低维护",
+      "addedAt": "2026-11-15",
+      "checkedAt": "2026-11-15",
+      "id": "u12sredux",
+      "brand": "Noctua 猫头鹰",
+      "name": "NH-U12S redux",
+      "height": 158,
+      "ramOverhang": false,
+      "description": "单塔单120mm风扇，Intel默认布局不覆盖内存槽。",
+      "source": "https://www.noctua.at/en/products/nh-u12s-redux/specifications",
+      "notes": "含风扇125×71×158mm；官方说明不覆盖内存槽，仍需逐主板适配核对。早期库存核对1700/1851扣具。不是NH-U12A或标准NH-U12S。"
+    },
+    {
+      "type": "air",
+      "sockets": ["LGA1700", "LGA1851"],
+      "ramClearance": null,
+      "ramLift": false,
+      "tier": "large",
+      "maintenance": "低维护",
+      "addedAt": "2026-11-15",
+      "checkedAt": "2026-11-15",
+      "id": "darkrockpro5",
+      "brand": "be quiet!",
+      "name": "Dark Rock Pro 5",
+      "height": 168,
+      "description": "七热管双塔双风扇，保留模式切换与安装空间要求。",
+      "source": "https://www.bequiet.com/en/cpucooler/4466",
+      "notes": "BK036；官方整体145×136×168mm。前风扇可调，但具体内存净空与抬升量未入库，实际总高待核对；不继承Dark Rock Pro 4/6或Elite成绩。"
+    },
+    {
+      "id": "ls520sedigital",
+      "brand": "DeepCool 九州风神",
+      "name": "LS520 SE DIGITAL（黑色）",
+      "type": "aio",
+      "sockets": ["LGA1700", "LGA1851"],
+      "radiatorSize": 240,
+      "radiatorLength": 282,
+      "radiatorWidth": 120,
+      "radiatorThickness": 27,
+      "fanThickness": 25,
+      "tier": "aio240",
+      "maintenance": "含水泵与管路",
+      "description": "240mm数显一体式水冷，保留DIGITAL版本与接口差别。",
+      "source": "https://uk.deepcool.com/products/Cooling/cpuliquidcoolers/LS520-SE-DIGITAL-240mm-Liquid-Cooler-With-Status-Display-1851-1700-AM5/2024/17474.shtml",
+      "notes": "R-LS520-BKAMMD-G-1；冷排282×120×27mm，风扇25mm，名义堆叠52mm，安装额外间隙另核对。专用7-pin风扇链、3-pin水泵、5V ARGB与USB2.0数显线按说明书连接；不将非DIGITAL版接线或实测套用。",
+      "addedAt": "2026-11-15",
+      "checkedAt": "2026-11-15"
+    },
+    {
+      "id": "ls720sedigital",
+      "brand": "DeepCool 九州风神",
+      "name": "LS720 SE DIGITAL（黑色）",
+      "type": "aio",
+      "sockets": ["LGA1700", "LGA1851"],
+      "radiatorSize": 360,
+      "radiatorLength": 402,
+      "radiatorWidth": 120,
+      "radiatorThickness": 27,
+      "fanThickness": 25,
+      "tier": "aio360",
+      "maintenance": "含水泵与管路",
+      "description": "360mm数显一体式水冷，保留DIGITAL版本与接口差别。",
+      "source": "https://deepcool.com/products/Cooling/cpuliquidcoolers/LS720-SE-DIGITAL-360mm-Liquid-Cooler-With-Status-Display-1851-1700-AM5/2024/17234.shtml",
+      "notes": "R-LS720-BKAMMD-G-1；冷排402×120×27mm，风扇25mm，名义堆叠52mm，安装额外间隙另核对。专用7-pin风扇链、3-pin水泵、5V ARGB与USB2.0数显线按说明书连接；不将非DIGITAL版接线或实测套用。",
+      "addedAt": "2026-11-15",
+      "checkedAt": "2026-11-15"
     }
   ],
   "overrides": [
@@ -790,6 +1057,52 @@
       "detail": "九州风神官方ASSASSIN IV页面明确列出该完整主板型号不兼容；勿因插槽支持而判断可安装。",
       "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/Assassin-IV-Premium-CPU-Air-Cooler-1851-1700-AM5/2024/17129.shtml",
       "checkedAt": "2026-11-14"
+    },
+    {
+      "board": "tuf-b760-original",
+      "cooler": "assassiniv",
+      "state": "fail",
+      "detail": "DeepCool 官方明确列为 ASSASSIN IV 不兼容主板（主板布局差异），未给出修复措施，需改选散热器。",
+      "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/Assassin-IV-Premium-CPU-Air-Cooler-1851-1700-AM5/2024/17129.shtml",
+      "checkedAt": "2026-11-15",
+      "recheckRam": false
+    },
+    {
+      "board": "strix-b760g",
+      "cooler": "assassiniv",
+      "state": "fail",
+      "detail": "DeepCool 官方明确列为 ASSASSIN IV 不兼容主板（主板布局差异），未给出修复措施，需改选散热器。",
+      "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/Assassin-IV-Premium-CPU-Air-Cooler-1851-1700-AM5/2024/17129.shtml",
+      "checkedAt": "2026-11-15",
+      "recheckRam": false
+    },
+    {
+      "board": "strix-z790h",
+      "cooler": "assassiniv",
+      "state": "fail",
+      "detail": "DeepCool 官方明确列为 ASSASSIN IV 不兼容主板（主板布局差异），未给出修复措施，需改选散热器。",
+      "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/Assassin-IV-Premium-CPU-Air-Cooler-1851-1700-AM5/2024/17129.shtml",
+      "checkedAt": "2026-11-15",
+      "recheckRam": false
+    },
+    {
+      "board": "strix-z690f",
+      "cooler": "assassiniv",
+      "state": "fail",
+      "detail": "DeepCool 官方明确列为 ASSASSIN IV 不兼容主板（主板布局差异），未给出修复措施，需改选散热器。",
+      "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/Assassin-IV-Premium-CPU-Air-Cooler-1851-1700-AM5/2024/17129.shtml",
+      "checkedAt": "2026-11-15",
+      "recheckRam": false
+    },
+    {
+      "board": "strix-z790i",
+      "cooler": "assassiniv",
+      "state": "fail",
+      "detail": "DeepCool 官方明确列为 ASSASSIN IV 不兼容主板（主板布局差异），未给出修复措施，需改选散热器。",
+      "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/Assassin-IV-Premium-CPU-Air-Cooler-1851-1700-AM5/2024/17129.shtml",
+      "checkedAt": "2026-11-15",
+      "recheckRam": false
     }
-  ]
+  ],
+  "lastExpandedAt": "2026-11-15"
 }

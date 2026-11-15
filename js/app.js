@@ -168,7 +168,7 @@ function details(id) {
   const c = results.find((c) => c.id === id);
   dialog(
     c.name,
-    `<div class="dialog-copy"><span class="badge ${c.status}">${statusText[c.status]}</span><p>${escape(c.notes)}</p>${c.checks.map((check) => `<div class="detail-check">${icon(check.state)}<div><b>${check.title} · ${{ pass: "通过", fail: "冲突", unknown: "待确认", conditional: "需调整 / 核对" }[check.state]}</b><p>${escape(check.detail)}</p>${check.source ? `<a class="source-evidence" href="${check.source}" target="_blank" rel="noopener noreferrer">官方适配依据 ↗</a>` : ""}</div></div>`).join("")}<h3>${c.status === "blocked" ? "该型号的实测参考（已排除推荐）" : "为什么出现在候选中"}</h3>${c.reasons.map((reason) => `<p>${escape(reason)}</p>`).join("")}<p>选型规则提供考察方向，不承诺具体温度或噪声表现。规格核对日期：${catalog.checkedAt}。</p><a class="source-link" href="${c.source}" target="_blank" rel="noopener noreferrer">${escape(c.sourceLabel || "官方产品规格")} ↗</a>${c.extraSource ? `<a class="source-link" href="${c.extraSource}" target="_blank" rel="noopener noreferrer">安装 / 尺寸依据 ↗</a>` : ""}</div>`,
+    `<div class="dialog-copy"><span class="badge ${c.status}">${statusText[c.status]}</span><p>${escape(c.notes)}</p>${c.checks.map((check) => `<div class="detail-check">${icon(check.state)}<div><b>${check.title} · ${{ pass: "通过", fail: "冲突", unknown: "待确认", conditional: "需调整 / 核对" }[check.state]}</b><p>${escape(check.detail)}</p>${check.source ? `<a class="source-evidence" href="${check.source}" target="_blank" rel="noopener noreferrer">官方适配依据 ↗</a>` : ""}</div></div>`).join("")}<h3>${c.status === "blocked" ? "该型号的实测参考（已排除推荐）" : "为什么出现在候选中"}</h3>${c.reasons.map((reason) => `<p>${escape(reason)}</p>`).join("")}<p>选型规则提供考察方向，不承诺具体温度或噪声表现。规格核对日期：${c.checkedAt || catalog.checkedAt}。</p><a class="source-link" href="${c.source}" target="_blank" rel="noopener noreferrer">${escape(c.sourceLabel || "官方产品规格")} ↗</a>${c.extraSource ? `<a class="source-link" href="${c.extraSource}" target="_blank" rel="noopener noreferrer">安装 / 尺寸依据 ↗</a>` : ""}</div>`,
   );
 }
 function updateCompare() {
@@ -225,7 +225,7 @@ function guide() {
 function sources() {
   dialog(
     "数据来源与推荐方法",
-    `<div class="dialog-copy"><p>当前收录 ${catalog.cpus.length} 款 Intel 台式机 CPU、${catalog.boards.length} 款主板、${catalog.coolers.length} 款散热器。规格核对日期：${catalog.checkedAt}。这是有限型号的首版数据库，不代表覆盖全部市场产品。</p><h3>规格事实</h3><p>CPU 插槽、基础功耗、最大睿频功耗及散热器尺寸采用品牌公开资料。CQ125 暂仅取得原始评测，安装高度与未确认的扣具不填写。内存净空、冷排尺寸等只在有依据时填写。</p><ul>${[...catalog.cpus, ...catalog.boards, ...catalog.coolers].map((c) => `<li><a href="${c.source}" target="_blank" rel="noopener noreferrer">${escape(c.name)} ↗</a></li>`).join("")}</ul><h3>安装组合的证据边界</h3><p>已收录 ${catalog.overrides.length} 条主板与散热器安装记录，包括 VRM 干涉、M.2 散热片冲突和安装方向限制。未收录的组合保持待确认，不从插槽相同推断可安装。更换安装方向、扣具或产品版本后需要重新核对。</p><h3>评测资料</h3><p><a href="reviews.html">查看 51972 往期评测资料库与核对进度 ↗</a>。已录入风冷、水冷图表温度和同噪对比；只有 CPU、设置功耗、用途与测试组对应时才参考同组实测。</p><h3>推荐排序</h3><p>先判断插槽和空间冲突，再按用途、功耗设置及偏好给出考察顺序。持续高功耗生产力优先考察大冷排，均衡用途优先考察风冷。若主动选择的实测组与配置对应，则对该组已参测型号优先比较读数；其他型号仍按选型规则，不将跨平台图表拼成总榜，也不作散热能力保证。</p><p>价格由用户填写，不提供实时商城数据。噪声与温度不跨测试条件直接比较，不编造温度、分贝或性能分数。</p><h3>本地保存与分享</h3><p>配置和报价保存在当前浏览器。分享链接仅包含配置参数，不包含报价；任何获得链接的人均可查看其中的主板型号等信息。未发送至服务器。</p></div>`,
+    `<div class="dialog-copy"><p>当前收录 ${catalog.cpus.length} 款 Intel 台式机 CPU、${catalog.boards.length} 款主板、${catalog.coolers.length} 款散热器。基础规格核对日期：${catalog.checkedAt}；最近补充：${catalog.lastExpandedAt || catalog.checkedAt}。这是有限型号的数据库，不代表覆盖全部市场产品。</p><h3>规格事实</h3><p>CPU 插槽、基础功耗、最大睿频功耗及散热器尺寸采用品牌公开资料。CQ125 暂仅取得原始评测，安装高度与未确认的扣具不填写。内存净空、冷排尺寸等只在有依据时填写。</p><ul>${[...catalog.cpus, ...catalog.boards, ...catalog.coolers].map((c) => `<li><a href="${c.source}" target="_blank" rel="noopener noreferrer">${escape(c.name)} ↗</a></li>`).join("")}</ul><h3>安装组合的证据边界</h3><p>已收录 ${catalog.overrides.length} 条主板与散热器安装记录，包括 VRM 干涉、M.2 散热片冲突和安装方向限制。未收录的组合保持待确认，不从插槽相同推断可安装。更换安装方向、扣具或产品版本后需要重新核对。</p><h3>评测资料</h3><p><a href="reviews.html">查看 51972 往期评测资料库与核对进度 ↗</a>。已录入风冷、水冷图表温度和同噪对比；只有 CPU、设置功耗、用途与测试组对应时才参考同组实测。</p><h3>推荐排序</h3><p>先判断插槽和空间冲突，再按用途、功耗设置及偏好给出考察顺序。持续高功耗生产力优先考察大冷排，均衡用途优先考察风冷。若主动选择的实测组与配置对应，则对该组已参测型号优先比较读数；其他型号仍按选型规则，不将跨平台图表拼成总榜，也不作散热能力保证。</p><p>价格由用户填写，不提供实时商城数据。噪声与温度不跨测试条件直接比较，不编造温度、分贝或性能分数。</p><h3>本地保存与分享</h3><p>配置和报价保存在当前浏览器。分享链接仅包含配置参数，不包含报价；任何获得链接的人均可查看其中的主板型号等信息。未发送至服务器。</p></div>`,
   );
 }
 
@@ -260,8 +260,17 @@ async function init() {
     .join("");
   $("#board").innerHTML =
     '<option value="">暂未选择主板</option>' +
-    catalog.boards
-      .map((b) => `<option value="${b.id}">${escape(b.name)}</option>`)
+    ["LGA1851", "LGA1700"]
+      .map(
+        (socket) =>
+          `<optgroup label="${socket}">${catalog.boards
+            .filter((b) => b.socket === socket)
+            .sort((a, b) =>
+              a.name.localeCompare(b.name, "en", { numeric: true }),
+            )
+            .map((b) => `<option value="${b.id}">${escape(b.name)}</option>`)
+            .join("")}</optgroup>`,
+      )
       .join("") +
     '<option value="custom">其他主板 / 手动填写</option>';
   const saved = load();
@@ -348,6 +357,9 @@ async function init() {
     filter = "all";
     $("#cooler-search").value = "";
     $("#cpu-search").value = "";
+    $("#board-search").value = "";
+    $("#board-search-hint").textContent = "按完整型号、后缀和修订号选择。";
+    for (const o of $("#board").options) o.hidden = false;
     for (const o of $("#cpu").options) o.hidden = false;
     history.replaceState(null, "", location.pathname + location.search);
     fillForm();
@@ -358,6 +370,24 @@ async function init() {
       b.setAttribute("aria-pressed", String(b.dataset.filter === "all"));
     }
     toast("已重置配置与报价");
+  });
+  $("#board-search").addEventListener("input", (event) => {
+    const key = (value) => value.toLowerCase().replace(/[\s-]+/g, "");
+    const term = key(event.target.value);
+    for (const option of $("#board").options)
+      option.hidden = Boolean(
+        term &&
+          option.value &&
+          option.value !== "custom" &&
+          option.value !== config.board &&
+          !key(option.textContent).includes(term),
+      );
+    const count = catalog.boards.filter((b) =>
+      key(b.name).includes(term),
+    ).length;
+    $("#board-search-hint").textContent = term
+      ? `${count} 款匹配；当前选择保留，请选择精确后缀与修订号。`
+      : "按完整型号、后缀和修订号选择。";
   });
   document.querySelectorAll("[data-filter]").forEach((button) =>
     button.addEventListener("click", () => {

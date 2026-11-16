@@ -234,3 +234,20 @@ if (count) {
     );
   }).observe(count, { childList: true });
 }
+
+const cardList = document.querySelector("#cards");
+if (cardList)
+  new MutationObserver(() => {
+    cardList.querySelectorAll(".cooler-card").forEach((card, index) => {
+      if (index < 4)
+        animate(
+          card,
+          [
+            { opacity: 0.5, transform: "translateY(5px)" },
+            { opacity: 1, transform: "none" },
+          ],
+          240,
+          index * 25,
+        );
+    });
+  }).observe(cardList, { childList: true });

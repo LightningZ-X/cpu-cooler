@@ -1,5 +1,6 @@
 import { constructionSummary, recordedTests } from "./product-specs.js";
 import { modelMatches } from "./search.js";
+import { resultView } from "./results-view.js";
 import { precheck, resolveBoard } from "./compatibility.js";
 import {
   benchmarkTable,
@@ -29,6 +30,23 @@ let catalog,
   results = [],
   compare = new Set();
 let toastTimer;
+let mode = "quick";
+function setMode(next) {
+  mode = next === "full" ? "full" : "quick";
+  $("#fit-fields").hidden = mode === "quick";
+  document
+    .querySelectorAll("[data-mode]")
+    .forEach((button) =>
+      button.setAttribute("aria-pressed", String(button.dataset.mode === mode)),
+    );
+  $("#mode-note").textContent =
+    mode === "quick"
+      ? "先选 CPU 和用途，快速查看候选。已有安装参数仍参与检查；未填写的项目保持待确认。切到完整配置核对主板、内存与机箱。"
+      : "补充主板与安装空间，逐项核对兼容条件。不知道的参数可以留空，已有的配置会保留。";
+  try {
+    localStorage.setItem("coolerguide-mode", mode);
+  } catch {}
+}
 function toast(message) {
   $("#toast").textContent = message;
   $("#toast").hidden = false;
@@ -77,6 +95,13 @@ function validateForm() {
   const invalid = [...form.elements].filter(
     (input) => input.willValidate && !input.validity.valid,
   );
+  if (invalid.some((input) => input.closest("#fit-fields"))) {
+    setMode("full");
+    invalid.forEach((input) => {
+      const details = input.closest("details");
+      if (details) details.open = true;
+    });
+  }
   for (const input of form.elements) {
     if (input.willValidate && !input.validity.valid)
       input.setAttribute("aria-invalid", "true");
@@ -183,15 +208,23 @@ function render() {
   const eligible = results.filter(
     (c) => c.status !== "blocked" && !c.overBudget,
   );
-  const term = $("#cooler-search").value;
-  const matches = (c) =>
-    (filter === "all" || c.type === filter) && modelMatches(c, term);
-  const visible = results.filter((c) => matches(c) && !c.overBudget);
+  const view = resultView(results, {
+    type: filter,
+    query: $("#cooler-search").value,
+    showBlocked: $("#show-blocked").checked,
+  });
+  const visible = view.visible;
+  $("#metric-candidates").textContent = view.eligible.length;
+  $("#metric-pending").textContent = view.pending.length;
+  $("#metric-blocked").textContent = view.blocked.length;
+  $("#blocked-count").textContent = view.blocked.length;
+  $("#answer-value").textContent =
+    `${eligible.length} 款候选 · ${blocked} 款冲突`;
   $("#result-count").textContent =
-    `${eligible.filter(matches).length} 款候选 · ${catalog.coolers.length} 款已收录`;
+    `${view.eligible.length} 款候选 · ${catalog.coolers.length} 款已收录`;
   $("#cards").innerHTML = visible.length
     ? visible.map((c) => card(c, c.id === eligible[0]?.id)).join("")
-    : `<div class="empty"><h3>当前条件下没有候选</h3><p>尝试切换散热类型、调整预算，或核对已填写的报价。</p></div>`;
+    : `<div class="empty"><h3>当前条件下没有候选</h3><p>${view.blocked.length ? `有 ${view.blocked.length} 款存在明确安装冲突，可勾选“显示安装冲突方案”查看原因。` : "尝试清除型号搜索、切换散热类型、调整预算，或核对已填写的报价。"}</p></div>`;
   updateCompare();
   renderBenchmark();
 }
@@ -200,6 +233,9 @@ function renderBenchmark() {
     catalog.benchmarks.find((g) => g.id === config.benchmarkId) ||
     catalog.benchmarks[0];
   $("#benchmark-select").value = group.id;
+  $("#benchmark-summary").textContent = matchingBenchmark(config, catalog)
+    ? `正在参考：${group.author} · ${group.powerW} W`
+    : `${catalog.benchmarks.length} 组原始测试 · 查看条件与读数`;
   $("#benchmark-data").innerHTML = benchmarkTable(group);
   $("#benchmark-match").textContent = matchingBenchmark(config, catalog)
     ? "CPU 与设置功耗对应此组；仅作同组参考，其他环境条件可能不同。"
@@ -255,7 +291,17 @@ function details(id) {
 function updateCompare() {
   $("#compare-tray").hidden = compare.size === 0;
   $("#compare-count").textContent = `已选择 ${compare.size} / 3 款`;
+  $("#compare-items").innerHTML = catalog.coolers
+    .filter((c) => compare.has(c.id))
+    .map(
+      (c) =>
+        `<button type="button" data-remove-compare="${c.id}" aria-label="移除 ${escape(c.name)}"><span>${escape(c.name)}</span><span aria-hidden="true">×</span></button>`,
+    )
+    .join("");
+  document.body.classList.toggle("has-comparison", compare.size > 0);
   $("#compare-open").disabled = compare.size < 2;
+  $("#compare-open").textContent =
+    compare.size < 2 ? "再选 1 款即可对比" : "查看对比 →";
 }
 function openComparison() {
   const items = results.filter((c) => compare.has(c.id));
@@ -378,7 +424,34 @@ async function init() {
     }
   }
   fillForm();
+  let savedMode;
+  try {
+    savedMode = localStorage.getItem("coolerguide-mode");
+  } catch {}
+  setMode(savedMode || "quick");
   render();
+  document.querySelectorAll("[data-mode]").forEach((button) =>
+    button.addEventListener("click", () => {
+      setMode(button.dataset.mode);
+      if (mode === "quick") validateForm();
+      $("#configuration").scrollIntoView({
+        behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "auto"
+          : "smooth",
+        block: "start",
+      });
+    }),
+  );
+  $("#show-blocked").addEventListener("change", render);
+  $("#compare-items").addEventListener("click", (event) => {
+    const button = event.target.closest("[data-remove-compare]");
+    if (!button) return;
+    compare.delete(button.dataset.removeCompare);
+    render();
+    (compare.size ? $("#compare-clear") : $("#cooler-search")).focus({
+      preventScroll: true,
+    });
+  });
   $("#benchmark-select").addEventListener("change", () => {
     config.benchmarkId = $("#benchmark-select").value;
     persist();
@@ -436,6 +509,7 @@ async function init() {
     prices = {};
     compare.clear();
     filter = "all";
+    $("#show-blocked").checked = false;
     $("#cooler-search").value = "";
     $("#cpu-search").value = "";
     $("#board-search").value = "";

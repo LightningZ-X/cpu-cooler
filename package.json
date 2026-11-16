@@ -1,12 +1,14 @@
 {
   "name": "cooler-guide",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "private": true,
   "type": "module",
   "description": "Intel desktop CPU cooler compatibility and selection guide",
   "scripts": {
+    "build": "node tools/build.mjs",
     "start": "node tools/serve.mjs",
-    "test": "node --test tests/*.test.mjs"
+    "prestart": "npm run build",
+    "test": "npm run build && node --test tests/*.test.mjs"
   },
   "engines": {
     "node": ">=22"

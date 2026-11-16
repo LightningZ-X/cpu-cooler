@@ -1,4 +1,6 @@
 import { benchmarkTable, stackThickness } from "./benchmarks.js";
+import { loadData } from "./data-loader.js";
+import "./ui.js";
 const $ = (selector) => document.querySelector(selector);
 const escape = (value) =>
   String(value ?? "").replace(
@@ -47,17 +49,12 @@ function render() {
     : '<div class="empty"><h3>没有匹配的资料</h3><p>试试其他关键词、年份或类别。</p></div>';
 }
 async function init() {
-  const responses = await Promise.all([
-    fetch("data/reviews/51972-videos.json"),
-    fetch("data/reviews/51972-evidence.json"),
-    fetch("data/reviews/benchmarks.json"),
-    fetch("data/catalog.json"),
+  [inventory, evidence, benchmarkData, catalog] = await Promise.all([
+    loadData("data/reviews/51972-videos.json"),
+    loadData("data/reviews/51972-evidence.json"),
+    loadData("data/reviews/benchmarks.json"),
+    loadData("data/catalog.json"),
   ]);
-  if (responses.some((response) => !response.ok))
-    throw new Error("资料加载失败");
-  [inventory, evidence, benchmarkData, catalog] = await Promise.all(
-    responses.map((response) => response.json()),
-  );
   const indexed = new Map(
     inventory.videos.map((video) => [
       video.bvid,

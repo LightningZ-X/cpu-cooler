@@ -23,6 +23,7 @@ jobs:
           mkdir public
           cp index.html reviews.html public/
           cp -r css js data assets public/
+          cp -r dist public/
       - uses: actions/upload-pages-artifact@v3
         if: github.event_name != 'pull_request'
         with:

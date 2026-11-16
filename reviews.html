@@ -14,13 +14,17 @@
     <link rel="stylesheet" href="css/reviews.css" />
     <link rel="stylesheet" href="css/benchmarks.css" />
     <link rel="stylesheet" href="css/theme.css" />
-    <script type="module" src="js/ui.js"></script>
-    <script type="module" src="js/reviews.js"></script>
+    <script defer src="js/generated/data.js"></script>
+    <script defer src="js/generated/reviews.js"></script>
   </head>
   <body>
     <header class="site-header">
       <div class="header-inner">
-        <a class="brand" href="./" aria-label="CoolerGuide 散热器选择指南">
+        <a
+          class="brand"
+          href="index.html"
+          aria-label="CoolerGuide 散热器选择指南"
+        >
           <span class="lightning-brand" aria-hidden="true"
             ><img
               class="lightning-mark"
@@ -39,7 +43,7 @@
           >
         </a>
         <div class="header-tools">
-          <a href="./" class="outline-button">← 返回选型</a
+          <a href="index.html" class="outline-button">← 返回选型</a
           ><button
             type="button"
             class="outline-button"
@@ -79,7 +83,7 @@
           未参加旧横评的型号也可进入选型。近似名称、平台版本和不同风扇不共享成绩；安装参数缺失时保留待确认。
         </p>
         <div class="table-scroll" id="new-model-list"></div>
-        <a class="source-link" href="./">前往选型页搜索型号 ↗</a>
+        <a class="source-link" href="index.html">前往选型页搜索型号 ↗</a>
       </section>
       <section class="review-benchmarks" id="verified-tests">
         <p class="eyebrow">VERIFIED INTEL RESULTS</p>
@@ -175,7 +179,7 @@
       </section>
     </main>
     <footer>
-      <a class="brand" href="./">CoolerGuide</a
+      <a class="brand" href="index.html">CoolerGuide</a
       ><span>原视频与评测内容归作者所有 · 本页提供出处索引与测试条件整理</span>
     </footer>
   </body>

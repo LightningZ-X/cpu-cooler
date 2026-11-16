@@ -1,6 +1,7 @@
 import { constructionSummary, recordedTests } from "./product-specs.js";
 import { modelMatches } from "./search.js";
 import { resultView } from "./results-view.js";
+import { loadData, assetUrl, replaceLocation } from "./data-loader.js";
 import { setSectionVisible } from "./ui.js";
 import {
   thermalContext,
@@ -92,9 +93,7 @@ function readForm() {
   raw.benchmarkId = config.benchmarkId;
   config = normalize(raw, catalog);
   if (location.hash.startsWith("#config="))
-    history.replaceState(
-      null,
-      "",
+    replaceLocation(
       location.pathname +
         location.search +
         "#config=" +
@@ -281,7 +280,7 @@ function renderBenchmark() {
 }
 function productArt(c) {
   const image = c.image;
-  return `<div class="product-art${image ? " official-photo" : " illustration"}">${image ? `<button type="button" data-photo="${c.id}" aria-label="放大 ${escape(c.name)} 官方产品图">` : ""}<img src="${image?.path || `assets/${c.type === "air" ? "cooler" : "aio"}.svg`}" alt="${image ? escape(c.name) + " 官方产品图" : "散热器类型示意，非该型号实拍"}" loading="lazy" decoding="async" width="240" height="240">${image ? "</button>" : ""}<span>${image ? "官方产品图 · 点击放大" : "类型示意 · 非产品实拍"}</span></div>`;
+  return `<div class="product-art${image ? " official-photo" : " illustration"}">${image ? `<button type="button" data-photo="${c.id}" aria-label="放大 ${escape(c.name)} 官方产品图">` : ""}<img src="${assetUrl(image?.path || `assets/${c.type === "air" ? "cooler" : "aio"}.svg`)}" alt="${image ? escape(c.name) + " 官方产品图" : "散热器类型示意，非该型号实拍"}" loading="lazy" decoding="async" width="240" height="240">${image ? "</button>" : ""}<span>${image ? "官方产品图 · 点击放大" : "类型示意 · 非产品实拍"}</span></div>`;
 }
 function specStrip(c) {
   const spec = constructionSummary(c);
@@ -302,7 +301,7 @@ function photo(id) {
   if (!c?.image) return;
   dialog(
     c.name,
-    `<div class="photo-view"><img src="${c.image.path}" alt="${escape(c.name)} 官方产品图"><p>官网外观展示；底座版本、内部工艺和随盒扣具需另核对。</p><a href="${c.image.source}" target="_blank" rel="noopener noreferrer">图片来源 · 官方型号页面 ↗</a></div>`,
+    `<div class="photo-view"><img src="${assetUrl(c.image.path)}" alt="${escape(c.name)} 官方产品图"><p>官网外观展示；底座版本、内部工艺和随盒扣具需另核对。</p><a href="${c.image.source}" target="_blank" rel="noopener noreferrer">图片来源 · 官方型号页面 ↗</a></div>`,
   );
 }
 function card(c, featured) {
@@ -401,15 +400,10 @@ function sources() {
 }
 
 async function init() {
-  const responses = await Promise.all([
-    fetch("data/catalog.json"),
-    fetch("data/reviews/benchmarks.json"),
+  const [products, measurements] = await Promise.all([
+    loadData("data/catalog.json"),
+    loadData("data/reviews/benchmarks.json"),
   ]);
-  if (responses.some((response) => !response.ok))
-    throw new Error("产品数据加载失败");
-  const [products, measurements] = await Promise.all(
-    responses.map((response) => response.json()),
-  );
   catalog = { ...products, benchmarks: measurements.groups };
   $("#benchmark-select").innerHTML = catalog.benchmarks
     .map(
@@ -559,7 +553,7 @@ async function init() {
     $("#board-search-hint").textContent = "按完整型号、后缀和修订号选择。";
     for (const o of $("#board").options) o.hidden = false;
     for (const o of $("#cpu").options) o.hidden = false;
-    history.replaceState(null, "", location.pathname + location.search);
+    replaceLocation(location.pathname + location.search);
     fillForm();
     persist();
     render();
@@ -629,9 +623,13 @@ async function init() {
     if (!form.reportValidity()) return;
     if (!readForm()) return;
     render();
-    const url = new URL(location.href);
+    const url = new URL(
+      location.protocol === "file:"
+        ? "https://lightningz-x.github.io/cpu-cooler/"
+        : location.href,
+    );
     url.hash = "config=" + encodeURIComponent(JSON.stringify(config));
-    history.replaceState(null, "", url);
+    if (location.protocol !== "file:") replaceLocation(url);
     try {
       await navigator.clipboard.writeText(url.href);
       toast("配置链接已复制");
@@ -668,5 +666,5 @@ async function init() {
 init().catch((error) => {
   console.error(error);
   $("#cards").innerHTML =
-    '<div class="error-panel"><h3>暂时无法加载产品数据</h3><p>请通过本地服务器打开网页，或刷新后重试。</p></div>';
+    '<div class="error-panel"><h3>暂时无法加载产品数据</h3><p>请保留完整项目文件，或打开单文件离线版。也可以刷新后重试。</p></div>';
 });

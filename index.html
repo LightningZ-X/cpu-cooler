@@ -14,8 +14,8 @@
     <link rel="stylesheet" href="css/styles.css" />
     <link rel="stylesheet" href="css/benchmarks.css" />
     <link rel="stylesheet" href="css/theme.css" />
-    <script type="module" src="js/ui.js"></script>
-    <script type="module" src="js/app.js"></script>
+    <script defer src="js/generated/data.js"></script>
+    <script defer src="js/generated/app.js"></script>
   </head>
   <body>
     <div
@@ -26,19 +26,21 @@
       aria-label="LIGHTNING 开场动画"
       hidden
     >
-      <video
-        id="boot-video"
-        muted
-        playsinline
-        preload="none"
+      <canvas
+        id="boot-canvas"
+        data-video="assets/lightningz-gap-cut-v2.mp4"
         aria-hidden="true"
-      ></video
+      ></canvas
       ><button id="skip-intro" type="button">跳过开场 <span>Esc</span></button>
     </div>
     <a class="skip" href="#configuration">跳到配置选择</a>
     <header class="site-header">
       <div class="header-inner">
-        <a class="brand" href="./" aria-label="CoolerGuide 散热器选择指南">
+        <a
+          class="brand"
+          href="index.html"
+          aria-label="CoolerGuide 散热器选择指南"
+        >
           <span class="lightning-brand" aria-hidden="true"
             ><img
               class="lightning-mark"
@@ -489,7 +491,7 @@
       </section>
     </main>
     <footer>
-      <a class="brand" href="./"
+      <a class="brand" href="index.html"
         ><img
           src="assets/logo.svg"
           width="24"
@@ -498,6 +500,9 @@
         />CoolerGuide</a
       ><span>让散热器选购，更有依据。</span
       ><span>Intel 桌面平台 · 资料持续更新</span>
+      <a id="offline-download" href="dist/散热器选择指南.html" download
+        >下载单文件离线版</a
+      >
     </footer>
     <div id="compare-tray" class="compare-tray" hidden>
       <div class="compare-selection">

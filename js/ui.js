@@ -1,3 +1,4 @@
+import { startLightningBoot } from "./boot-animation.js";
 const root = document.documentElement;
 const systemMotion = matchMedia("(prefers-reduced-motion: reduce)");
 let motionPreference = "system";
@@ -86,9 +87,11 @@ function animate(element, frames, duration = 320, delay = 0) {
 function enterPage() {
   document
     .querySelectorAll(
-      ".hero, .review-intro, .config-panel, .results-top, .check-panel, .review-stats",
+      ".site-header, .hero, .decision-toolbar, .review-intro, .config-panel, .results-top, .thermal-context, .result-metrics, .check-panel, .review-stats, .cooler-card",
     )
-    .forEach((element, index) =>
+    .forEach((element, index) => {
+      const box = element.getBoundingClientRect();
+      if (box.bottom <= 0 || box.top >= innerHeight || box.height === 0) return;
       animate(
         element,
         [
@@ -96,15 +99,16 @@ function enterPage() {
           { opacity: 1, transform: "none" },
         ],
         460,
-        index * 35,
-      ),
-    );
+        Math.min(index, 6) * 35,
+      );
+    });
 }
 const overlay = document.querySelector("#boot-screen");
-const video = document.querySelector("#boot-video");
+const canvas = document.querySelector("#boot-canvas");
 const skip = document.querySelector("#skip-intro");
 const replay = document.querySelector("#replay-intro");
 let bootTimer,
+  stopBoot,
   previousFocus,
   held = [],
   bootActive = false;
@@ -113,9 +117,8 @@ function finishBoot() {
   if (!bootActive) return;
   bootActive = false;
   clearTimeout(bootTimer);
-  video.pause();
-  video.removeAttribute("src");
-  video.load();
+  stopBoot?.();
+  stopBoot = null;
   overlay.hidden = true;
   held.forEach((node) => {
     node.inert = false;
@@ -142,24 +145,9 @@ function startBoot(manual = false) {
   overlay.hidden = false;
   document.body.style.overflow = "hidden";
   skip.focus({ preventScroll: true });
-  video.src = "assets/lightningz-gap-cut-v2.mp4";
   bootTimer = setTimeout(finishBoot, 7000);
-  video.play().catch(() => {
-    overlay.dataset.playback = "play-rejected";
-    finishBoot();
-  });
+  stopBoot = startLightningBoot(canvas, finishBoot);
 }
-video?.addEventListener("playing", () => {
-  overlay.dataset.playback = "playing";
-});
-video?.addEventListener("ended", () => {
-  overlay.dataset.playback = "ended";
-  finishBoot();
-});
-video?.addEventListener("error", () => {
-  overlay.dataset.playback = `error-${video.error?.code ?? "unknown"}`;
-  finishBoot();
-});
 skip?.addEventListener("click", finishBoot);
 replay?.addEventListener("click", () => startBoot(true));
 document.addEventListener("keydown", (event) => {

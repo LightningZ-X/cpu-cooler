@@ -108,3 +108,12 @@
 - 分享按钮成功复制配置链接；降压工况同步显示；浏览器错误日志为空。390×844视口clientWidth=scrollWidth=375，无横向溢出；视口已恢复。
 - 本地界面截图：test-results/v1.9.0-desktop.jpg。
 - 规格来源见catalog-expansion-v1.9.md；CPU工况及材料依据与本站推断边界见thermal-context.md。新型号无官方本地图时使用标注的类别示意，未混用旧型号实测数据。
+
+## v1.10.0 本地打开与动画（2026-11-16）
+
+- npm test：75/75通过。新增覆盖预加载数据与JSON逐项一致、不依赖fetch的数据读取、file历史异常容错、普通脚本语法、单文件两页内容及站内链接、图片视频与原素材逐字节一致。
+- 单文件生成结果约3.24MiB；无外链script或stylesheet，页面资源src和视频data-video均内嵌；静态数据与代码以转义方式写入脚本。
+- HTTP预览实测：25CPU/36散热器/40主板；V8 ACE搜索仅1条且产品图为data URI；资料库24条当前筛选资料、11组测试条件正常；返回选型正常。Canvas实际绘制到frame=98.42、playback=ended，结束后overlay hidden；手动跳过清空overflow，恢复页面交互；错误日志为空。
+- 内置浏览器策略禁止file协议，本轮实际file://双击和断网后的系统浏览器端到端操作未验证。没有通过CDP、其他浏览器或系统命令绕过此限制。HTTP预览不等同于实际file协议测试；离线能力另由资源自包含与数据加载单测验证。
+- 本地截图test-results/v1.10.0-opening.jpg记录HTTP预览中动画结束后的页面布局，不作为动画帧截图。
+- 追加HTTP入口验证：index.html仅加载theme-init与两个普通defer脚本，无type=module；下载入口指向dist/散热器选择指南.html。手动重播后Esc退出恢复overflow，错误日志为空。截图test-results/v1.10.0-preview.jpg。

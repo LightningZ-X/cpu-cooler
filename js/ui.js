@@ -50,7 +50,7 @@ function applyTheme(theme) {
   }
   document
     .querySelector('meta[name="theme-color"]')
-    ?.setAttribute("content", theme === "dark" ? "#121212" : "#f5f5f5");
+    ?.setAttribute("content", theme === "dark" ? "#0c0d0f" : "#f4f2ec");
 }
 applyTheme(root.dataset.theme);
 themeButton?.addEventListener("click", () => {

@@ -1,5 +1,44 @@
 const root = document.documentElement;
-const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+const systemMotion = matchMedia("(prefers-reduced-motion: reduce)");
+let motionPreference = "system";
+try {
+  motionPreference = localStorage.getItem("coolerguide-motion") || "system";
+} catch {}
+if (!["system", "full", "reduce"].includes(motionPreference))
+  motionPreference = "system";
+const reduced = new EventTarget();
+Object.defineProperty(reduced, "matches", {
+  get: () =>
+    motionPreference === "reduce" ||
+    (motionPreference === "system" && systemMotion.matches),
+});
+const motionControl = document.createElement("select");
+motionControl.id = "motion-preference";
+motionControl.setAttribute("aria-label", "动态效果");
+for (const [value, text] of [
+  ["system", "动效：跟随系统"],
+  ["full", "完整动效"],
+  ["reduce", "减少动效"],
+]) {
+  motionControl.add(new Option(text, value));
+}
+motionControl.value = motionPreference;
+document.querySelector(".header-tools")?.append(motionControl);
+function syncMotionPreference() {
+  root.dataset.motion = reduced.matches ? "reduce" : "full";
+  motionControl.title = `当前${reduced.matches ? "减少" : "开启完整"}动态效果`;
+  reduced.dispatchEvent(new Event("change"));
+}
+motionControl.addEventListener("change", () => {
+  motionPreference = motionControl.value;
+  try {
+    localStorage.setItem("coolerguide-motion", motionPreference);
+  } catch {}
+  syncMotionPreference();
+});
+systemMotion.addEventListener("change", syncMotionPreference);
+// Establish CSS preference before any entry animations are scheduled.
+root.dataset.motion = reduced.matches ? "reduce" : "full";
 const systemTheme = matchMedia("(prefers-color-scheme: light)");
 const themeButton = document.querySelector("#theme-toggle");
 function applyTheme(theme) {
@@ -35,6 +74,7 @@ function animate(element, frames, duration = 320, delay = 0) {
     duration,
     delay,
     easing: "cubic-bezier(.16,1,.3,1)",
+    fill: "backwards",
   });
   animations.add(animation);
   animation.finished.then(
@@ -236,18 +276,196 @@ if (count) {
 }
 
 const cardList = document.querySelector("#cards");
-if (cardList)
+// Observe each new card rather than playing offscreen cards before they are seen.
+const reveal =
+  "IntersectionObserver" in window
+    ? new IntersectionObserver(
+        (entries) => {
+          let index = 0;
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            reveal.unobserve(entry.target);
+            animate(
+              entry.target,
+              [
+                { opacity: 0.25, transform: "translateY(16px)" },
+                { opacity: 1, transform: "none" },
+              ],
+              420,
+              Math.min(index++, 5) * 40,
+            );
+          }
+        },
+        { threshold: 0.08 },
+      )
+    : null;
+let observedCards = [];
+function observeCards() {
+  // Drop detached nodes on search/filter, including nodes never scrolled into view.
+  observedCards.forEach((card) => reveal?.unobserve(card));
+  observedCards = [...(cardList?.querySelectorAll(".cooler-card") || [])];
+  observedCards.forEach((card) => reveal?.observe(card));
+}
+if (cardList) {
+  observeCards();
+  new MutationObserver(observeCards).observe(cardList, { childList: true });
+}
+document
+  .querySelectorAll(
+    ".principles > div, .review-method, .test-group, .video-entry",
+  )
+  .forEach((element) => reveal?.observe(element));
+
+for (const selector of ["#test-groups", "#video-list"]) {
+  const list = document.querySelector(selector);
+  if (!list) continue;
+  let observed = [];
+  const refresh = () => {
+    observed.forEach((element) => reveal?.unobserve(element));
+    observed = [...list.children];
+    observed.forEach((element) => reveal?.observe(element));
+  };
+  refresh();
+  new MutationObserver(refresh).observe(list, { childList: true });
+}
+
+// A section stays available immediately on open; closing removes it after motion.
+const sections = new Map();
+export function setSectionVisible(element, visible) {
+  const previous = sections.get(element);
+  previous?.();
+  if (element.hidden === !visible) return;
+  if (reduced.matches || document.hidden) {
+    element.hidden = !visible;
+    return;
+  }
+  if (!visible && element.contains(document.activeElement))
+    document
+      .querySelector('[data-mode="quick"]')
+      ?.focus({ preventScroll: true });
+  const start = element.hidden ? 0 : element.getBoundingClientRect().height;
+  element.hidden = false;
+  const end = visible ? element.getBoundingClientRect().height : 0;
+  const originalOverflow = element.style.overflow;
+  element.style.overflow = "hidden";
+  // Closed fields must stop accepting focus even during their closing transition.
+  element.inert = !visible;
+  let animation;
+  const finish = () => {
+    sections.delete(element);
+    animation?.cancel();
+    element.hidden = !visible;
+    element.inert = false;
+    element.style.overflow = originalOverflow;
+  };
+  sections.set(element, finish);
+  animation = animate(
+    element,
+    [
+      { height: `${start}px`, opacity: visible ? 0.35 : 1 },
+      { height: `${end}px`, opacity: visible ? 1 : 0.35 },
+    ],
+    visible ? 360 : 240,
+  );
+  if (animation) animation.finished.then(finish, () => {});
+  else finish();
+}
+const finishSections = () =>
+  [...sections.values()].forEach((finish) => finish());
+reduced.addEventListener("change", () => {
+  if (reduced.matches) finishSections();
+});
+window.addEventListener("pagehide", finishSections);
+window.addEventListener("beforeprint", finishSections);
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) finishSections();
+});
+
+// Preserve transforms used for positioning fixed elements, such as the compare tray.
+for (const selector of ["#compare-tray", "#toast"]) {
+  const element = document.querySelector(selector);
+  if (!element) continue;
+  let hidden = element.hidden;
   new MutationObserver(() => {
-    cardList.querySelectorAll(".cooler-card").forEach((card, index) => {
-      if (index < 4)
-        animate(
-          card,
-          [
-            { opacity: 0.5, transform: "translateY(5px)" },
-            { opacity: 1, transform: "none" },
-          ],
-          240,
-          index * 25,
-        );
-    });
-  }).observe(cardList, { childList: true });
+    if (hidden === element.hidden) return;
+    hidden = element.hidden;
+    if (!hidden) {
+      const base = getComputedStyle(element).transform;
+      animate(
+        element,
+        [
+          {
+            opacity: 0,
+            transform: `${base === "none" ? "" : base} translateY(18px)`,
+          },
+          { opacity: 1, transform: base },
+        ],
+        360,
+      );
+    }
+  }).observe(element, { attributes: true, attributeFilter: ["hidden"] });
+}
+for (const selector of [
+  "#answer-value",
+  "#metric-candidates",
+  "#metric-pending",
+  "#metric-blocked",
+]) {
+  const element = document.querySelector(selector);
+  if (!element) continue;
+  let text = element.textContent;
+  new MutationObserver(() => {
+    if (text === element.textContent) return;
+    text = element.textContent;
+    animate(
+      element,
+      [
+        { opacity: 0.4, transform: "translateY(5px)" },
+        { opacity: 1, transform: "none" },
+      ],
+      280,
+    );
+  }).observe(element, { childList: true, characterData: true, subtree: true });
+}
+
+// Continue from the current press frame, like the calculator's spring feedback.
+const pressing = new Map();
+function releaseButtons() {
+  for (const [button, animation] of pressing) {
+    const transform = getComputedStyle(button).transform;
+    animation.cancel();
+    animate(
+      button,
+      [{ transform }, { transform: "scale(1.015)" }, { transform: "none" }],
+      320,
+    );
+  }
+  pressing.clear();
+}
+document.addEventListener("pointerdown", (event) => {
+  const button = event.target.closest("button:not(:disabled)");
+  if (!button || event.button !== 0 || reduced.matches) return;
+  releaseButtons();
+  const animation = animate(
+    button,
+    [
+      { transform: getComputedStyle(button).transform },
+      { transform: "scale(.965)" },
+    ],
+    100,
+  );
+  if (animation) {
+    animation.effect.updateTiming({ fill: "forwards" });
+    pressing.set(button, animation);
+  }
+});
+document.addEventListener("pointerup", releaseButtons);
+document.addEventListener("pointercancel", releaseButtons);
+window.addEventListener("blur", releaseButtons);
+window.addEventListener("pagehide", releaseButtons);
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) releaseButtons();
+});
+reduced.addEventListener("change", () => {
+  if (reduced.matches) releaseButtons();
+});

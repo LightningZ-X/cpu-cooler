@@ -112,6 +112,13 @@ body {
   display: flex;
   gap: 8px;
   align-items: center;
+  flex-wrap: wrap;
+}
+#motion-preference {
+  width: auto;
+  min-width: 0;
+  padding: 7px 8px;
+  font-size: 11px;
 }
 .hero {
   max-width: 1376px;
@@ -673,8 +680,8 @@ th:first-child {
     font-size: 16px;
   }
 }
-@media (prefers-reduced-motion: reduce) {
-  html {
+:root[data-motion="reduce"] {
+  & {
     scroll-behavior: auto;
   }
   *,
@@ -832,7 +839,7 @@ th:first-child {
     padding: 12px;
   }
 }
-@media (prefers-reduced-motion: reduce) {
+:root[data-motion="reduce"] {
   .product-art button:hover img {
     transform: none;
   }
@@ -1109,7 +1116,7 @@ th:first-child {
 .benchmark-disclosure[open] > summary > span:last-child {
   transform: rotate(45deg);
 }
-@media (prefers-reduced-motion: reduce) {
+:root[data-motion="reduce"] {
   .benchmark-disclosure > summary > span:last-child {
     transition: none;
   }
@@ -1123,5 +1130,86 @@ th:first-child {
   }
   .has-comparison {
     padding-bottom: 0;
+  }
+}
+
+/* Motion follows the calculator: short spring feedback and layered entry. */
+:root[data-motion="full"] {
+  body,
+  .site-header,
+  .decision-toolbar,
+  .config-panel,
+  .cooler-card,
+  .result-metrics,
+  .benchmark-disclosure,
+  dialog,
+  input,
+  select {
+    transition:
+      background-color 220ms var(--ease),
+      border-color 220ms var(--ease),
+      color 220ms var(--ease);
+  }
+  button {
+    transition:
+      background-color 180ms var(--ease),
+      border-color 180ms var(--ease),
+      color 180ms var(--ease),
+      transform 320ms var(--ease);
+  }
+  .mode-switch button,
+  .tabs button {
+    transition:
+      background-color 200ms var(--ease),
+      color 200ms var(--ease),
+      box-shadow 280ms var(--ease);
+  }
+  .product-art img {
+    transition:
+      transform 420ms var(--ease),
+      opacity 240ms var(--ease);
+  }
+  .answer-chip > span:last-child,
+  .hero-source > span {
+    display: inline-block;
+    transition: transform 280ms var(--ease);
+  }
+  .answer-chip:hover > span:last-child {
+    transform: translateY(3px);
+  }
+  .hero-source:hover > span {
+    transform: translate(2px, -2px);
+  }
+  #answer-value,
+  .result-metrics strong {
+    display: inline-block;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .cooler-card:hover {
+      border-top-color: var(--accent);
+    }
+    .cooler-card:hover .product-art img {
+      transform: translateY(-3px) scale(1.035);
+      opacity: 1;
+    }
+    .primary-button:hover,
+    .outline-button:hover,
+    .details-button:hover {
+      transform: translateY(-1px);
+    }
+  }
+}
+:root[data-motion="reduce"] {
+  button:active:not(:disabled) {
+    transform: none;
+  }
+}
+@media print {
+  .cooler-card,
+  #fit-fields,
+  #answer-value,
+  .result-metrics strong {
+    animation: none !important;
+    transition: none !important;
   }
 }

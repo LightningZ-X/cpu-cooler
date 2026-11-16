@@ -1,6 +1,7 @@
 import { constructionSummary, recordedTests } from "./product-specs.js";
 import { modelMatches } from "./search.js";
 import { resultView } from "./results-view.js";
+import { setSectionVisible } from "./ui.js";
 import { precheck, resolveBoard } from "./compatibility.js";
 import {
   benchmarkTable,
@@ -31,9 +32,12 @@ let catalog,
   compare = new Set();
 let toastTimer;
 let mode = "quick";
+let modeInitialized = false;
 function setMode(next) {
   mode = next === "full" ? "full" : "quick";
-  $("#fit-fields").hidden = mode === "quick";
+  if (modeInitialized) setSectionVisible($("#fit-fields"), mode === "full");
+  else $("#fit-fields").hidden = mode === "quick";
+  modeInitialized = true;
   document
     .querySelectorAll("[data-mode]")
     .forEach((button) =>
@@ -435,9 +439,10 @@ async function init() {
       setMode(button.dataset.mode);
       if (mode === "quick") validateForm();
       $("#configuration").scrollIntoView({
-        behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
-          ? "auto"
-          : "smooth",
+        behavior:
+          document.documentElement.dataset.motion === "reduce"
+            ? "auto"
+            : "smooth",
         block: "start",
       });
     }),
@@ -487,9 +492,10 @@ async function init() {
     if (!stored) toast("浏览器无法保存配置，本次仍可使用");
     if (innerWidth < 721)
       $("#config-summary").scrollIntoView({
-        behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
-          ? "auto"
-          : "smooth",
+        behavior:
+          document.documentElement.dataset.motion === "reduce"
+            ? "auto"
+            : "smooth",
         block: "start",
       });
   });

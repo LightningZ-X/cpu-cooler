@@ -67,7 +67,7 @@ modules["js/results-view.js"] = (()=>{
 const {modelMatches} = modules["js/search.js"];
 function resultView(
   results,
-  { type = "all", query = "", showBlocked = false } = {},
+  { type = "all", query = "", showBlocked = false, sort = "recommended" } = {},
 ) {
   const matching = results.filter(
     (c) =>
@@ -76,15 +76,430 @@ function resultView(
       modelMatches(c, query),
   );
   const eligible = matching.filter((c) => c.status !== "blocked");
+  const blocked = matching.filter((c) => c.status === "blocked");
+  const value = (c) =>
+    sort === "price"
+      ? c.price > 0
+        ? c.price
+        : Infinity
+      : c.type === "air" && c.heightUsed > 0
+        ? c.heightUsed
+        : Infinity;
+  if (["price", "height"].includes(sort)) {
+    const compare = (a, b) =>
+      value(a) === value(b) ? 0 : value(a) < value(b) ? -1 : 1;
+    eligible.sort(compare);
+    blocked.sort(compare);
+  }
   return {
     eligible,
-    blocked: matching.filter((c) => c.status === "blocked"),
+    blocked,
     pending: eligible.filter((c) => c.status === "pending"),
-    visible: showBlocked ? matching : eligible,
+    visible: showBlocked ? [...eligible, ...blocked] : eligible,
   };
 }
 
 return {resultView};
+})();
+modules["js/view-state.js"] = (()=>{
+const key = "coolerguide-view-v1";
+function normalizeView(raw, catalog) {
+  raw = raw && typeof raw === "object" ? raw : {};
+  return {
+    filter: ["all", "air", "aio"].includes(raw.filter) ? raw.filter : "all",
+    query: typeof raw.query === "string" ? raw.query.slice(0, 100) : "",
+    sort: ["recommended", "price", "height"].includes(raw.sort)
+      ? raw.sort
+      : "recommended",
+    showBlocked: raw.showBlocked === true,
+    compare: Array.isArray(raw.compare)
+      ? [
+          ...new Set(
+            raw.compare.filter((id) =>
+              catalog.coolers.some((c) => c.id === id),
+            ),
+          ),
+        ].slice(0, 3)
+      : [],
+  };
+}
+function loadView(catalog) {
+  try {
+    return normalizeView(JSON.parse(localStorage.getItem(key)), catalog);
+  } catch {
+    return normalizeView({}, catalog);
+  }
+}
+function saveView(view) {
+  try {
+    localStorage.setItem(key, JSON.stringify(view));
+  } catch {}
+}
+
+return {normalizeView,loadView,saveView};
+})();
+modules["js/benchmarks.js"] = (()=>{
+function matchingBenchmark(config, catalog) {
+  const group = catalog.benchmarks?.find(
+    (item) => item.id === config.benchmarkId,
+  );
+  if (
+    !group ||
+    config.cpu !== group.cpuId ||
+    config.power !== "limited" ||
+    Number(config.powerLimit) !== group.powerW ||
+    config.usage !== "production"
+  )
+    return null;
+  if (config.measuredPower && Number(config.measuredPower) !== group.powerW)
+    return null;
+  if (config.preference === "quiet" && group.fanMode === "full") return null;
+  return group;
+}
+
+function benchmarkResult(coolerId, config, catalog) {
+  const group = matchingBenchmark(config, catalog);
+  const row = group?.results.find((result) => result.coolerId === coolerId);
+  return row
+    ? {
+        ...row,
+        groupId: group.id,
+        metric: group.metric,
+        unit: group.unit,
+        author: group.author,
+        sourceUrl: group.sourceUrl,
+      }
+    : null;
+}
+
+const stackThickness = (cooler) =>
+  cooler.assemblyThickness ?? cooler.radiatorThickness + cooler.fanThickness;
+const metricLabel = (group) =>
+  group.metric === "delta-pcore"
+    ? "P 核温差（相对室温）"
+    : "图表温度（绝对值）";
+
+const escape = (value) =>
+  String(value ?? "").replace(
+    /[&<>"']/g,
+    (char) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
+        char
+      ],
+  );
+function benchmarkTable(group) {
+  const rows = [...group.results].sort((a, b) => a.value - b.value);
+  return `<p class="benchmark-context">${escape(group.author)} · ${escape(group.cpu)} · ${group.powerW}W · ${group.fanMode === "full" ? "原装风扇全速" : `${group.noiseDbA} dB(A) 同噪`} · ${group.ambientC === null ? "室温未记录" : `室温 ${group.ambientC}℃`}</p><p class="benchmark-conditions">${escape(group.conditions)}</p><div class="table-scroll"><table class="benchmark-table"><thead><tr><th>实测型号 / 版本</th><th>${metricLabel(group)} ↓</th><th>风扇转速</th></tr></thead><tbody>${rows.map((row) => `<tr><td>${escape(row.name)}${row.coolerId ? "" : "<small>安装规格尚未入库</small>"}</td><td><b>${row.value}℃</b></td><td>${row.rpm === null ? "未录入" : row.rpm + " RPM"}</td></tr>`).join("")}</tbody></table></div><p class="benchmark-limit">${escape(group.limitations)}</p><a class="source-link" href="${group.sourceUrl}" target="_blank" rel="noopener noreferrer">${escape(group.sourceLabel)} ↗</a>`;
+}
+
+return {matchingBenchmark,benchmarkResult,stackThickness,metricLabel,benchmarkTable};
+})();
+modules["js/compatibility.js"] = (()=>{
+const {stackThickness} = modules["js/benchmarks.js"];
+
+function resolveBoard(config, catalog) {
+  const direct = catalog.boards.find((board) => board.id === config.board);
+  if (direct) return direct;
+  if (config.board !== "custom" || !config.boardName) return null;
+  const key = (value) => value.trim().replace(/\s+/g, " ").toLowerCase();
+  return (
+    catalog.boards.find((board) => key(board.name) === key(config.boardName)) ||
+    null
+  );
+}
+
+function evaluate(cooler, config, catalog) {
+  const cpu = catalog.cpus.find((item) => item.id === config.cpu);
+  const board = resolveBoard(config, catalog);
+  const checks = [];
+  const add = (state, title, detail, source = null) =>
+    checks.push({ state, title, detail, source });
+  if (!cpu)
+    return {
+      status: "blocked",
+      checks: [
+        { state: "fail", title: "处理器", detail: "请选择已收录的处理器" },
+      ],
+      height: null,
+    };
+  const socket = board?.socket || config.boardSocket;
+  if (!socket) add("unknown", "主板插槽", "主板插槽尚未确认");
+  else if (socket !== cpu.socket)
+    add(
+      "fail",
+      "主板插槽",
+      `CPU 使用 ${cpu.socket}，主板为 ${socket}，无法搭配`,
+    );
+  else
+    add(
+      "pass",
+      "主板插槽",
+      `${socket} 与 CPU 插槽匹配；CPU 支持列表及 BIOS 版本仍需核对`,
+    );
+  if (cooler.sockets.includes(cpu.socket))
+    add(
+      "pass",
+      "平台扣具",
+      cooler.socketEvidence === "review"
+        ? `原始评测已在 ${cpu.socket} 平台测试；随盒扣具版本仍需核对`
+        : `当前官方规格支持 ${cpu.socket}；购买时核对随盒扣具版本`,
+    );
+  else
+    add(
+      "unknown",
+      "平台扣具",
+      `当前数据未确认 ${cpu.socket} 支持，需向厂商核对扣具`,
+    );
+  const pair = catalog.overrides.find(
+    (item) => item.board === board?.id && item.cooler === cooler.id,
+  );
+  if (pair) add(pair.state, "主板安装干涉", pair.detail, pair.source);
+  else
+    add(
+      "unknown",
+      "主板安装干涉",
+      "尚无该主板与散热器组合的适配记录，请核对 VRM、M.2 装甲、背板和 PCIe 空间",
+    );
+  let height = cooler.height ?? null;
+  if (cooler.type === "air") {
+    if (pair?.recheckRam)
+      add(
+        "unknown",
+        "内存净空",
+        "该组合须改变安装方向，内存与机箱边缘净空需重新核对",
+      );
+    else if (cooler.ramOverhang === false)
+      add("pass", "内存净空", "该 Intel 平台不覆盖内存插槽");
+    else if (!config.ramHeight || cooler.ramClearance == null)
+      add(
+        "unknown",
+        "内存净空",
+        cooler.ramClearance == null
+          ? "该产品内存净空数据待核对"
+          : "请填写内存实际高度",
+      );
+    else if (config.ramHeight > cooler.ramClearance) {
+      if (cooler.ramLift) {
+        const lift = config.ramHeight - cooler.ramClearance;
+        height += lift;
+        add(
+          "conditional",
+          "内存净空",
+          `前风扇需抬高约 ${lift} mm，所需安装高度增至 ${height} mm`,
+        );
+      } else
+        add(
+          "fail",
+          "内存净空",
+          `内存 ${config.ramHeight} mm 超过净空 ${cooler.ramClearance} mm`,
+        );
+    } else
+      add(
+        "pass",
+        "内存净空",
+        `${config.ramHeight} mm ≤ ${cooler.ramClearance} mm`,
+      );
+    if (height === null)
+      add(
+        "unknown",
+        "机箱限高",
+        "整机安装高度缺少一手规格证据，暂不能判断是否容纳",
+      );
+    else if (!config.caseHeight)
+      add("unknown", "机箱限高", "请填写机箱允许的 CPU 风冷散热器高度");
+    else if (height > config.caseHeight)
+      add(
+        "fail",
+        "机箱限高",
+        `所需 ${height} mm，超过机箱 ${config.caseHeight} mm 限高`,
+      );
+    else if (
+      pair?.recheckRam ||
+      (cooler.ramOverhang !== false &&
+        (!config.ramHeight || cooler.ramClearance == null))
+    )
+      add(
+        "unknown",
+        "机箱限高",
+        `标称 ${height} mm 可容纳；内存与风扇调整未确认，实际总高待核对`,
+      );
+    else if (config.caseHeight - height < 3)
+      add(
+        "conditional",
+        "机箱限高",
+        `仅余 ${config.caseHeight - height} mm，请实测并核对制造公差`,
+      );
+    else
+      add(
+        "pass",
+        "机箱限高",
+        `${height} mm ≤ ${config.caseHeight} mm，余量 ${config.caseHeight - height} mm`,
+      );
+  } else {
+    if (config.radiatorSize === null)
+      add("unknown", "冷排安装位", "请选择实际安装位置支持的冷排规格");
+    else if (config.radiatorSize < cooler.radiatorSize)
+      add(
+        "fail",
+        "冷排安装位",
+        config.radiatorSize === 0
+          ? "该机箱位置不支持水冷"
+          : `所选安装位不支持 ${cooler.radiatorSize} mm 冷排`,
+      );
+    else if (
+      [240, 360].includes(config.radiatorSize) !==
+      [240, 360].includes(cooler.radiatorSize)
+    )
+      add(
+        "unknown",
+        "冷排安装位",
+        `所选 ${config.radiatorSize} mm 安装位与 ${cooler.radiatorSize} mm 冷排使用不同风扇孔距体系，不能只由数字大小推断可安装`,
+      );
+    else
+      add(
+        "conditional",
+        "冷排安装位",
+        `标称规格满足；请核对 ${cooler.radiatorLength} × ${cooler.radiatorWidth} mm 本体及螺丝孔位`,
+      );
+    const total = stackThickness(cooler);
+    if (!config.radiatorSpace)
+      add("unknown", "冷排总厚度", `冷排与风扇共 ${total} mm，请填写可用空间`);
+    else if (config.radiatorSpace < total)
+      add(
+        "fail",
+        "冷排总厚度",
+        `需要 ${total} mm，可用空间仅 ${config.radiatorSpace} mm`,
+      );
+    else if (config.radiatorSpace - total < 3)
+      add(
+        "conditional",
+        "冷排总厚度",
+        `需要 ${total} mm，空间余量不足 3 mm，需实测`,
+      );
+    else add("pass", "冷排总厚度", `${total} mm ≤ ${config.radiatorSpace} mm`);
+    add(
+      config.radiatorFit ? "pass" : "unknown",
+      "冷排周边空间",
+      config.radiatorFit
+        ? "你已确认该位置的长宽、干涉和管路空间"
+        : "需核对顶置主板/内存干涉，或前置显卡长度及管路空间",
+    );
+  }
+  add(
+    config.headers ? "pass" : "unknown",
+    "供电与控制接口",
+    config.headers
+      ? "你已确认接口与连接方式"
+      : "请按主板和散热器说明书确认风扇/水泵接口与连接方式",
+  );
+  const status = checks.some((c) => c.state === "fail")
+    ? "blocked"
+    : checks.some((c) => c.state === "unknown")
+      ? "pending"
+      : checks.some((c) => c.state === "conditional")
+        ? "conditional"
+        : "compatible";
+  return { status, checks, heightUsed: height };
+}
+
+function precheck(config, catalog) {
+  const cpu = catalog.cpus.find((c) => c.id === config.cpu);
+  const socket = resolveBoard(config, catalog)?.socket || config.boardSocket;
+  return [
+    {
+      state: !socket ? "unknown" : socket === cpu?.socket ? "pass" : "fail",
+      title: "CPU / 主板",
+      detail: !socket
+        ? "主板插槽待填写"
+        : socket === cpu?.socket
+          ? `${socket} 插槽匹配`
+          : "CPU 与主板插槽冲突",
+    },
+    {
+      state: config.caseHeight ? "pass" : "unknown",
+      title: "机箱空间",
+      detail: config.caseHeight
+        ? `已填风冷限高 ${config.caseHeight} mm`
+        : "限高未填写",
+    },
+    {
+      state: config.ramHeight ? "pass" : "unknown",
+      title: "内存尺寸",
+      detail: config.ramHeight
+        ? `已填高度 ${config.ramHeight} mm`
+        : "内存高度未填写",
+    },
+  ];
+}
+
+return {resolveBoard,evaluate,precheck};
+})();
+modules["js/next-steps.js"] = (()=>{
+const {resolveBoard} = modules["js/compatibility.js"];
+function nextSteps(config, catalog, type = "all") {
+  const steps = [];
+  const add = (target, title, detail) => steps.push({ target, title, detail });
+  const cpu = catalog.cpus.find((c) => c.id === config.cpu),
+    board = resolveBoard(config, catalog);
+  const socket = board?.socket || config.boardSocket;
+  if (socket && socket !== cpu?.socket)
+    add(
+      "board",
+      "先修正主板插槽",
+      `当前主板与CPU插槽不同，更换散热器无法解决。`,
+    );
+  else if (!board)
+    add(
+      "board",
+      "确认主板完整型号",
+      "型号后缀、修订号及BIOS支持仍需核对；插槽相同不代表避让兼容。",
+    );
+  if (config.thermalInterface === "missing")
+    add(
+      "thermal-interface",
+      "先安装适用导热介质",
+      "按散热器说明完成安装，再做负载测试。",
+    );
+  if (type !== "aio" && !config.caseHeight)
+    add(
+      "case-height",
+      "补充机箱风冷限高",
+      "填写机箱标注的CPU散热器限高，不能使用机箱宽度。",
+    );
+  if (type !== "aio" && !config.ramHeight)
+    add(
+      "ram-height",
+      "核对内存高度",
+      "考察覆盖内存插槽的风冷时，需要同时核对风扇抬高后的总高度。",
+    );
+  if (
+    type !== "air" &&
+    (config.radiatorSize === null ||
+      !config.radiatorSpace ||
+      !config.radiatorFit ||
+      !config.headers)
+  )
+    add(
+      "radiator-size",
+      "完善水冷安装条件",
+      "考察水冷时，核对安装位、总厚度、长宽孔位与接口。",
+    );
+  if (config.power === "unknown")
+    add(
+      "power",
+      "核对CPU运行工况",
+      "主板默认不一定是Intel默认；有实测持续功耗时可补充。",
+    );
+  if (config.thermalInterface === "unknown")
+    add(
+      "thermal-interface",
+      "确认导热介质",
+      "介质、接触与安装压力会影响温度，未知时不预测温度。",
+    );
+  return steps;
+}
+
+return {nextSteps};
 })();
 modules["js/data-loader.js"] = (()=>{
 /** Bundled data works on file://; fetch remains available for module previews. */
@@ -802,302 +1217,6 @@ function thermalContext(config, cpu) {
 
 return {powerLabels,siliconLabels,interfaceLabels,thermalSources,thermalContext};
 })();
-modules["js/benchmarks.js"] = (()=>{
-function matchingBenchmark(config, catalog) {
-  const group = catalog.benchmarks?.find(
-    (item) => item.id === config.benchmarkId,
-  );
-  if (
-    !group ||
-    config.cpu !== group.cpuId ||
-    config.power !== "limited" ||
-    Number(config.powerLimit) !== group.powerW ||
-    config.usage !== "production"
-  )
-    return null;
-  if (config.measuredPower && Number(config.measuredPower) !== group.powerW)
-    return null;
-  if (config.preference === "quiet" && group.fanMode === "full") return null;
-  return group;
-}
-
-function benchmarkResult(coolerId, config, catalog) {
-  const group = matchingBenchmark(config, catalog);
-  const row = group?.results.find((result) => result.coolerId === coolerId);
-  return row
-    ? {
-        ...row,
-        groupId: group.id,
-        metric: group.metric,
-        unit: group.unit,
-        author: group.author,
-        sourceUrl: group.sourceUrl,
-      }
-    : null;
-}
-
-const stackThickness = (cooler) =>
-  cooler.assemblyThickness ?? cooler.radiatorThickness + cooler.fanThickness;
-const metricLabel = (group) =>
-  group.metric === "delta-pcore"
-    ? "P 核温差（相对室温）"
-    : "图表温度（绝对值）";
-
-const escape = (value) =>
-  String(value ?? "").replace(
-    /[&<>"']/g,
-    (char) =>
-      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
-        char
-      ],
-  );
-function benchmarkTable(group) {
-  const rows = [...group.results].sort((a, b) => a.value - b.value);
-  return `<p class="benchmark-context">${escape(group.author)} · ${escape(group.cpu)} · ${group.powerW}W · ${group.fanMode === "full" ? "原装风扇全速" : `${group.noiseDbA} dB(A) 同噪`} · ${group.ambientC === null ? "室温未记录" : `室温 ${group.ambientC}℃`}</p><p class="benchmark-conditions">${escape(group.conditions)}</p><div class="table-scroll"><table class="benchmark-table"><thead><tr><th>实测型号 / 版本</th><th>${metricLabel(group)} ↓</th><th>风扇转速</th></tr></thead><tbody>${rows.map((row) => `<tr><td>${escape(row.name)}${row.coolerId ? "" : "<small>安装规格尚未入库</small>"}</td><td><b>${row.value}℃</b></td><td>${row.rpm === null ? "未录入" : row.rpm + " RPM"}</td></tr>`).join("")}</tbody></table></div><p class="benchmark-limit">${escape(group.limitations)}</p><a class="source-link" href="${group.sourceUrl}" target="_blank" rel="noopener noreferrer">${escape(group.sourceLabel)} ↗</a>`;
-}
-
-return {matchingBenchmark,benchmarkResult,stackThickness,metricLabel,benchmarkTable};
-})();
-modules["js/compatibility.js"] = (()=>{
-const {stackThickness} = modules["js/benchmarks.js"];
-
-function resolveBoard(config, catalog) {
-  const direct = catalog.boards.find((board) => board.id === config.board);
-  if (direct) return direct;
-  if (config.board !== "custom" || !config.boardName) return null;
-  const key = (value) => value.trim().replace(/\s+/g, " ").toLowerCase();
-  return (
-    catalog.boards.find((board) => key(board.name) === key(config.boardName)) ||
-    null
-  );
-}
-
-function evaluate(cooler, config, catalog) {
-  const cpu = catalog.cpus.find((item) => item.id === config.cpu);
-  const board = resolveBoard(config, catalog);
-  const checks = [];
-  const add = (state, title, detail, source = null) =>
-    checks.push({ state, title, detail, source });
-  if (!cpu)
-    return {
-      status: "blocked",
-      checks: [
-        { state: "fail", title: "处理器", detail: "请选择已收录的处理器" },
-      ],
-      height: null,
-    };
-  const socket = board?.socket || config.boardSocket;
-  if (!socket) add("unknown", "主板插槽", "主板插槽尚未确认");
-  else if (socket !== cpu.socket)
-    add(
-      "fail",
-      "主板插槽",
-      `CPU 使用 ${cpu.socket}，主板为 ${socket}，无法搭配`,
-    );
-  else
-    add(
-      "pass",
-      "主板插槽",
-      `${socket} 与 CPU 插槽匹配；CPU 支持列表及 BIOS 版本仍需核对`,
-    );
-  if (cooler.sockets.includes(cpu.socket))
-    add(
-      "pass",
-      "平台扣具",
-      cooler.socketEvidence === "review"
-        ? `原始评测已在 ${cpu.socket} 平台测试；随盒扣具版本仍需核对`
-        : `当前官方规格支持 ${cpu.socket}；购买时核对随盒扣具版本`,
-    );
-  else
-    add(
-      "unknown",
-      "平台扣具",
-      `当前数据未确认 ${cpu.socket} 支持，需向厂商核对扣具`,
-    );
-  const pair = catalog.overrides.find(
-    (item) => item.board === board?.id && item.cooler === cooler.id,
-  );
-  if (pair) add(pair.state, "主板安装干涉", pair.detail, pair.source);
-  else
-    add(
-      "unknown",
-      "主板安装干涉",
-      "尚无该主板与散热器组合的适配记录，请核对 VRM、M.2 装甲、背板和 PCIe 空间",
-    );
-  let height = cooler.height ?? null;
-  if (cooler.type === "air") {
-    if (pair?.recheckRam)
-      add(
-        "unknown",
-        "内存净空",
-        "该组合须改变安装方向，内存与机箱边缘净空需重新核对",
-      );
-    else if (cooler.ramOverhang === false)
-      add("pass", "内存净空", "该 Intel 平台不覆盖内存插槽");
-    else if (!config.ramHeight || cooler.ramClearance == null)
-      add(
-        "unknown",
-        "内存净空",
-        cooler.ramClearance == null
-          ? "该产品内存净空数据待核对"
-          : "请填写内存实际高度",
-      );
-    else if (config.ramHeight > cooler.ramClearance) {
-      if (cooler.ramLift) {
-        const lift = config.ramHeight - cooler.ramClearance;
-        height += lift;
-        add(
-          "conditional",
-          "内存净空",
-          `前风扇需抬高约 ${lift} mm，所需安装高度增至 ${height} mm`,
-        );
-      } else
-        add(
-          "fail",
-          "内存净空",
-          `内存 ${config.ramHeight} mm 超过净空 ${cooler.ramClearance} mm`,
-        );
-    } else
-      add(
-        "pass",
-        "内存净空",
-        `${config.ramHeight} mm ≤ ${cooler.ramClearance} mm`,
-      );
-    if (height === null)
-      add(
-        "unknown",
-        "机箱限高",
-        "整机安装高度缺少一手规格证据，暂不能判断是否容纳",
-      );
-    else if (!config.caseHeight)
-      add("unknown", "机箱限高", "请填写机箱允许的 CPU 风冷散热器高度");
-    else if (height > config.caseHeight)
-      add(
-        "fail",
-        "机箱限高",
-        `所需 ${height} mm，超过机箱 ${config.caseHeight} mm 限高`,
-      );
-    else if (
-      pair?.recheckRam ||
-      (cooler.ramOverhang !== false &&
-        (!config.ramHeight || cooler.ramClearance == null))
-    )
-      add(
-        "unknown",
-        "机箱限高",
-        `标称 ${height} mm 可容纳；内存与风扇调整未确认，实际总高待核对`,
-      );
-    else if (config.caseHeight - height < 3)
-      add(
-        "conditional",
-        "机箱限高",
-        `仅余 ${config.caseHeight - height} mm，请实测并核对制造公差`,
-      );
-    else
-      add(
-        "pass",
-        "机箱限高",
-        `${height} mm ≤ ${config.caseHeight} mm，余量 ${config.caseHeight - height} mm`,
-      );
-  } else {
-    if (config.radiatorSize === null)
-      add("unknown", "冷排安装位", "请选择实际安装位置支持的冷排规格");
-    else if (config.radiatorSize < cooler.radiatorSize)
-      add(
-        "fail",
-        "冷排安装位",
-        config.radiatorSize === 0
-          ? "该机箱位置不支持水冷"
-          : `所选安装位不支持 ${cooler.radiatorSize} mm 冷排`,
-      );
-    else if (
-      [240, 360].includes(config.radiatorSize) !==
-      [240, 360].includes(cooler.radiatorSize)
-    )
-      add(
-        "unknown",
-        "冷排安装位",
-        `所选 ${config.radiatorSize} mm 安装位与 ${cooler.radiatorSize} mm 冷排使用不同风扇孔距体系，不能只由数字大小推断可安装`,
-      );
-    else
-      add(
-        "conditional",
-        "冷排安装位",
-        `标称规格满足；请核对 ${cooler.radiatorLength} × ${cooler.radiatorWidth} mm 本体及螺丝孔位`,
-      );
-    const total = stackThickness(cooler);
-    if (!config.radiatorSpace)
-      add("unknown", "冷排总厚度", `冷排与风扇共 ${total} mm，请填写可用空间`);
-    else if (config.radiatorSpace < total)
-      add(
-        "fail",
-        "冷排总厚度",
-        `需要 ${total} mm，可用空间仅 ${config.radiatorSpace} mm`,
-      );
-    else if (config.radiatorSpace - total < 3)
-      add(
-        "conditional",
-        "冷排总厚度",
-        `需要 ${total} mm，空间余量不足 3 mm，需实测`,
-      );
-    else add("pass", "冷排总厚度", `${total} mm ≤ ${config.radiatorSpace} mm`);
-    add(
-      config.radiatorFit ? "pass" : "unknown",
-      "冷排周边空间",
-      config.radiatorFit
-        ? "你已确认该位置的长宽、干涉和管路空间"
-        : "需核对顶置主板/内存干涉，或前置显卡长度及管路空间",
-    );
-  }
-  add(
-    config.headers ? "pass" : "unknown",
-    "供电与控制接口",
-    config.headers
-      ? "你已确认接口与连接方式"
-      : "请按主板和散热器说明书确认风扇/水泵接口与连接方式",
-  );
-  const status = checks.some((c) => c.state === "fail")
-    ? "blocked"
-    : checks.some((c) => c.state === "unknown")
-      ? "pending"
-      : checks.some((c) => c.state === "conditional")
-        ? "conditional"
-        : "compatible";
-  return { status, checks, heightUsed: height };
-}
-
-function precheck(config, catalog) {
-  const cpu = catalog.cpus.find((c) => c.id === config.cpu);
-  const socket = resolveBoard(config, catalog)?.socket || config.boardSocket;
-  return [
-    {
-      state: !socket ? "unknown" : socket === cpu?.socket ? "pass" : "fail",
-      title: "CPU / 主板",
-      detail: !socket
-        ? "主板插槽待填写"
-        : socket === cpu?.socket
-          ? `${socket} 插槽匹配`
-          : "CPU 与主板插槽冲突",
-    },
-    {
-      state: config.caseHeight ? "pass" : "unknown",
-      title: "机箱空间",
-      detail: config.caseHeight
-        ? `已填风冷限高 ${config.caseHeight} mm`
-        : "限高未填写",
-    },
-    {
-      state: config.ramHeight ? "pass" : "unknown",
-      title: "内存尺寸",
-      detail: config.ramHeight
-        ? `已填高度 ${config.ramHeight} mm`
-        : "内存高度未填写",
-    },
-  ];
-}
-
-return {resolveBoard,evaluate,precheck};
-})();
 modules["js/recommendation.js"] = (()=>{
 const {evaluate} = modules["js/compatibility.js"];
 const {benchmarkResult, matchingBenchmark} = modules["js/benchmarks.js"];
@@ -1315,6 +1434,8 @@ modules["js/app.js"] = (()=>{
 const {constructionSummary, recordedTests} = modules["js/product-specs.js"];
 const {modelMatches} = modules["js/search.js"];
 const {resultView} = modules["js/results-view.js"];
+const {loadView, saveView} = modules["js/view-state.js"];
+const {nextSteps} = modules["js/next-steps.js"];
 const {loadData, assetUrl, replaceLocation} = modules["js/data-loader.js"];
 const {setSectionVisible} = modules["js/ui.js"];
 const {thermalContext,
@@ -1492,6 +1613,17 @@ function render() {
   const cpu = catalog.cpus.find((c) => c.id === config.cpu);
   const board = resolveBoard(config, catalog);
   const thermal = thermalContext(config, cpu);
+  const tasks = nextSteps(config, catalog, filter);
+  $("#next-count").textContent = tasks.length
+    ? `${tasks.length} 项待核对 · 展示前 ${Math.min(3, tasks.length)} 项`
+    : "已填主要参数，仍需核对逐型号安装记录";
+  $("#next-items").innerHTML = tasks
+    .slice(0, 3)
+    .map(
+      (task) =>
+        `<button type="button" data-config-target="${task.target}"><span>${escape(task.title)} <b aria-hidden="true">↗</b></span><small>${escape(task.detail)}</small></button>`,
+    )
+    .join("");
   $("#thermal-mode").textContent = powerLabels[config.power];
   $("#thermal-power").textContent =
     `${thermal.watts ?? "待确认"} W · ${thermal.basis}`;
@@ -1528,7 +1660,9 @@ function render() {
     `badge ${failed || blocked ? "blocked" : "pending"}`;
   let note = "以下为候选方案，按用途与选购侧重排序；“待确认”不代表已验证兼容。";
   if (config.power === "unknown")
-    note += " 主板功耗设置未知，暂参考 CPU 官方最大睿频功耗，实际需核对 BIOS。";
+    note += thermal.measured
+      ? " 主板设置未知，当前按所填实测持续功耗考察；变化负载后需重新测量。"
+      : " 主板功耗设置未知，暂参考 CPU 官方最大睿频功耗，实际需核对 BIOS。";
   if (config.power === "unlimited")
     note +=
       " 已解除功耗限制：无法据公开规格保证满载温度，需结合实测或设定功耗上限。";
@@ -1557,7 +1691,19 @@ function render() {
     type: filter,
     query: $("#cooler-search").value,
     showBlocked: $("#show-blocked").checked,
+    sort: $("#result-sort").value,
   });
+  $("#filter-summary").textContent =
+    `${{ all: "全部类型", air: "仅风冷", aio: "仅一体式水冷" }[filter]} · ${$("#cooler-search").value.trim() ? `搜索：${$("#cooler-search").value.trim()}` : "未限定型号"} · ${$("#result-sort").selectedOptions[0].textContent}。排序仅改变展示，不改变兼容结论。`;
+  if ($("#result-sort").value === "height")
+    $("#filter-summary").textContent +=
+      " 高度按当前已知参数计算；内存、抬扇与安装公差仍需核对。";
+  if (
+    $("#result-sort").value === "price" &&
+    view.eligible.length &&
+    view.eligible.every((c) => !c.price)
+  )
+    $("#filter-summary").textContent += " 当前候选未填报价，暂保留原考察顺序。";
   const visible = view.visible;
   $("#metric-candidates").textContent = view.eligible.length;
   $("#metric-pending").textContent = view.pending.length;
@@ -1568,7 +1714,15 @@ function render() {
   $("#result-count").textContent =
     `${view.eligible.length} 款候选 · ${catalog.coolers.length} 款已收录`;
   $("#cards").innerHTML = visible.length
-    ? visible.map((c) => card(c, c.id === eligible[0]?.id)).join("")
+    ? visible
+        .map((c) =>
+          card(
+            c,
+            $("#result-sort").value === "recommended" &&
+              c.id === view.eligible[0]?.id,
+          ),
+        )
+        .join("")
     : `<div class="empty"><h3>当前条件下没有候选</h3><p>${view.blocked.length ? `有 ${view.blocked.length} 款存在明确安装冲突，可勾选“显示安装冲突方案”查看原因。` : "尝试清除型号搜索、切换散热类型、调整预算，或核对已填写的报价。"}</p></div>`;
   updateCompare();
   renderBenchmark();
@@ -1634,6 +1788,13 @@ function details(id) {
   );
 }
 function updateCompare() {
+  saveView({
+    filter,
+    query: $("#cooler-search").value,
+    sort: $("#result-sort").value,
+    showBlocked: $("#show-blocked").checked,
+    compare: [...compare],
+  });
   $("#compare-tray").hidden = compare.size === 0;
   $("#compare-count").textContent = `已选择 ${compare.size} / 3 款`;
   $("#compare-items").innerHTML = catalog.coolers
@@ -1769,7 +1930,53 @@ async function init() {
     savedMode = localStorage.getItem("coolerguide-mode");
   } catch {}
   setMode(savedMode || "quick");
+  const view = loadView(catalog);
+  compare = new Set(view.compare);
+  if (!location.hash.startsWith("#config=")) {
+    filter = view.filter;
+    $("#cooler-search").value = view.query;
+    $("#result-sort").value = view.sort;
+    $("#show-blocked").checked = view.showBlocked;
+  }
+  document.querySelectorAll("[data-filter]").forEach((button) => {
+    button.classList.toggle("active", button.dataset.filter === filter);
+    button.setAttribute(
+      "aria-pressed",
+      String(button.dataset.filter === filter),
+    );
+  });
   render();
+  $("#next-items").addEventListener("click", (event) => {
+    const button = event.target.closest("[data-config-target]");
+    if (!button) return;
+    const target = document.getElementById(button.dataset.configTarget);
+    const detail = target.closest("details");
+    if (detail) detail.open = true;
+    if (target.closest("#fit-fields")) setMode("full");
+    target.focus({ preventScroll: true });
+    target.scrollIntoView({
+      block: "center",
+      behavior:
+        document.documentElement.dataset.motion === "reduce"
+          ? "auto"
+          : "smooth",
+    });
+  });
+  $("#result-sort").addEventListener("change", render);
+  $("#clear-filters").addEventListener("click", () => {
+    filter = "all";
+    $("#cooler-search").value = "";
+    $("#result-sort").value = "recommended";
+    $("#show-blocked").checked = false;
+    document.querySelectorAll("[data-filter]").forEach((button) => {
+      button.classList.toggle("active", button.dataset.filter === "all");
+      button.setAttribute(
+        "aria-pressed",
+        String(button.dataset.filter === "all"),
+      );
+    });
+    render();
+  });
   document.querySelectorAll("[data-mode]").forEach((button) =>
     button.addEventListener("click", () => {
       setMode(button.dataset.mode);
@@ -1856,6 +2063,7 @@ async function init() {
     prices = {};
     compare.clear();
     filter = "all";
+    $("#result-sort").value = "recommended";
     $("#show-blocked").checked = false;
     $("#cooler-search").value = "";
     $("#cpu-search").value = "";

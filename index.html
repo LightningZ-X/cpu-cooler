@@ -355,6 +355,13 @@
             </button>
           </div>
           <div class="config-summary" id="config-summary"></div>
+          <section class="next-steps" aria-label="下一步核对">
+            <div class="next-heading">
+              <h3>下一步核对</h3>
+              <span id="next-count"></span>
+            </div>
+            <div id="next-items"></div>
+          </section>
           <section class="thermal-context" aria-label="CPU 工况与传热条件">
             <div class="thermal-heading">
               <span>CPU 工况与传热条件</span><strong id="thermal-mode"></strong>
@@ -439,7 +446,12 @@
                 一体式水冷
               </button>
             </div>
-            <span id="result-count"></span>
+            <span
+              id="result-count"
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
+            ></span>
           </div>
           <label class="conflict-toggle"
             ><input type="checkbox" id="show-blocked" />显示安装冲突方案
@@ -451,13 +463,26 @@
           <input
             id="cooler-search"
             type="search"
+            maxlength="100"
             placeholder="搜索型号，如 CQ125、V8 ACE、CC90…"
           />
+          <div class="result-tools">
+            <label for="result-sort">排列方式</label>
+            <select id="result-sort">
+              <option value="recommended">推荐考察顺序</option>
+              <option value="price">报价从低到高（未知置后）</option>
+              <option value="height">风冷安装高度从低到高（水冷置后）</option>
+            </select>
+            <button type="button" class="text-button" id="clear-filters">
+              清除结果筛选
+            </button>
+          </div>
+          <p class="field-note" id="filter-summary"></p>
           <p class="product-data-note">
             工艺按精确型号核对；标称解热 / TDP
             为厂商口径，不是保证实测上限。点击详情查看出处和测试条件。
           </p>
-          <div id="cards" class="cards" aria-live="polite"></div>
+          <div id="cards" class="cards"></div>
           <section class="why-panel">
             <span class="why-icon">◎</span>
             <div>

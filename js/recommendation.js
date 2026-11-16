@@ -1,5 +1,6 @@
 import { evaluate } from "./compatibility.js";
 import { benchmarkResult, matchingBenchmark } from "./benchmarks.js";
+import { thermalContext } from "./thermal-context.js";
 
 export const statusText = {
   compatible: "已知检查通过",
@@ -10,11 +11,7 @@ export const statusText = {
 
 export function recommend(config, catalog, prices = {}) {
   const cpu = catalog.cpus.find((c) => c.id === config.cpu);
-  const power =
-    config.power === "limited" && config.powerLimit
-      ? config.powerLimit
-      : cpu?.turboPower;
-  const heavy = config.usage === "production" && power > 200;
+  const context = thermalContext(config, cpu);
   const group = matchingBenchmark(config, catalog);
   const testedCount =
     group?.results.filter(
@@ -26,7 +23,7 @@ export function recommend(config, catalog, prices = {}) {
       const fit = evaluate(cooler, config, catalog);
       let score = 0;
       const reasons = [];
-      if (heavy || config.power === "unlimited") {
+      if (context.highDemand) {
         score += { aio360: 40, aio240: 25, large: 20, dual: 10, compact: 0 }[
           cooler.tier
         ];

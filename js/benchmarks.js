@@ -10,6 +10,8 @@ export function matchingBenchmark(config, catalog) {
     config.usage !== "production"
   )
     return null;
+  if (config.measuredPower && Number(config.measuredPower) !== group.powerW)
+    return null;
   if (config.preference === "quiet" && group.fanMode === "full") return null;
   return group;
 }

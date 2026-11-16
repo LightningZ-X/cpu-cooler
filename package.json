@@ -1,6 +1,6 @@
 {
   "name": "cooler-guide",
-  "version": "1.8.1",
+  "version": "1.9.0",
   "private": true,
   "type": "module",
   "description": "Intel desktop CPU cooler compatibility and selection guide",

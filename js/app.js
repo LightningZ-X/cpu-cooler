@@ -2,6 +2,13 @@ import { constructionSummary, recordedTests } from "./product-specs.js";
 import { modelMatches } from "./search.js";
 import { resultView } from "./results-view.js";
 import { setSectionVisible } from "./ui.js";
+import {
+  thermalContext,
+  powerLabels,
+  siliconLabels,
+  interfaceLabels,
+  thermalSources,
+} from "./thermal-context.js";
 import { precheck, resolveBoard } from "./compatibility.js";
 import {
   benchmarkTable,
@@ -101,11 +108,11 @@ function validateForm() {
   );
   if (invalid.some((input) => input.closest("#fit-fields"))) {
     setMode("full");
-    invalid.forEach((input) => {
-      const details = input.closest("details");
-      if (details) details.open = true;
-    });
   }
+  invalid.forEach((input) => {
+    const details = input.closest("details");
+    if (details) details.open = true;
+  });
   for (const input of form.elements) {
     if (input.willValidate && !input.validity.valid)
       input.setAttribute("aria-invalid", "true");
@@ -162,11 +169,36 @@ function updateMeta() {
   $("#power-limit-field").hidden = $("#power").value !== "limited";
   $("#power-limit").disabled = $("#power").value !== "limited";
 }
+function resetMeasuredContext(cpuChanged = false) {
+  const measured = $("#measured-power");
+  if (measured.value) {
+    measured.value = "";
+    toast("CPU 或负载工况已变化，请重新填写实测持续功耗");
+  }
+  if (cpuChanged) $("#silicon").value = "unknown";
+}
 function render() {
   updateSearchOptions();
   results = recommend(config, catalog, prices);
   const cpu = catalog.cpus.find((c) => c.id === config.cpu);
   const board = resolveBoard(config, catalog);
+  const thermal = thermalContext(config, cpu);
+  $("#thermal-mode").textContent = powerLabels[config.power];
+  $("#thermal-power").textContent =
+    `${thermal.watts ?? "待确认"} W · ${thermal.basis}`;
+  $("#thermal-material").textContent =
+    `体质：${siliconLabels[config.silicon]} · 介质：${interfaceLabels[config.thermalInterface]}`;
+  $("#thermal-alert").hidden = !thermal.attention;
+  $("#thermal-alert").textContent = thermal.interfaceNote;
+  $("#thermal-notes").innerHTML = thermal.notes
+    .map((note) => `<li>${escape(note)}</li>`)
+    .join("");
+  $("#thermal-sources").innerHTML = thermalSources
+    .map(
+      ({ title, url }) =>
+        `<a href="${url}" target="_blank" rel="noopener noreferrer">${escape(title)} ↗</a>`,
+    )
+    .join("");
   $("#config-summary").innerHTML =
     `<span class="cpu-chip">${escape(cpu.name.replace("Intel ", ""))}</span><span>${escape(board?.name || config.boardName || "主板待确认")}</span><span>${{ gaming: "游戏娱乐", office: "日常办公", production: "持续生产力" }[config.usage]}</span>${config.budget ? `<span>预算 ¥${config.budget}</span>` : ""}`;
   const checks = precheck(config, catalog);
@@ -471,6 +503,8 @@ async function init() {
       cpu: group.cpuId,
       power: "limited",
       powerLimit: group.powerW,
+      measuredPower: null,
+      silicon: config.cpu === group.cpuId ? config.silicon : "unknown",
       usage: "production",
       benchmarkId: group.id,
     };
@@ -479,7 +513,9 @@ async function init() {
     render();
     toast("已应用测试 CPU 与功耗，请继续核对你的主板和安装空间");
   });
-  form.addEventListener("change", () => {
+  form.addEventListener("change", (event) => {
+    if (["cpu", "usage", "power", "powerLimit"].includes(event.target.name))
+      resetMeasuredContext(event.target.name === "cpu");
     if (!readForm()) return;
     persist();
     render();
@@ -503,6 +539,7 @@ async function init() {
     const term = event.target.value.trim();
     const hits = catalog.cpus.filter((c) => modelMatches(c, term));
     if (term && hits.length === 1) {
+      if (config.cpu !== hits[0].id) resetMeasuredContext(true);
       $("#cpu").value = hits[0].id;
       if (!readForm()) return;
       persist();

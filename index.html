@@ -243,13 +243,18 @@
               <option value="office">日常办公</option>
               <option value="production">长时间渲染 / 编译</option>
             </select>
-            <label for="power">CPU 功耗设置</label
+            <label for="power">CPU 运行工况</label
             ><select id="power" name="power">
-              <option value="unknown">不确定 / 主板默认</option>
-              <option value="intel">遵循 Intel 功耗上限</option>
+              <option value="unknown">主板默认 / 设置未知</option>
+              <option value="intel">Intel 默认功耗限制（含睿频）</option>
               <option value="limited">手动限制功耗</option>
-              <option value="unlimited">解除限制 / 超频</option>
+              <option value="unlimited">解除功耗限制</option>
+              <option value="overclock">手动超频</option>
+              <option value="undervolt">降压优化（已验证稳定）</option>
             </select>
+            <p class="field-note">
+              主板默认不一定等于 Intel 默认；解除功耗限制与手动超频分开选择。
+            </p>
             <div id="power-limit-field" hidden>
               <label for="power-limit">实际设置的功耗上限（W）</label
               ><input
@@ -262,6 +267,51 @@
                 placeholder="例如 150"
               />
             </div>
+            <details class="advanced thermal-settings">
+              <summary>
+                CPU 体质与导热介质 <span aria-hidden="true">＋</span>
+              </summary>
+              <label for="measured-power">当前用途下实测持续功耗（可选）</label>
+              <div class="unit-input">
+                <input
+                  id="measured-power"
+                  name="measuredPower"
+                  type="number"
+                  step="any"
+                  min="5"
+                  max="600"
+                  placeholder="稳定负载下 CPU Package Power"
+                /><span>W</span>
+              </div>
+              <p class="field-note">
+                填软件监测的持续 CPU 封装功耗，不填插座整机功耗、瞬时峰值或
+                VID。更换 CPU、用途或运行工况时需重新测量。
+              </p>
+              <label for="silicon">CPU 体质（自行评估）</label>
+              <select id="silicon" name="silicon">
+                <option value="unknown">未评估 / 不确定</option>
+                <option value="efficient">同频所需电压较低（自行验证）</option>
+                <option value="typical">同频所需电压居中（自行验证）</option>
+                <option value="hot">同频所需电压较高（自行验证）</option>
+              </select>
+              <p class="field-note">
+                仅比较同频、同负载与同稳定性标准；SP
+                分数不能跨主板直接换算温度。不确定就保持未评估。
+              </p>
+              <label for="thermal-interface">CPU 与散热器之间的导热介质</label>
+              <select id="thermal-interface" name="thermalInterface">
+                <option value="unknown">未确认</option>
+                <option value="paste">常规导热硅脂</option>
+                <option value="phase">相变导热材料</option>
+                <option value="liquid">液态金属</option>
+                <option value="sheet">石墨 / 固态导热片</option>
+                <option value="degraded">旧介质 / 接触状态存疑</option>
+                <option value="missing">尚未安装导热介质</option>
+              </select>
+              <p class="field-note">
+                指顶盖与散热器底座之间的介质；开盖、裸晶、直触水冷等改装不在当前安装数据库覆盖范围。
+              </p>
+            </details>
             <label for="preference">选购侧重</label
             ><select id="preference" name="preference">
               <option value="balanced">均衡之选</option>
@@ -303,6 +353,19 @@
             </button>
           </div>
           <div class="config-summary" id="config-summary"></div>
+          <section class="thermal-context" aria-label="CPU 工况与传热条件">
+            <div class="thermal-heading">
+              <span>CPU 工况与传热条件</span><strong id="thermal-mode"></strong>
+            </div>
+            <p id="thermal-power"></p>
+            <p class="field-note" id="thermal-material"></p>
+            <p class="thermal-alert" id="thermal-alert" hidden></p>
+            <details>
+              <summary>查看体质与导热介质说明</summary>
+              <ul id="thermal-notes"></ul>
+              <div id="thermal-sources"></div>
+            </details>
+          </section>
           <p class="metrics-caption">当前筛选的方案 · 待确认不代表已兼容</p>
           <div class="result-metrics" aria-label="当前筛选结果">
             <div>

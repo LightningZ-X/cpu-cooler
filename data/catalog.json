@@ -412,6 +412,62 @@
       "socket": "LGA1851",
       "source": "https://www.gigabyte.com/de/Motherboard/B860M-AORUS-ELITE-WIFI6E-ICE/sp",
       "checkedAt": "2026-11-15"
+    },
+    {
+      "id": "asrock-b860-steel-legend",
+      "name": "ASRock B860 Steel Legend WiFi",
+      "socket": "LGA1851",
+      "source": "https://download.asrock.com/Manual/B860%20Steel%20Legend%20WiFi.pdf",
+      "checkedAt": "2026-11-16"
+    },
+    {
+      "id": "asrock-b860m-steel-legend",
+      "name": "ASRock B860M Steel Legend WiFi",
+      "socket": "LGA1851",
+      "source": "https://download.asrock.com/Manual/B860M%20Steel%20Legend%20WiFi.pdf",
+      "checkedAt": "2026-11-16"
+    },
+    {
+      "id": "asrock-b860-pro-rs-wifi",
+      "name": "ASRock B860 Pro RS WiFi",
+      "socket": "LGA1851",
+      "source": "https://download.asrock.com/Manual/B860%20Pro%20RS%20WiFi.pdf",
+      "checkedAt": "2026-11-16"
+    },
+    {
+      "id": "asrock-b860m-pro-rs-wifi",
+      "name": "ASRock B860M Pro RS WiFi",
+      "socket": "LGA1851",
+      "source": "https://download.asrock.com/Manual/B860M%20Pro%20RS%20WiFi.pdf",
+      "checkedAt": "2026-11-16"
+    },
+    {
+      "id": "asrock-z890-pro-rs-wifi",
+      "name": "ASRock Z890 Pro RS WiFi",
+      "socket": "LGA1851",
+      "source": "https://download.asrock.com/Manual/Z890%20Pro%20RS%20WiFi.pdf",
+      "checkedAt": "2026-11-16"
+    },
+    {
+      "id": "asrock-z890-steel-legend",
+      "name": "ASRock Z890 Steel Legend WiFi",
+      "socket": "LGA1851",
+      "source": "https://download.asrock.com/Manual/Z890%20Steel%20Legend%20WiFi.pdf",
+      "checkedAt": "2026-11-16"
+    },
+    {
+      "id": "asrock-b760m-steel-legend",
+      "name": "ASRock B760M Steel Legend WiFi",
+      "socket": "LGA1700",
+      "source": "https://www.asrock.com/mb/Intel/B760M%20Steel%20Legend%20WiFi/index.asp",
+      "checkedAt": "2026-11-16"
+    },
+    {
+      "id": "asrock-b760m-pro-rs",
+      "name": "ASRock B760M Pro RS",
+      "socket": "LGA1700",
+      "source": "https://www.asrock.com/mb/Intel/B760M%20Pro%20RS/index.asp",
+      "checkedAt": "2026-11-16"
     }
   ],
   "coolers": [
@@ -1804,6 +1860,307 @@
           "detail": "仅记录厂商标称，不代表指定环境/CPU/噪声下保证可压制的功耗，也不跨品牌直接排名。"
         }
       }
+    },
+    {
+      "id": "as120evo",
+      "brand": "THERMALRIGHT · 利民",
+      "name": "Assassin Spirit 120 EVO",
+      "description": "紧凑型单塔风冷，保留实物安装净空与主板干涉核对。",
+      "type": "air",
+      "sockets": ["LGA1700", "LGA1851"],
+      "height": 156,
+      "ramClearance": null,
+      "ramLift": false,
+      "tier": "compact",
+      "maintenance": "低维护",
+      "source": "https://www.thermalright.com/product/assassin-spirit-120-evo/",
+      "notes": "按官方现行规格收录；早期库存须核对随盒扣具。未收录该型号横评成绩，不继承同系列/不同风扇版本；机箱留量及主板 VRM/M.2 干涉仍待核对。",
+      "addedAt": "2026-11-16",
+      "checkedAt": "2026-11-16",
+      "construction": {
+        "checkedAt": "2026-11-16",
+        "heatpipes": {
+          "count": 4,
+          "diameterMm": 6,
+          "detail": "官方规格确认热管数量与直径；不从端头数量估算。",
+          "source": "https://www.thermalright.com/product/assassin-spirit-120-evo/"
+        },
+        "finJoint": {
+          "method": "unknown",
+          "detail": "官网未明确热管与鳍片连接工艺，保留未知。",
+          "source": "https://www.thermalright.com/product/assassin-spirit-120-evo/"
+        },
+        "baseContact": {
+          "method": "unknown",
+          "detail": "本轮未单独确认底座接触形式/材质。",
+          "source": "https://www.thermalright.com/product/assassin-spirit-120-evo/"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "detail": "未核实该型号的整机标称 TDP；不按尺寸、热管数量或泵功率估算。",
+          "source": "https://www.thermalright.com/product/assassin-spirit-120-evo/"
+        }
+      }
+    },
+    {
+      "id": "ba120",
+      "brand": "THERMALRIGHT · 利民",
+      "name": "Burst Assassin 120",
+      "description": "紧凑型单塔风冷，保留实物安装净空与主板干涉核对。",
+      "type": "air",
+      "sockets": ["LGA1700", "LGA1851"],
+      "height": 154,
+      "ramClearance": null,
+      "ramLift": false,
+      "tier": "compact",
+      "maintenance": "低维护",
+      "source": "https://www.thermalright.com/product/burst-assassin-120/",
+      "notes": "按官方现行规格收录；早期库存须核对随盒扣具。未收录该型号横评成绩，不继承同系列/不同风扇版本；机箱留量及主板 VRM/M.2 干涉仍待核对。",
+      "addedAt": "2026-11-16",
+      "checkedAt": "2026-11-16",
+      "construction": {
+        "checkedAt": "2026-11-16",
+        "heatpipes": {
+          "count": 6,
+          "diameterMm": 6,
+          "detail": "官方规格确认热管数量与直径；不从端头数量估算。",
+          "source": "https://www.thermalright.com/product/burst-assassin-120/"
+        },
+        "finJoint": {
+          "method": "unknown",
+          "detail": "官网未明确热管与鳍片连接工艺，保留未知。",
+          "source": "https://www.thermalright.com/product/burst-assassin-120/"
+        },
+        "baseContact": {
+          "method": "copper-base",
+          "detail": "官方明确镀镍铜底座；不据此推断热管与鳍片工艺。",
+          "source": "https://www.thermalright.com/product/burst-assassin-120/"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "detail": "未核实该型号的整机标称 TDP；不按尺寸、热管数量或泵功率估算。",
+          "source": "https://www.thermalright.com/product/burst-assassin-120/"
+        }
+      }
+    },
+    {
+      "id": "ss135",
+      "brand": "THERMALRIGHT · 利民",
+      "name": "Silver Soul 135",
+      "description": "紧凑型双塔风冷，保留实物安装净空与主板干涉核对。",
+      "type": "air",
+      "sockets": ["LGA1700", "LGA1851"],
+      "height": 135,
+      "ramClearance": null,
+      "ramLift": false,
+      "tier": "dual",
+      "maintenance": "低维护",
+      "source": "https://www.thermalright.com/product/silver-soul-135/",
+      "notes": "按官方现行规格收录；早期库存须核对随盒扣具。未收录该型号横评成绩，不继承同系列/不同风扇版本；机箱留量及主板 VRM/M.2 干涉仍待核对。",
+      "addedAt": "2026-11-16",
+      "checkedAt": "2026-11-16",
+      "construction": {
+        "checkedAt": "2026-11-16",
+        "heatpipes": {
+          "count": 6,
+          "diameterMm": 6,
+          "detail": "官方规格确认热管数量与直径；不从端头数量估算。",
+          "source": "https://www.thermalright.com/product/silver-soul-135/"
+        },
+        "finJoint": {
+          "method": "unknown",
+          "detail": "官网未明确热管与鳍片连接工艺，保留未知。",
+          "source": "https://www.thermalright.com/product/silver-soul-135/"
+        },
+        "baseContact": {
+          "method": "copper-base",
+          "detail": "官方明确镀镍铜底座；不据此推断热管与鳍片工艺。",
+          "source": "https://www.thermalright.com/product/silver-soul-135/"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "detail": "未核实该型号的整机标称 TDP；不按尺寸、热管数量或泵功率估算。",
+          "source": "https://www.thermalright.com/product/silver-soul-135/"
+        }
+      }
+    },
+    {
+      "id": "d12l",
+      "brand": "Noctua 猫头鹰",
+      "name": "NH-D12L",
+      "description": "紧凑型双塔风冷，保留实物安装净空与主板干涉核对。",
+      "type": "air",
+      "sockets": ["LGA1700", "LGA1851"],
+      "height": 145,
+      "ramClearance": null,
+      "ramLift": false,
+      "tier": "dual",
+      "maintenance": "低维护",
+      "source": "https://www.noctua.at/en/products/nh-d12l/specifications",
+      "notes": "按官方现行规格收录；早期库存须核对随盒扣具。未收录该型号横评成绩，不继承同系列/不同风扇版本；机箱留量及主板 VRM/M.2 干涉仍待核对。 官方确认标准单风扇配置不覆盖内存插槽；加装前风扇须重新核对内存净空与总高。",
+      "addedAt": "2026-11-16",
+      "checkedAt": "2026-11-16",
+      "construction": {
+        "checkedAt": "2026-11-16",
+        "heatpipes": {
+          "count": 5,
+          "diameterMm": 6,
+          "detail": "官方规格确认热管数量与直径；不从端头数量估算。",
+          "source": "https://www.noctua.at/en/products/nh-d12l/specifications"
+        },
+        "finJoint": {
+          "method": "soldered",
+          "detail": "官方写明 Soldered，确认焊接但未注明回流焊工艺。",
+          "source": "https://www.noctua.at/en/products/nh-d12l/specifications"
+        },
+        "baseContact": {
+          "method": "copper-base",
+          "detail": "官方明确镀镍铜底座；不据此推断热管与鳍片工艺。",
+          "source": "https://www.noctua.at/en/products/nh-d12l/specifications"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "detail": "官方 NSPR 148 是评分，不是瓦数；不换算为最大解热功耗。",
+          "source": "https://www.noctua.at/en/products/nh-d12l/specifications",
+          "nspr": 148
+        }
+      },
+      "ramOverhang": false
+    },
+    {
+      "id": "u9s",
+      "brand": "Noctua 猫头鹰",
+      "name": "NH-U9S",
+      "description": "紧凑型单塔风冷，保留实物安装净空与主板干涉核对。",
+      "type": "air",
+      "sockets": ["LGA1700", "LGA1851"],
+      "height": 125,
+      "ramClearance": null,
+      "ramLift": false,
+      "tier": "compact",
+      "maintenance": "低维护",
+      "source": "https://www.noctua.at/en/products/nh-u9s/specifications",
+      "notes": "按官方现行规格收录；早期库存须核对随盒扣具。未收录该型号横评成绩，不继承同系列/不同风扇版本；机箱留量及主板 VRM/M.2 干涉仍待核对。",
+      "addedAt": "2026-11-16",
+      "checkedAt": "2026-11-16",
+      "construction": {
+        "checkedAt": "2026-11-16",
+        "heatpipes": {
+          "count": 5,
+          "diameterMm": 6,
+          "detail": "官方规格确认热管数量与直径；不从端头数量估算。",
+          "source": "https://www.noctua.at/en/products/nh-u9s/specifications"
+        },
+        "finJoint": {
+          "method": "soldered",
+          "detail": "官方写明 Soldered，确认焊接但未注明回流焊工艺。",
+          "source": "https://www.noctua.at/en/products/nh-u9s/specifications"
+        },
+        "baseContact": {
+          "method": "copper-base",
+          "detail": "官方明确镀镍铜底座；不据此推断热管与鳍片工艺。",
+          "source": "https://www.noctua.at/en/products/nh-u9s/specifications"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "detail": "官方 NSPR 93 是评分，不是瓦数；不换算为最大解热功耗。",
+          "source": "https://www.noctua.at/en/products/nh-u9s/specifications",
+          "nspr": 93
+        }
+      }
+    },
+    {
+      "id": "fn360-black-argb",
+      "brand": "THERMALRIGHT · 利民",
+      "name": "Frozen Notte 360 BLACK ARGB",
+      "type": "aio",
+      "sockets": ["LGA1700", "LGA1851"],
+      "radiatorSize": 360,
+      "radiatorLength": 397,
+      "radiatorWidth": 120,
+      "radiatorThickness": 27,
+      "fanThickness": 25,
+      "tier": "aio360",
+      "maintenance": "含水泵与管路",
+      "description": "360mm 黑色 ARGB 一体水冷，按该版本官方蓝图核对冷排安装尺寸。",
+      "source": "https://www.thermalright.com/product/frozen-notte-360-black-argb/",
+      "notes": "官方蓝图冷排 397×120×27mm；风扇25mm，名义叠厚52mm，另留制造公差、螺丝及管路空间。仅对应 BLACK ARGB 原版，不继承其他尺寸/修订版成绩；随盒 LGA1851 扣具及主板干涉待实物核对。",
+      "addedAt": "2026-11-16",
+      "checkedAt": "2026-11-16",
+      "construction": {
+        "checkedAt": "2026-11-16",
+        "heatpipes": {
+          "count": null,
+          "diameterMm": null,
+          "detail": "一体式水冷；不适用风冷热管数量。",
+          "source": "https://www.thermalright.com/product/frozen-notte-360-black-argb/"
+        },
+        "finJoint": {
+          "method": "not-applicable",
+          "detail": "一体式水冷；不套用风冷热管与鳍片连接工艺。",
+          "source": "https://www.thermalright.com/product/frozen-notte-360-black-argb/"
+        },
+        "baseContact": {
+          "method": "unknown",
+          "detail": "本轮未单独确认底座接触形式/材质。",
+          "source": "https://www.thermalright.com/product/frozen-notte-360-black-argb/"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "detail": "未核实该型号的整机标称 TDP；不按尺寸、热管数量或泵功率估算。",
+          "source": "https://www.thermalright.com/product/frozen-notte-360-black-argb/"
+        }
+      }
+    },
+    {
+      "id": "fp240-black-argb",
+      "brand": "THERMALRIGHT · 利民",
+      "name": "Frozen Prism 240 BLACK ARGB",
+      "type": "aio",
+      "sockets": ["LGA1700", "LGA1851"],
+      "radiatorSize": 240,
+      "radiatorLength": 276,
+      "radiatorWidth": 120,
+      "radiatorThickness": 27,
+      "fanThickness": 25,
+      "tier": "aio240",
+      "maintenance": "含水泵与管路",
+      "description": "240mm 黑色 ARGB 一体水冷，按该版本官方蓝图核对冷排安装尺寸。",
+      "source": "https://www.thermalright.com/product/frozen-prism-240-black-argb/",
+      "notes": "官方蓝图冷排 276×120×27mm；风扇25mm，名义叠厚52mm，另留制造公差、螺丝及管路空间。仅对应 BLACK ARGB 原版，不继承其他尺寸/修订版成绩；随盒 LGA1851 扣具及主板干涉待实物核对。",
+      "addedAt": "2026-11-16",
+      "checkedAt": "2026-11-16",
+      "construction": {
+        "checkedAt": "2026-11-16",
+        "heatpipes": {
+          "count": null,
+          "diameterMm": null,
+          "detail": "一体式水冷；不适用风冷热管数量。",
+          "source": "https://www.thermalright.com/product/frozen-prism-240-black-argb/"
+        },
+        "finJoint": {
+          "method": "not-applicable",
+          "detail": "一体式水冷；不套用风冷热管与鳍片连接工艺。",
+          "source": "https://www.thermalright.com/product/frozen-prism-240-black-argb/"
+        },
+        "baseContact": {
+          "method": "unknown",
+          "detail": "本轮未单独确认底座接触形式/材质。",
+          "source": "https://www.thermalright.com/product/frozen-prism-240-black-argb/"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "detail": "未核实该型号的整机标称 TDP；不按尺寸、热管数量或泵功率估算。",
+          "source": "https://www.thermalright.com/product/frozen-prism-240-black-argb/"
+        }
+      }
     }
   ],
   "overrides": [
@@ -1996,5 +2353,5 @@
       "recheckRam": false
     }
   ],
-  "lastExpandedAt": "2026-11-15"
+  "lastExpandedAt": "2026-11-16"
 }

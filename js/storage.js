@@ -13,6 +13,9 @@ export const defaults = {
   usage: "gaming",
   power: "unknown",
   powerLimit: null,
+  measuredPower: null,
+  silicon: "unknown",
+  thermalInterface: "unknown",
   preference: "balanced",
   budget: null,
   benchmarkId: "",
@@ -21,12 +24,37 @@ export function normalize(raw, catalog) {
   const config = { ...defaults };
   if (catalog.benchmarks?.some((group) => group.id === raw.benchmarkId))
     config.benchmarkId = raw.benchmarkId;
-  for (const field of ["cpu", "board", "usage", "power", "preference"]) {
+  for (const field of [
+    "cpu",
+    "board",
+    "usage",
+    "power",
+    "preference",
+    "silicon",
+    "thermalInterface",
+  ]) {
     const allowed = {
       cpu: catalog.cpus.map((c) => c.id),
       board: ["", "custom", ...catalog.boards.map((b) => b.id)],
       usage: ["gaming", "office", "production"],
-      power: ["unknown", "intel", "limited", "unlimited"],
+      power: [
+        "unknown",
+        "intel",
+        "limited",
+        "unlimited",
+        "overclock",
+        "undervolt",
+      ],
+      silicon: ["unknown", "efficient", "typical", "hot"],
+      thermalInterface: [
+        "unknown",
+        "paste",
+        "phase",
+        "liquid",
+        "sheet",
+        "degraded",
+        "missing",
+      ],
       preference: ["balanced", "quiet", "value", "performance"],
     }[field];
     if (allowed.includes(raw[field])) config[field] = raw[field];
@@ -40,6 +68,7 @@ export function normalize(raw, catalog) {
     ramHeight: [15, 100],
     radiatorSpace: [20, 150],
     powerLimit: [35, 500],
+    measuredPower: [5, 600],
     budget: [1, 20000],
   };
   for (const [field, [min, max]] of Object.entries(ranges)) {

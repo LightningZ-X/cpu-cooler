@@ -145,7 +145,8 @@ function startBoot(manual = false) {
   overlay.hidden = false;
   document.body.style.overflow = "hidden";
   skip.focus({ preventScroll: true });
-  bootTimer = setTimeout(finishBoot, 7000);
+  // 手动重播给慢网留出缓冲时间。
+  bootTimer = setTimeout(finishBoot, manual ? 30000 : 7000);
   stopBoot = startLightningBoot(bootVideo, finishBoot);
 }
 skip?.addEventListener("click", finishBoot);

@@ -147,12 +147,6 @@ html[data-theme="light"] .lightning-brand img {
 .hero h1 br {
   display: none;
 }
-.hero-source {
-  color: var(--text-2);
-  font-size: 12px;
-  white-space: nowrap;
-  padding: 8px 0;
-}
 .eyebrow,
 .hero .eyebrow {
   color: var(--muted);
@@ -615,9 +609,6 @@ th:first-child {
   .hero {
     padding-top: 28px;
   }
-  .hero-source {
-    display: none;
-  }
   .config-panel {
     padding: 18px;
     background: var(--surface);
@@ -699,7 +690,7 @@ th:first-child {
     scroll-behavior: auto;
   }
   *,
-  *::before,
+  :not([data-ambient-light])::before,
   *::after {
     animation: none !important;
     transition: none !important;
@@ -1312,16 +1303,12 @@ th:first-child {
       transform 420ms var(--ease),
       opacity 240ms var(--ease);
   }
-  .answer-chip > span:last-child,
-  .hero-source > span {
+  .answer-chip > span:last-child {
     display: inline-block;
     transition: transform 280ms var(--ease);
   }
   .answer-chip:hover > span:last-child {
     transform: translateY(3px);
-  }
-  .hero-source:hover > span {
-    transform: translate(2px, -2px);
   }
   #answer-value,
   .result-metrics strong {
@@ -1356,3 +1343,101 @@ th:first-child {
     transition: none !important;
   }
 }
+
+/* Moving gold reflections in the gutters and section headings. */
+:root {
+  --ambient-gold: rgba(233, 174, 62, .28);
+  --ambient-honey: rgba(241, 204, 106, .25);
+  --ambient-copper: rgba(180, 100, 46, .22);
+}
+html[data-theme="light"] {
+  --ambient-gold: rgba(187, 118, 26, .22);
+  --ambient-honey: rgba(201, 150, 42, .22);
+  --ambient-copper: rgba(174, 93, 45, .15);
+}
+.site-lighting { display: none; }
+@media screen {
+  body { isolation: isolate; }
+  .site-lighting {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .site-lighting::before {
+    content: "";
+    position: absolute;
+    inset: -22%;
+    background:
+      radial-gradient(ellipse 39% 30% at 70% 28%, var(--ambient-gold), transparent 100%),
+      radial-gradient(ellipse 34% 37% at 31% 48%, var(--ambient-honey), transparent 100%),
+      radial-gradient(ellipse 29% 38% at 73% 73%, var(--ambient-copper), transparent 100%);
+  }
+  :is(.hero, .review-intro, .results-top, body > footer) {
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+  }
+  :is(.hero, .review-intro, .results-top, body > footer)::before {
+    content: "";
+    position: absolute;
+    inset: -28% -20%;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 25% 55% at 74% 66%, var(--ambient-copper), transparent 100%),
+      radial-gradient(ellipse 28% 64% at 62% 22%, var(--ambient-honey), transparent 100%);
+  }
+  :is(.results-top, body > footer)::before { opacity: .54; }
+  :root:not([data-light-effects="off"]):not(:has(.boot-screen:not([hidden]))) .site-lighting::before {
+    animation: cooler-ambient-drift 11s ease-in-out infinite alternate;
+  }
+  :root:not([data-light-effects="off"]):not(:has(.boot-screen:not([hidden]))) :is(.hero, .review-intro, .results-top, body > footer)::before {
+    animation: cooler-section-drift 7s ease-in-out infinite alternate;
+  }
+  :root:not([data-light-effects="off"]) :is(.results-top, body > footer)::before {
+    animation-delay: -3s;
+  }
+}
+@keyframes cooler-ambient-drift {
+  0% { transform: translate(-11%, 0) scale(1.08); opacity: .7; }
+  55% { transform: translate(7%, -7%) scale(1.08); opacity: 1; }
+  100% { transform: translate(11%, 5%) scale(1.03); opacity: .85; }
+}
+@keyframes cooler-section-drift {
+  from { transform: translateX(-24%); opacity: .55; }
+  to { transform: translateX(16%); opacity: .94; }
+}
+
+.header-tools { margin-left: auto; }
+.site-header:has(.site-options[open]) { z-index: 40; }
+.site-options { position: relative; }
+.site-options > summary { list-style: none; cursor: pointer; }
+.site-options > summary::-webkit-details-marker { display: none; }
+.site-options > summary::after { content: '＋'; margin-left: .45em; color: var(--muted); }
+.site-options[open] > summary::after { content: '−'; }
+.site-options-panel {
+  position: absolute;
+  z-index: 1;
+  top: calc(100% + 6px);
+  right: 0;
+  display: grid;
+  min-width: 8rem;
+  padding: 4px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  box-shadow: 0 12px 24px -12px #0008;
+}
+.site-options-panel button {
+  background: transparent;
+  border: 0;
+  padding: 9px 12px;
+  color: var(--ink);
+  text-align: left;
+  white-space: nowrap;
+}
+.site-options-panel button:hover { background: var(--surface-2); }
+.site-options-panel #motion-preference { margin: 3px 6px 4px; }

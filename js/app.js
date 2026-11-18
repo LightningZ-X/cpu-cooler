@@ -732,6 +732,21 @@ async function init() {
   });
   $("#open-guide").addEventListener("click", guide);
   $("#read-method").addEventListener("click", sources);
+  const siteOptions = $(".site-options");
+  const optionsSummary = siteOptions.querySelector("summary");
+  function closeSiteOptions() {
+    siteOptions.open = false;
+    optionsSummary.focus({ preventScroll: true });
+  }
+  siteOptions.addEventListener("click", (event) => {
+    if (event.target.closest(".site-options-panel button:not(#light-effects)")) closeSiteOptions();
+  }, { capture: true });
+  document.addEventListener("click", (event) => {
+    if (siteOptions.open && !siteOptions.contains(event.target)) siteOptions.open = false;
+  });
+  siteOptions.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && siteOptions.open) closeSiteOptions();
+  });
   $("#open-sources").addEventListener("click", sources);
   $("#dialog-close").addEventListener("click", () => $("#info-dialog").close());
   $("#info-dialog").addEventListener("click", (event) => {

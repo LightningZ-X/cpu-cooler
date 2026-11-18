@@ -18,6 +18,7 @@
     <script defer src="js/generated/app.js"></script>
   </head>
   <body>
+    <div class="site-lighting" data-ambient-light aria-hidden="true"></div>
     <svg
       width="0"
       height="0"
@@ -76,25 +77,25 @@
                 class="lightning-wordmark"
                 src="assets/lightning-wordmark.png"
                 alt=""
-              /><small>build to be perfect</small></span
+              /></span
             ></span
           >
           <span class="site-identity"
             >散热器选择指南<small>CoolerGuide · Intel 桌面平台</small></span
           >
         </a>
-        <nav aria-label="主导航">
-          <a href="reviews.html">评测资料库</a>
-          <a class="nav-active" href="#configuration">散热器推荐</a
-          ><button type="button" id="open-guide">选购指南</button
-          ><button type="button" id="open-sources">
-            数据说明 <span aria-hidden="true">↗</span>
-          </button>
-        </nav>
         <div class="header-tools">
-          <button type="button" class="outline-button" id="replay-intro">
-            重播开场</button
-          ><button
+          <a class="outline-button" href="reviews.html">评测资料库</a>
+          <details class="site-options">
+            <summary class="outline-button">更多</summary>
+            <div class="site-options-panel">
+              <button type="button" id="open-guide">选购指南</button>
+              <button type="button" id="open-sources">数据说明</button>
+              <button type="button" id="replay-intro">重播开场</button>
+              <button type="button" id="light-effects" aria-pressed="true">光效<span aria-hidden="true">：开启</span></button>
+            </div>
+          </details>
+          <button
             type="button"
             class="outline-button"
             id="theme-toggle"
@@ -106,18 +107,14 @@
       </div>
     </header>
     <main>
-      <section class="hero">
+      <section class="hero" data-ambient-light>
         <div class="hero-copy">
-          <p class="eyebrow">COOLERGUIDE / INTEL</p>
           <h1>为你的配置，选好散热。</h1>
           <p class="hero-description">
             检查安装兼容，参考同条件实测，找到适合你的风冷与水冷。
           </p>
           <p class="field-note" id="catalog-size"></p>
         </div>
-        <a href="reviews.html#new-models" class="hero-source"
-          >新品与评测资料 <span aria-hidden="true">↗</span></a
-        >
       </section>
       <section class="decision-toolbar" aria-label="选型工具">
         <div class="mode-switch" role="group" aria-label="配置模式">
@@ -370,7 +367,7 @@
           </form>
         </aside>
         <div class="results-panel" id="results" tabindex="-1">
-          <div class="results-top">
+          <div class="results-top" data-ambient-light>
             <div>
               <p class="eyebrow">YOUR COOLING PICKS</p>
               <h2>为你的配置，找到合适之选<span class="result-dot">.</span></h2>
@@ -540,7 +537,7 @@
         </div>
       </section>
     </main>
-    <footer>
+    <footer data-ambient-light>
       <a class="brand" href="index.html"
         ><img
           src="assets/logo-gold.svg"

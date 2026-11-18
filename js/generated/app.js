@@ -580,7 +580,8 @@ for (const [value, text] of [
   motionControl.add(new Option(text, value));
 }
 motionControl.value = motionPreference;
-document.querySelector(".header-tools")?.append(motionControl);
+const headerTools = document.querySelector(".site-options-panel") || document.querySelector(".header-tools");
+headerTools?.append(motionControl);
 function syncMotionPreference() {
   root.dataset.motion = reduced.matches ? "reduce" : "full";
   motionControl.title = `当前${reduced.matches ? "减少" : "开启完整"}动态效果`;
@@ -596,6 +597,28 @@ motionControl.addEventListener("change", () => {
 systemMotion.addEventListener("change", syncMotionPreference);
 // Establish CSS preference before any entry animations are scheduled.
 root.dataset.motion = reduced.matches ? "reduce" : "full";
+
+const lightControl = document.querySelector("#light-effects");
+if (lightControl) {
+  let lightsOn = true;
+  try {
+    lightsOn = localStorage.getItem("coolerguide-light-effects") !== "off";
+  } catch {}
+  const syncLights = () => {
+    root.dataset.lightEffects = lightsOn ? "on" : "off";
+    lightControl.setAttribute("aria-pressed", String(lightsOn));
+    lightControl.querySelector("span").textContent = lightsOn ? "：开启" : "：关闭";
+  };
+  syncLights();
+  lightControl.addEventListener("click", () => {
+    lightsOn = !lightsOn;
+    try {
+      localStorage.setItem("coolerguide-light-effects", lightsOn ? "on" : "off");
+    } catch {}
+    syncLights();
+  });
+}
+
 const systemTheme = matchMedia("(prefers-color-scheme: light)");
 const themeButton = document.querySelector("#theme-toggle");
 function applyTheme(theme) {
@@ -2107,6 +2130,21 @@ async function init() {
   });
   $("#open-guide").addEventListener("click", guide);
   $("#read-method").addEventListener("click", sources);
+  const siteOptions = $(".site-options");
+  const optionsSummary = siteOptions.querySelector("summary");
+  function closeSiteOptions() {
+    siteOptions.open = false;
+    optionsSummary.focus({ preventScroll: true });
+  }
+  siteOptions.addEventListener("click", (event) => {
+    if (event.target.closest(".site-options-panel button:not(#light-effects)")) closeSiteOptions();
+  }, { capture: true });
+  document.addEventListener("click", (event) => {
+    if (siteOptions.open && !siteOptions.contains(event.target)) siteOptions.open = false;
+  });
+  siteOptions.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && siteOptions.open) closeSiteOptions();
+  });
   $("#open-sources").addEventListener("click", sources);
   $("#dialog-close").addEventListener("click", () => $("#info-dialog").close());
   $("#info-dialog").addEventListener("click", (event) => {

@@ -18,6 +18,7 @@
     <script defer src="js/generated/reviews.js"></script>
   </head>
   <body>
+    <div class="site-lighting" data-ambient-light aria-hidden="true"></div>
     <svg
       width="0"
       height="0"
@@ -74,11 +75,12 @@
           >
             浅色
           </button>
+          <button type="button" class="outline-button" id="light-effects" aria-pressed="true">光效<span aria-hidden="true">：开启</span></button>
         </div>
       </div>
     </header>
     <main class="review-main">
-      <section class="review-intro">
+      <section class="review-intro" data-ambient-light>
         <p class="eyebrow">TESTS WITH CONTEXT</p>
         <h1>让每一条数据，<span>有据可查。</span></h1>
         <p>
@@ -200,7 +202,7 @@
         </div>
       </section>
     </main>
-    <footer>
+    <footer data-ambient-light>
       <a class="brand" href="index.html">CoolerGuide</a
       ><span>原视频与评测内容归作者所有 · 本页提供出处索引与测试条件整理</span>
     </footer>

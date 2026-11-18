@@ -114,9 +114,14 @@ test("单文件包含两页及所有图片视频，内嵌JS可解析且站内导
     assert.match(links[1].href, /guide\.html$/);
   }
 });
-test("Canvas开场保持用户原始视频素材", async () => {
+test("开场直接播放 4K 视频，单文件嵌入同一视频", async () => {
   const html = await read("index.html");
-  assert.match(html, /<canvas[\s\S]*?id="boot-canvas"/);
-  assert.match(html, /data-video="assets\/lightningz-gap-cut-v2.mp4"/);
-  assert.doesNotMatch(html, /<video/);
+  const bootVideo = /<video\s+id="boot-video"\s+data-video="([^"]+)"/;
+  const asset = "assets/lightningz-gap-cut-gold-sr-4k.mp4";
+  assert.equal(html.match(bootVideo)?.[1], asset);
+  const video = await fs.readFile(new URL(`../${asset}`, import.meta.url));
+  const offline = await read("dist/散热器选择指南.html");
+  const pages = JSON.parse(offline.match(/<script>const pages=(.+);\n/)?.[1]);
+  assert.equal(pages.index.match(bootVideo)?.[1], `data:video/mp4;base64,${video.toString("base64")}`);
+  assert.doesNotMatch(html, /<canvas/);
 });

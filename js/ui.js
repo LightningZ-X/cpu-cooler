@@ -104,7 +104,7 @@ function enterPage() {
     });
 }
 const overlay = document.querySelector("#boot-screen");
-const canvas = document.querySelector("#boot-canvas");
+const bootVideo = document.querySelector("#boot-video");
 const skip = document.querySelector("#skip-intro");
 const replay = document.querySelector("#replay-intro");
 let bootTimer,
@@ -132,7 +132,7 @@ function finishBoot() {
   enterPage();
 }
 function startBoot(manual = false) {
-  if (!overlay || bootActive || (reduced.matches && !manual)) return;
+  if (!overlay || !bootVideo || !skip || bootActive || document.hidden || (reduced.matches && !manual)) return;
   previousFocus = document.activeElement;
   held = [...document.body.children].filter(
     (node) => node !== overlay && !node.inert && node.tagName !== "SCRIPT",
@@ -146,7 +146,7 @@ function startBoot(manual = false) {
   document.body.style.overflow = "hidden";
   skip.focus({ preventScroll: true });
   bootTimer = setTimeout(finishBoot, 7000);
-  stopBoot = startLightningBoot(canvas, finishBoot);
+  stopBoot = startLightningBoot(bootVideo, finishBoot);
 }
 skip?.addEventListener("click", finishBoot);
 replay?.addEventListener("click", () => startBoot(true));

@@ -89,7 +89,6 @@ const mime = {
   ".png": "image/png",
   ".webp": "image/webp",
   ".svg": "image/svg+xml",
-  ".mp4": "video/mp4",
 };
 async function walk(directory) {
   for (const item of await fs.readdir(path.join(root, directory), {
@@ -107,6 +106,8 @@ function inlineAssets(html) {
   return html.replace(
     /\b(src|href|data-video)="(assets\/[^"?#]+)"/g,
     (attribute, kind, name) => {
+      if (kind === "data-video" && name === bootVideo[1])
+        return `data-video="${bootVideoData}"`;
       if (!assets[name]) throw new Error(`Missing asset: ${name}`);
       return `${kind}="${assets[name]}"`;
     },
@@ -114,6 +115,9 @@ function inlineAssets(html) {
 }
 const indexHtml = await read("index.html"),
   reviewsHtml = await read("reviews.html");
+const bootVideo = /data-video="(assets\/[a-z0-9.-]+\.mp4)"/i.exec(indexHtml);
+if (!bootVideo) throw new Error("Missing startup video reference");
+const bootVideoData = `data:video/mp4;base64,${(await fs.readFile(path.join(root, bootVideo[1]))).toString("base64")}`;
 const body = (html) =>
   inlineAssets(
     html

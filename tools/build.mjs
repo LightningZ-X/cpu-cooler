@@ -153,8 +153,21 @@ function rewriteLinks(){document.querySelectorAll("a[href]").forEach(link=>{
 });}
 rewriteLinks();
 new MutationObserver(rewriteLinks).observe(document.body,{childList:true,subtree:true});`;
-const html = `<!doctype html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0c0d0f"><title>散热器选择指南 · 离线版</title><link rel="icon" href="${assets["assets/lightning-gold-icon.svg"]}">${inlineScript(await read("js/theme-init.js"))}<style>${css}</style></head><body>${inlineScript(shell)}${inlineScript(dataCode + `globalThis.COOLERGUIDE_ASSETS=${json(assets)};`)}${inlineScript(`if(new URLSearchParams(location.search).get("view")==="reviews"){${reviews}}else{${app}}`)}</body></html>`;
+const assetPool = [];
+const assetPoolIndex = new Map();
+const assetEntries = [];
+for (const [name, uri] of Object.entries(assets)) {
+  let idx = assetPoolIndex.get(uri);
+  if (idx === undefined) {
+    idx = assetPool.length;
+    assetPool.push(uri);
+    assetPoolIndex.set(uri, idx);
+  }
+  assetEntries.push(`${json(name)}:_p[${idx}]`);
+}
+const assetsCode = `(()=>{const _p=${json(assetPool)};globalThis.COOLERGUIDE_ASSETS={${assetEntries.join(",")}};})();`;
+const html = `<!doctype html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0c0d0f"><title>散热器选择指南 · 离线版</title><link rel="icon" href="${assets["assets/lightning-gold-icon.svg"]}">${inlineScript(await read("js/theme-init.js"))}<style>${css}</style></head><body>${inlineScript(shell)}${inlineScript(dataCode + assetsCode)}${inlineScript(`if(new URLSearchParams(location.search).get("view")==="reviews"){${reviews}}else{${app}}`)}</body></html>`;
 await fs.writeFile(path.join(dist, "散热器选择指南.html"), html);
 console.log(
-  `Built classic scripts and dist/散热器选择指南.html (${(Buffer.byteLength(html) / 1024 / 1024).toFixed(2)} MiB)`,
+  `Built classic scripts and dist/散热器选择指南.html (${(Buffer.byteLength(html) / 1024 / 1024).toFixed(2)} MiB, deduped ${Object.keys(assets).length - assetPool.length} duplicate assets)`,
 );

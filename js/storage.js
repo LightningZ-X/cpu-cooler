@@ -14,6 +14,7 @@ export const defaults = {
   power: "unknown",
   powerLimit: null,
   measuredPower: null,
+  packageTemp: null,
   silicon: "unknown",
   thermalInterface: "unknown",
   preference: "balanced",
@@ -60,7 +61,7 @@ export function normalize(raw, catalog) {
     if (allowed.includes(raw[field])) config[field] = raw[field];
   }
   config.boardName = String(raw.boardName || "").slice(0, 100);
-  config.boardSocket = ["LGA1700", "LGA1851"].includes(raw.boardSocket)
+  config.boardSocket = ["LGA1700", "LGA1851", "AM5"].includes(raw.boardSocket)
     ? raw.boardSocket
     : "";
   const ranges = {
@@ -69,13 +70,19 @@ export function normalize(raw, catalog) {
     radiatorSpace: [20, 150],
     powerLimit: [35, 500],
     measuredPower: [5, 600],
+    packageTemp: [0, 120],
     budget: [1, 20000],
   };
   for (const [field, [min, max]] of Object.entries(ranges)) {
-    const value = Number(raw[field]);
+    const input = raw[field];
+    const value = typeof input === "number" || (typeof input === "string" && input.trim())
+      ? Number(input)
+      : NaN;
     config[field] =
       Number.isFinite(value) && value >= min && value <= max ? value : null;
   }
+  if (catalog.cpus.find((cpu) => cpu.id === config.cpu)?.socket !== "AM5")
+    config.packageTemp = null;
   config.radiatorSize =
     [0, 240, 280, 360, 420].includes(Number(raw.radiatorSize)) &&
     raw.radiatorSize !== null &&

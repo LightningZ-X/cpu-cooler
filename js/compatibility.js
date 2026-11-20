@@ -20,6 +20,9 @@ export function evaluate(cooler, config, catalog) {
   if (!cpu)
     return {
       status: "blocked",
+      fitStage: "blocked",
+      fitLabel: "存在冲突",
+      spaceMargin: null,
       checks: [
         { state: "fail", title: "处理器", detail: "请选择已收录的处理器" },
       ],
@@ -47,6 +50,8 @@ export function evaluate(cooler, config, catalog) {
         ? `原始评测已在 ${cpu.socket} 平台测试；随盒扣具版本仍需核对`
         : `当前官方规格支持 ${cpu.socket}；购买时核对随盒扣具版本`,
     );
+  else if (cooler.platformExclusive)
+    add("fail", "平台扣具", `此版本的厂商支持范围不含 ${cpu.socket}，请选择对应平台版本`, cooler.source);
   else
     add(
       "unknown",
@@ -72,7 +77,7 @@ export function evaluate(cooler, config, catalog) {
         "该组合须改变安装方向，内存与机箱边缘净空需重新核对",
       );
     else if (cooler.ramOverhang === false)
-      add("pass", "内存净空", "该 Intel 平台不覆盖内存插槽");
+      add("pass", "内存净空", "默认布局不遮挡内存插槽");
     else if (!config.ramHeight || cooler.ramClearance == null)
       add(
         "unknown",
@@ -202,7 +207,102 @@ export function evaluate(cooler, config, catalog) {
       : checks.some((c) => c.state === "conditional")
         ? "conditional"
         : "compatible";
-  return { status, checks, heightUsed: height };
+
+  const stateOf = (title) => checks.find((c) => c.title === title)?.state;
+  const socketState = stateOf("主板插槽");
+  const mountState = stateOf("平台扣具");
+  const boardPairState = stateOf("主板安装干涉");
+  const ramState = stateOf("内存净空");
+  const caseState = stateOf("机箱限高");
+  const radMountState = stateOf("冷排安装位");
+  const radThickState = stateOf("冷排总厚度");
+
+  let fitStage = "pending";
+  let fitLabel = "待补齐尺寸";
+
+  if (status === "blocked") {
+    fitStage = "blocked";
+    fitLabel = "存在冲突";
+  } else if (status === "compatible") {
+    fitStage = "certified";
+    fitLabel = "全项验证通过";
+  } else if (socketState === "pass" && mountState === "pass") {
+    if (cooler.type === "air") {
+      if (
+        ramState === "pass" &&
+        caseState === "pass" &&
+        boardPairState !== "conditional"
+      ) {
+        fitStage = "dimensions-ok";
+        fitLabel = "尺寸与插槽匹配";
+      } else if (
+        boardPairState !== "conditional" &&
+        height !== null &&
+        config.caseHeight &&
+        config.caseHeight - height >= 3 &&
+        cooler.ramClearance == null &&
+        cooler.ramOverhang !== false
+      ) {
+        fitStage = "nominal-ok";
+        fitLabel = "标称高度可容纳 · 净空待核";
+      } else if (checks.some((c) => c.state === "conditional")) {
+        fitStage = "conditional";
+        fitLabel = "需调整 / 留心余量";
+      } else {
+        fitStage = "pending";
+        fitLabel = "待补齐尺寸";
+      }
+    } else {
+      if (
+        radMountState === "conditional" &&
+        config.radiatorFit &&
+        radThickState === "pass" &&
+        boardPairState !== "conditional"
+      ) {
+        fitStage = "dimensions-ok";
+        fitLabel = "冷排尺寸匹配";
+      } else if (
+        radThickState === "conditional" ||
+        boardPairState === "conditional"
+      ) {
+        fitStage = "conditional";
+        fitLabel = "需调整 / 留心余量";
+      } else {
+        fitStage = "pending";
+        fitLabel = "待核对冷排空间";
+      }
+    }
+  } else if (checks.some((c) => c.state === "conditional")) {
+    fitStage = "conditional";
+    fitLabel = "需调整 / 留心余量";
+  } else {
+    fitStage = "pending";
+    fitLabel = config.board ? "待补齐尺寸" : "待选主板/尺寸";
+  }
+
+  let spaceMargin = null;
+  if (cooler.type === "air") {
+    if (height !== null && config.caseHeight) {
+      spaceMargin = Number((config.caseHeight - height).toFixed(1));
+    }
+  } else if (
+    config.radiatorSpace &&
+    config.radiatorFit &&
+    radMountState === "conditional"
+  ) {
+    spaceMargin = Number(
+      (config.radiatorSpace - stackThickness(cooler)).toFixed(1),
+    );
+  }
+
+  return {
+    status,
+    fitStage,
+    fitLabel,
+    spaceMargin,
+    checks,
+    heightUsed: height,
+  };
 }
 
 export function precheck(config, catalog) {

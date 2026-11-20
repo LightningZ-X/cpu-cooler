@@ -7,9 +7,9 @@
     <title>评测资料库 · CoolerGuide</title>
     <meta
       name="description"
-      content="51972 往期评测视频目录、Intel 测试条件和实测数据核对进度。保留原始出处，区分已核对结果和待提取资料。"
+      content="51972 往期评测视频目录、桌面平台测试条件与实测数据核对进度。保留原始出处，区分已核对结果和待提取资料。"
     />
-    <link rel="icon" type="image/png" href="assets/lightning-gold-icon.svg" />
+    <link rel="icon" type="image/svg+xml" href="assets/lightning-gold-icon.svg" />
     <link rel="stylesheet" href="css/styles.css" />
     <link rel="stylesheet" href="css/reviews.css" />
     <link rel="stylesheet" href="css/benchmarks.css" />
@@ -58,15 +58,23 @@
                 class="lightning-wordmark"
                 src="assets/lightning-wordmark.png"
                 alt=""
-              /><small>build to be perfect</small></span
+              /></span
             ></span
           >
           <span class="site-identity"
-            >散热器选择指南<small>CoolerGuide · Intel 桌面平台</small></span
+            >散热器选择指南<small>CoolerGuide · Intel / AMD 桌面平台</small></span
           >
         </a>
         <div class="header-tools">
           <a href="index.html" class="outline-button">← 返回选型</a
+          ><details class="site-options">
+            <summary class="outline-button">更多</summary>
+            <div class="site-options-panel">
+              <button type="button" id="light-effects" aria-pressed="true">
+                光效<span aria-hidden="true">：开启</span>
+              </button>
+            </div>
+          </details
           ><button
             type="button"
             class="outline-button"
@@ -75,14 +83,12 @@
           >
             浅色
           </button>
-          <button type="button" class="outline-button" id="light-effects" aria-pressed="true">光效<span aria-hidden="true">：开启</span></button>
         </div>
       </div>
     </header>
     <main class="review-main">
       <section class="review-intro" data-ambient-light>
-        <p class="eyebrow">TESTS WITH CONTEXT</p>
-        <h1>让每一条数据，<span>有据可查。</span></h1>
+        <h1>散热器评测资料库</h1>
         <p>
           51972
           往期内容索引。保留测试条件与原视频出处，让散热建议逐步建立在可核对的实测之上。
@@ -110,10 +116,11 @@
         <a class="source-link" href="index.html">前往选型页搜索型号 ↗</a>
       </section>
       <section class="review-benchmarks" id="verified-tests">
-        <p class="eyebrow">VERIFIED INTEL RESULTS</p>
+        <p class="eyebrow">VERIFIED RESULTS</p>
         <h2>风冷、水冷实测对比</h2>
         <p class="field-note">
-          同组内比较；原装风扇全速、同噪测试、温差与绝对温度不混排。
+          同组内比较；原装风扇全速、同噪测试、温差与绝对温度不混排（已收录
+          Intel 与 AMD AM5 同条件实测组，不同平台与不同口径不混排）。
         </p>
         <label for="review-benchmark" class="sr-only">选择实测组别</label
         ><select id="review-benchmark"></select>
@@ -126,18 +133,35 @@
           官方逐型号记录，已接入选型页。D4、I、Encore
           等后缀不能省略，调整安装方向后需重新核对净空。
         </p>
-        <label for="conflict-search" class="sr-only">搜索主板或散热器冲突</label
-        ><input
-          type="search"
-          id="conflict-search"
-          placeholder="搜索主板 / 散热器型号…"
-        />
+        <div class="conflict-controls">
+          <label for="conflict-search" class="sr-only">搜索主板或散热器冲突</label
+          ><input
+            type="search"
+            id="conflict-search"
+            placeholder="搜索主板 / 散热器型号…"
+          /><label for="conflict-platform" class="sr-only">按平台筛选</label
+          ><select id="conflict-platform">
+            <option value="all">全部平台</option>
+            <option value="AM5">AMD AM5</option>
+            <option value="Intel">Intel LGA1851 / LGA1700</option>
+          </select><label for="conflict-state" class="sr-only">按兼容结论筛选</label
+          ><select id="conflict-state">
+            <option value="all">全部结论</option>
+            <option value="issues">仅看冲突与须调整</option>
+            <option value="pass">仅看官方确认兼容</option>
+          </select><span
+            class="conflict-count"
+            id="conflict-count"
+            role="status"
+            aria-live="polite"
+          ></span>
+        </div>
         <div class="table-scroll" id="conflict-list"></div>
       </section>
       <section class="review-conditions">
         <div class="review-heading">
           <div>
-            <p class="eyebrow">INTEL TEST CONDITIONS</p>
+            <p class="eyebrow">VERIFIED TEST CONDITIONS</p>
             <h2>已核对的测试条件</h2>
           </div>
           <span class="badge neutral">区分读数与章节索引</span>

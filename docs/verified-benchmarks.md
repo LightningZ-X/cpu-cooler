@@ -1,6 +1,6 @@
-# Intel 横评读数与应用范围
+# Intel 与 AMD AM5 横评读数与应用范围
 
-核对日期：2026-11-14。数值来自原作者图表或原始评测正文，不来自评论或二次“省流”。本轮增加 21 条温度读数：51972 的 19 条和 GamersNexus 的 2 条。温度、转速与同噪目标分开保存，不把多个量重复算成多个样本。
+核对日期：2026-11-14；2026-11-20 补充 AMD AM5 实测组。数值来自原作者图表或原始评测正文，不来自评论或二次“省流”。总计收录 37 条温度/温差读数（51972 共 21 条、GamersNexus 共 16 条）。温度、转速与同噪目标分开保存，不把多个量重复算成多个样本。
 
 ## 51972 风冷
 
@@ -21,6 +21,15 @@
 ## 跨风冷 / 水冷的同组对比
 
 采用 [GamersNexus 的原始 D15 G2 评测](https://gamersnexus.net/coolers/noctua-nh-d15-g2-review-benchmarks-hbc-lbc-comparison-best-cpu-coolers) 中 Intel 250W、25 dB(A) 同噪章节：14900KF 平台、1 米半消声室测量，Liquid Freezer III 360 为 48.1℃ P 核温差，NH-D15 G2 HBC 为 57.8℃ P 核温差。二者都是相对室温的温差，不能和 51972 的绝对温度直接比较，也不能把 HBC 数据给标准版。
+
+## AMD AM5 同噪实测对比（GamersNexus Mega Charts）
+
+核对日期：2026-11-20（直接核验 [GamersNexus CPU Cooler Mega Charts](https://gamersnexus.net/megacharts/cpu-coolers) 官方图表，图表更新时间 2026-08-04）：
+
+- **Ryzen 7 9800X3D · 157W · 25 dB(A) 同噪（8 条读数，`gn-9800x3d-157-25dba`）**：MSI X670E ACE、固定 5.3 GHz / 1.255V VDDCR_VDD / 1.205V VSOC，稳态约 157W；半消声室 1 米距离、室温 21℃，记录 Tdie 相对室温平均温差（`delta-tdie`）。精确关联 `lf3360`（54.7℃）、`lf3pro360`（56.8℃）、`d15g2lbc`（61.0℃）、`darkrockpro5`（62.9℃）、`freezer36black`（64.8℃）。图中的 `Peerless Assassin 120`（非 SE 版）与 `Frozen Prism 360`（非 240 版）与库内型号版本不同，保持 `coolerId: null`，严禁跨版本继承。
+- **Ryzen 9 9950X3D · 276W · 25 dB(A) 同噪（6 条读数，`gn-9950x3d-276-25dba`）**：MSI X670E ACE、固定 5.3 GHz / 1.165V VDDCR_VDD / 1.205V VSOC，双 CCD 稳态约 276W（高于默认 230W PPT）；同消声室 25 dB(A)、室温 21℃，记录 `delta-tdie`。精确关联 `lf3360`（60.4℃）、`lf3pro360`（66.4℃）、`d15g2lbc`（69.4℃）。
+
+以上 AM5 读数采用定频定压下的 Tdie 平均温差，仅在同组同条件下作相对比较，不与 Intel 组 `delta-pcore` 或 51972 绝对温度混排，也不用于预测默认 PBO 或游戏温度。
 
 ## 进入建议的条件
 

@@ -6,6 +6,14 @@ export const powerLabels = {
   overclock: "手动超频",
   undervolt: "降压优化（已验证稳定）",
 };
+export function powerLabel(power, cpu) {
+  if (cpu?.socket === "AM5") {
+    if (power === "intel") return "AMD 原厂默认（PPT）";
+    if (power === "unlimited") return "PBO 放宽限制";
+    if (power === "undervolt") return "降压 / 曲线优化（已验证稳定）";
+  }
+  return powerLabels[power];
+}
 export const siliconLabels = {
   unknown: "未评估 / 不确定",
   efficient: "同频所需电压较低（自行验证）",
@@ -39,8 +47,23 @@ export const thermalSources = [
     url: "https://www.intel.com/content/www/us/en/gaming/resources/overclocking-xtu-guide.html",
   },
 ];
+const amdSources = [
+  {
+    title: "AMD：Ryzen 温度、功耗与动态加速",
+    url: "https://community.amd.com/t5/gaming/ryzen-7000-series-processors-let-s-talk-about-power-temperature/ba-p/554629",
+  },
+  {
+    title: "AMD Ryzen Master：PPT、PBO 与温度限制",
+    url: "https://docs.amd.com/r/en-US/68886-ryzen-master-user-guide/CPU",
+  },
+  {
+    title: "Noctua：AM5 CCD 热点与偏移安装",
+    url: "https://www.noctua.at/en/expertise/tech/offset-am5-mounting-technical-backgrounds",
+  },
+];
 
 export function thermalContext(config, cpu) {
+  const isAmd = cpu?.socket === "AM5";
   const measured =
     Number.isFinite(config.measuredPower) && config.measuredPower > 0;
   const limited = config.power === "limited" && config.powerLimit > 0;
@@ -56,19 +79,29 @@ export function thermalContext(config, cpu) {
     ? "当前用途下实测持续 CPU Package Power"
     : limited
       ? "手动设置功耗上限（不等于实际功耗）"
-      : "官方最大睿频功耗（选型参考）";
+      : isAmd
+        ? watts == null
+          ? "默认 PPT 待核对，建议填写 BIOS 上限或实测功耗"
+          : "默认档 PPT 参考，以 BIOS 或监测为准"
+        : "官方最大睿频功耗（选型参考）";
   const notes = [];
   if (config.power === "unknown")
     notes.push(
-      "主板默认不一定采用 Intel 默认限制；请核对 BIOS 中的功耗、电压和增强模式。",
+      isAmd
+        ? "主板默认可能开启 PBO 或放宽功耗墙；请核对 BIOS 中的 PPT / 温度墙与曲线优化设置。"
+        : "主板默认不一定采用 Intel 默认限制；请核对 BIOS 中的功耗、电压和增强模式。",
     );
   if (config.power === "intel")
     notes.push(
-      "Intel 默认仍包含睿频；基础功耗不是始终运行的功耗，也不是温度保证。",
+      isAmd
+        ? "原厂默认包含 Precision Boost。默认档 PPT 仅作参考，实际负载受 BIOS、温度和电流限制。"
+        : "Intel 默认仍包含睿频；基础功耗不是始终运行的功耗，也不是温度保证。",
     );
   if (config.power === "unlimited")
     notes.push(
-      "解除功耗限制与手动超频分开记录；实际持续负载可能超出官方最大睿频功耗。",
+      isAmd
+        ? "PBO 放宽 PPT、TDC 或 EDC 后仍有上限。请填写当前用途的持续功耗，核对实际生效的限制。"
+        : "解除功耗限制与手动超频分开记录；实际持续负载可能超出官方默认功耗上限。",
     );
   if (config.power === "overclock")
     notes.push(
@@ -78,6 +111,34 @@ export function thermalContext(config, cpu) {
     notes.push(
       "降压收益取决于芯片与稳定性验证；未填写实测功耗时，不自动降低散热规格。",
     );
+  let amd = null;
+  if (isAmd) {
+    const layout = cpu.ccdCount === 0
+      ? "单片 APU，优先看 CPU 与核显同时工作时的封装功耗"
+      : cpu.ccdCount
+        ? `${cpu.ccdCount === 1 ? "单" : "双"} CCD，局部热点受负载分布、底座接触和安装压力影响`
+        : "芯片布局待核对，请结合实际封装功耗和温度判断";
+    const limit = cpu.tjmax ? `官方 Tjmax ${cpu.tjmax} °C` : "官方温度上限待核对";
+    const temperature = config.packageTemp;
+    let reading = "";
+    if (Number.isFinite(temperature) && cpu.tjmax) {
+      const margin = Number((cpu.tjmax - temperature).toFixed(1));
+      const status = margin > 0
+        ? `距 Tjmax ${margin} °C。`
+        : "已达到或超过 Tjmax。请结合有效频率、封装功耗和风扇转速判断。";
+      reading = `实测 Tctl/Tdie ${temperature} °C，${status}`;
+    }
+    amd = { summary: `${layout}。${limit}。${reading}`, sources: amdSources };
+    notes.push(
+      "温度接近上限时，结合持续有效频率、封装功耗、散热器转速和安装接触判断，单看温度无法区分正常加速与散热受限。",
+    );
+    if (cpu.ccdCount > 0)
+      notes.push("热点偏离顶盖中心。仅在有该型号厂商方案时考察偏移扣具，并重新核对显卡、M.2 和 VRM 净空。");
+    if (cpu.x3d)
+      notes.push("X3D 的缓存堆叠和温度上限会随代际变化。按具体 CPU 核对上限，避免用相同瓦数推算温度。");
+    if (cpu.liquidRecommended)
+      notes.push("AMD 对该型号建议水冷以获得最佳性能。按实际负载与机箱安装空间选择。");
+  }
   if (measured)
     notes.push(
       "实测功耗仅代表填写时的负载；换用途、功耗设置或频率后请重新测量，不作为整机最高功耗。",
@@ -131,9 +192,11 @@ export function thermalContext(config, cpu) {
     watts,
     basis,
     measured,
+    amd,
     highDemand:
       config.power === "overclock" ||
-      config.power === "unlimited" ||
+      (config.power === "unlimited" && (!isAmd || !measured)) ||
+      (cpu?.liquidRecommended && !measured && !limited && config.usage === "production") ||
       (watts > 200 && (measured || config.usage === "production")),
     attention: ["liquid", "sheet", "degraded", "missing"].includes(medium),
     interfaceNote: notes[interfaceStart],

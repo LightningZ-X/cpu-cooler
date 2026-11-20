@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-14",
+  "checkedAt": "2026-11-20",
   "groups": [
     {
       "id": "gn-14900kf-250-25dba",
@@ -34,6 +34,148 @@
           "type": "air",
           "value": 57.8,
           "rpm": null
+        }
+      ]
+    },
+    {
+      "id": "gn-9800x3d-157-25dba",
+      "title": "风冷 vs 水冷 · 25 dB(A) 同噪",
+      "author": "GamersNexus",
+      "cpuId": "9800x3d",
+      "cpu": "AMD Ryzen 7 9800X3D",
+      "socket": "AM5",
+      "powerW": 157,
+      "fanMode": "noise-normalized",
+      "noiseDbA": 25,
+      "ambientC": 21,
+      "metric": "delta-tdie",
+      "unit": "℃ 温差",
+      "sourceUrl": "https://gamersnexus.net/megacharts/cpu-coolers#9800x3d-cpu-cooler-benchmarks",
+      "sourceLabel": "GN Mega Charts · 9800X3D 157W 25 dB(A) 同噪图表",
+      "publishedAt": "2026-08-04",
+      "timestamp": null,
+      "conditions": "MSI X670E ACE，固定 5.3 GHz / 1.255V VDDCR_VDD / 1.205V VSOC，稳态约 157W；半消声室 1 米距离（本底 14–15 dBA），统一 25 dB(A)，室温 21℃，Tdie 相对室温平均温差（多次重装取稳态均值）。",
+      "limitations": "本组为 AM5 定频定压 157W 稳态同噪对比，仅作同组相对参考，不预测默认 PBO 或游戏温度；图中 Peerless Assassin 120（非 SE）与 Frozen Prism 360（非 240）与库内型号版本不同，保持未入库标注，不跨版本套用。",
+      "results": [
+        {
+          "coolerId": null,
+          "name": "Tryx Panorama 360 Updated",
+          "type": "aio",
+          "value": 53.6,
+          "rpm": 1093
+        },
+        {
+          "coolerId": "lf3360",
+          "name": "ARCTIC Liquid Freezer III 360 Black",
+          "type": "aio",
+          "value": 54.7,
+          "rpm": 1420
+        },
+        {
+          "coolerId": "lf3pro360",
+          "name": "ARCTIC Liquid Freezer III Pro 360",
+          "type": "aio",
+          "value": 56.8,
+          "rpm": 1380
+        },
+        {
+          "coolerId": null,
+          "name": "Thermalright Frozen Prism 360 Black（非 240 版）",
+          "type": "aio",
+          "value": 59,
+          "rpm": 1045
+        },
+        {
+          "coolerId": "d15g2lbc",
+          "name": "Noctua NH-D15 G2 LBC",
+          "type": "air",
+          "value": 61,
+          "rpm": 1100
+        },
+        {
+          "coolerId": "darkrockpro5",
+          "name": "be quiet! Dark Rock Pro 5",
+          "type": "air",
+          "value": 62.9,
+          "rpm": 1261
+        },
+        {
+          "coolerId": null,
+          "name": "Thermalright Peerless Assassin 120（非 SE 标准版）",
+          "type": "air",
+          "value": 63.4,
+          "rpm": 1170
+        },
+        {
+          "coolerId": "freezer36black",
+          "name": "ARCTIC Freezer 36 Black",
+          "type": "air",
+          "value": 64.8,
+          "rpm": 1615
+        }
+      ]
+    },
+    {
+      "id": "gn-9950x3d-276-25dba",
+      "title": "双 CCD 高载 · 25 dB(A) 同噪",
+      "author": "GamersNexus",
+      "cpuId": "9950x3d",
+      "cpu": "AMD Ryzen 9 9950X3D",
+      "socket": "AM5",
+      "powerW": 276,
+      "fanMode": "noise-normalized",
+      "noiseDbA": 25,
+      "ambientC": 21,
+      "metric": "delta-tdie",
+      "unit": "℃ 温差",
+      "sourceUrl": "https://gamersnexus.net/megacharts/cpu-coolers#amd-9950x3d-cpu-cooler-benchmarks",
+      "sourceLabel": "GN Mega Charts · 9950X3D 276W 25 dB(A) 同噪图表",
+      "publishedAt": "2026-08-04",
+      "timestamp": null,
+      "conditions": "MSI X670E ACE，固定 5.3 GHz / 1.165V VDDCR_VDD / 1.205V VSOC，稳态约 276W（双 CCD 重载）；半消声室 1 米距离（本底 14–15 dBA），统一 25 dB(A)，室温 21℃，Tdie 相对室温平均温差。",
+      "limitations": "本组为 276W 定频定压重载同噪对比（高于默认 230W PPT），仅作双 CCD 满载下水冷与风冷的同条件参考，不预测用户整机温度。",
+      "results": [
+        {
+          "coolerId": null,
+          "name": "ARCTIC Liquid Freezer II 360",
+          "type": "aio",
+          "value": 60.1,
+          "rpm": 1448
+        },
+        {
+          "coolerId": "lf3360",
+          "name": "ARCTIC Liquid Freezer III 360 Black",
+          "type": "aio",
+          "value": 60.4,
+          "rpm": 1420
+        },
+        {
+          "coolerId": null,
+          "name": "Corsair Nautilus 360 RS ARGB",
+          "type": "aio",
+          "value": 61.4,
+          "rpm": 1085
+        },
+        {
+          "coolerId": null,
+          "name": "Tryx Panorama 360 Updated",
+          "type": "aio",
+          "value": 62.6,
+          "rpm": 1093
+        },
+        {
+          "coolerId": "lf3pro360",
+          "name": "ARCTIC Liquid Freezer III Pro 360",
+          "type": "aio",
+          "value": 66.4,
+          "rpm": 1390
+        },
+        {
+          "coolerId": "d15g2lbc",
+          "name": "Noctua NH-D15 G2 LBC",
+          "type": "air",
+          "value": 69.4,
+          "rpm": 1128
         }
       ]
     },

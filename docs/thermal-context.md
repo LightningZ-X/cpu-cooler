@@ -19,3 +19,9 @@
 - 更换 CPU 会清空实测功耗和体质；切换用途、运行工况或功耗限制会清空实测功耗，避免旧测量跨工况使用。应用横评条件也会清空旧测量。
 - 超频/降压不沿用限功耗测试排名；用户实测功耗与测试组设置不同也不沿用。功耗相同仍仅为同组参考，体质、介质、接触、环境温度和机箱风道不完全相同，无法保证复现温度。
 - 旧配置和分享链接可兼容，新增字段默认未知；新增字段参与归一化和同源保存/分享。越界功耗不会静默用于计算，表单保留上次有效建议并显示错误。
+
+## AMD AM5 温控与积热
+
+- CPU 规格页提供标称 TDP、封装组成和 Tjmax。Ryzen 7 7800X3D 为 89 °C，9800X3D 为 95 °C。Tjmax 是该型号工作的温度上限，日常温度随负载变化。实测温度与上限的差值仅供解读。排查时同时看有效频率、持续封装功耗、风扇转速和接触情况。 [7800X3D 规格](https://www.amd.com/en/products/processors/desktops/ryzen/7000-series/amd-ryzen-7-7800x3d.html) · [9800X3D 规格](https://www.amd.com/en/products/processors/desktops/ryzen/9000-series/amd-ryzen-7-9800x3d.html) · [AMD 温度与动态加速说明](https://community.amd.com/t5/gaming/ryzen-7000-series-processors-let-s-talk-about-power-temperature/ba-p/554629)
+- AMD 选型参考按实测持续封装功耗、用户设置的 PPT、库内默认档参考值的顺序取值。主板 BIOS 中的 PPT、TDC、EDC 和温度限制决定实际配置。参考 PPT 采用常见档位，具体设置以 BIOS 或监测为准。9950X3D2 的默认 PPT 暂留待核对，持续生产力按 AMD 指定的水冷考察方向提示。 [AMD Ryzen Master](https://docs.amd.com/r/en-US/68886-ryzen-master-user-guide/CPU) · [9950X3D2 规格](https://www.amd.com/en/products/processors/desktops/ryzen/9000-series/amd-ryzen-9-9950x3d2-dual-edition.html)
+- 单 CCD、双 CCD 与单片 APU 分别提示。散热器卡片标记厂商明确的 AM5 底座和偏移方案，区分可选扣具与原厂偏移安装。偏移后需要复核第一 PCIe 插槽、M.2、VRM 和机箱边缘净空。偏移标签不换算固定温差。厂商明确不推荐用于 AM5 的底座版本会降低推荐优先级，物理扣具兼容独立判断。 [Noctua 偏移技术说明](https://www.noctua.at/en/expertise/tech/offset-am5-mounting-technical-backgrounds) · [Noctua 扣条型号表](https://www.noctua.at/en/support/faqs/which-offset-mounting-bars-do-i-need-for-my-cooler) · [NH-D15 G2 HBC 规格](https://www.noctua.at/en/products/nh-d15-g2-hbc/specifications)

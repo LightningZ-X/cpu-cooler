@@ -2,6 +2,29 @@
 (()=>{
 "use strict";
 const modules = Object.create(null);
+modules["js/source-links.js"] = (()=>{
+function escapeHtml(value) {
+  return String(value ?? "").replace(
+    /[&<>"']/g,
+    (char) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
+        char
+      ],
+  );
+}
+
+/** Catalog and review links can be imported from outside this project. */
+function sourceHref(value) {
+  try {
+    const url = new URL(value);
+    if (url.protocol === "https:" || url.protocol === "http:")
+      return escapeHtml(url.href);
+  } catch {}
+  return "#";
+}
+
+return {escapeHtml,sourceHref};
+})();
 modules["js/product-specs.js"] = (()=>{
 /** Published construction facts and test conditions. Neither is a guaranteed watt limit. */
 function constructionSummary(cooler) {
@@ -39,8 +62,68 @@ function recordedTests(coolerId, catalog) {
       .map((row) => ({ group, row })),
   );
 }
+function formatRefPrice(cooler) {
+  if (
+    Array.isArray(cooler.refPrice) &&
+    cooler.refPrice.length >= 2 &&
+    Number.isFinite(cooler.refPrice[0]) &&
+    Number.isFinite(cooler.refPrice[1])
+  ) {
+    return `¥${cooler.refPrice[0]}–${cooler.refPrice[1]}`;
+  }
+  return "暂无参考价";
+}
+function cardSpecItems(cooler, fit = {}) {
+  if (cooler.type === "aio") {
+    const total =
+      cooler.assemblyThickness ??
+      cooler.radiatorThickness + cooler.fanThickness;
+    const thickLabel = total >= 60 ? "加厚排" : "标准厚";
+    const marginText =
+      fit.spaceMargin != null && fit.spaceMargin >= 0
+        ? ` · 余 ${fit.spaceMargin}mm`
+        : "";
+    return [
+      {
+        label: "冷排本体",
+        value: `${cooler.radiatorLength} × ${cooler.radiatorWidth} mm`,
+      },
+      {
+        label: "冷排+风扇总厚",
+        value: `${total} mm（${thickLabel}）${marginText}`,
+      },
+      {
+        label: "结构特征",
+        value: `${cooler.radiatorSize} 水冷 · 含冷头水泵`,
+      },
+    ];
+  }
+  const heightValue =
+    cooler.height === null
+      ? "高度待核对"
+      : fit.heightUsed && fit.heightUsed !== cooler.height
+        ? `${cooler.height}→${fit.heightUsed} mm (抬扇)`
+        : `${cooler.height} mm${fit.spaceMargin != null && fit.spaceMargin >= 0 ? ` · 余 ${fit.spaceMargin}mm` : ""}`;
+  const ramValue =
+    cooler.ramOverhang === false
+      ? "不遮挡内存槽"
+      : cooler.ramClearance != null
+        ? `净空 ${cooler.ramClearance} mm${cooler.ramLift ? " · 可抬扇" : ""}`
+        : "覆盖前槽 · 抬扇待核";
+  const count = cooler.construction?.heatpipes?.count;
+  const formLabel =
+    cooler.formFactor === "downdraft" ? "下压式超薄" : "塔式风冷";
+  return [
+    { label: "安装高度", value: heightValue },
+    { label: "内存避让", value: ramValue },
+    {
+      label: "规格结构",
+      value: `${Number.isInteger(count) && count > 0 ? `${count} 热管` : "风冷"} · ${formLabel}`,
+    },
+  ];
+}
 
-return {constructionSummary,recordedTests};
+return {constructionSummary,recordedTests,formatRefPrice,cardSpecItems};
 })();
 modules["js/search.js"] = (()=>{
 const searchKey = (value) =>
@@ -67,25 +150,41 @@ modules["js/results-view.js"] = (()=>{
 const {modelMatches} = modules["js/search.js"];
 function resultView(
   results,
-  { type = "all", query = "", showBlocked = false, sort = "recommended" } = {},
+  {
+    type = "all",
+    query = "",
+    showBlocked = false,
+    sort = "recommended",
+    useRefPrice = false,
+  } = {},
 ) {
   const matching = results.filter(
     (c) =>
       !c.overBudget &&
+      (!useRefPrice || !c.overRefBudget) &&
       (type === "all" || c.type === type) &&
       modelMatches(c, query),
   );
   const eligible = matching.filter((c) => c.status !== "blocked");
   const blocked = matching.filter((c) => c.status === "blocked");
-  const value = (c) =>
-    sort === "price"
-      ? c.price > 0
-        ? c.price
-        : Infinity
-      : c.type === "air" && c.heightUsed > 0
-        ? c.heightUsed
-        : Infinity;
-  if (["price", "height"].includes(sort)) {
+  const value = (c) => {
+    if (sort === "price") {
+      if (useRefPrice) {
+        return c.price > 0
+          ? c.price
+          : c.effectivePrice > 0
+            ? c.effectivePrice
+            : Infinity;
+      }
+      return c.price > 0 ? c.price : Infinity;
+    }
+    if (sort === "ref-price") {
+      const [low, high] = c.refPrice ?? [];
+      return low > 0 && high >= low ? (low + high) / 2 : Infinity;
+    }
+    return c.type === "air" && c.heightUsed > 0 ? c.heightUsed : Infinity;
+  };
+  if (["price", "ref-price", "height"].includes(sort)) {
     const compare = (a, b) =>
       value(a) === value(b) ? 0 : value(a) < value(b) ? -1 : 1;
     eligible.sort(compare);
@@ -95,6 +194,9 @@ function resultView(
     eligible,
     blocked,
     pending: eligible.filter((c) => c.status === "pending"),
+    ready: eligible.filter((c) =>
+      ["certified", "dimensions-ok"].includes(c.fitStage),
+    ),
     visible: showBlocked ? [...eligible, ...blocked] : eligible,
   };
 }
@@ -108,10 +210,12 @@ function normalizeView(raw, catalog) {
   return {
     filter: ["all", "air", "aio"].includes(raw.filter) ? raw.filter : "all",
     query: typeof raw.query === "string" ? raw.query.slice(0, 100) : "",
-    sort: ["recommended", "price", "height"].includes(raw.sort)
+    sort: ["recommended", "price", "ref-price", "height"].includes(raw.sort)
       ? raw.sort
       : "recommended",
     showBlocked: raw.showBlocked === true,
+    layout: raw.layout === "list" ? "list" : "grid",
+    useRefPrice: raw.useRefPrice !== false,
     compare: Array.isArray(raw.compare)
       ? [
           ...new Set(
@@ -139,6 +243,7 @@ function saveView(view) {
 return {normalizeView,loadView,saveView};
 })();
 modules["js/benchmarks.js"] = (()=>{
+const {escapeHtml : escape, sourceHref} = modules["js/source-links.js"];
 function matchingBenchmark(config, catalog) {
   const group = catalog.benchmarks?.find(
     (item) => item.id === config.benchmarkId,
@@ -177,22 +282,54 @@ const stackThickness = (cooler) =>
 const metricLabel = (group) =>
   group.metric === "delta-pcore"
     ? "P 核温差（相对室温）"
-    : "图表温度（绝对值）";
+    : group.metric === "delta-tdie"
+      ? "Tdie 平均温差（相对室温）"
+      : "图表温度（绝对值）";
 
-const escape = (value) =>
-  String(value ?? "").replace(
-    /[&<>"']/g,
-    (char) =>
-      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
-        char
-      ],
+function benchmarkOptions(groups) {
+  const sections = [
+    { label: "AMD AM5", sockets: ["AM5"] },
+    { label: "Intel LGA1851", sockets: ["LGA1851"] },
+    { label: "Intel LGA1700", sockets: ["LGA1700"] },
+  ];
+  const seen = new Set();
+  const renderOption = (group) =>
+    `<option value="${escape(group.id)}">${escape(group.cpu)} · ${group.powerW}W · ${escape(group.title)} · ${escape(group.author)}</option>`;
+  const grouped = sections
+    .map(({ label, sockets }) => {
+      const list = groups.filter((group) => sockets.includes(group.socket));
+      list.forEach((group) => seen.add(group.id));
+      return list.length
+        ? `<optgroup label="${escape(label)}">${list.map(renderOption).join("")}</optgroup>`
+        : "";
+    })
+    .join("");
+  const rest = groups.filter((group) => !seen.has(group.id));
+  return (
+    grouped +
+    (rest.length
+      ? `<optgroup label="其他平台">${rest.map(renderOption).join("")}</optgroup>`
+      : "")
   );
-function benchmarkTable(group) {
-  const rows = [...group.results].sort((a, b) => a.value - b.value);
-  return `<p class="benchmark-context">${escape(group.author)} · ${escape(group.cpu)} · ${group.powerW}W · ${group.fanMode === "full" ? "原装风扇全速" : `${group.noiseDbA} dB(A) 同噪`} · ${group.ambientC === null ? "室温未记录" : `室温 ${group.ambientC}℃`}</p><p class="benchmark-conditions">${escape(group.conditions)}</p><div class="table-scroll"><table class="benchmark-table"><thead><tr><th>实测型号 / 版本</th><th>${metricLabel(group)} ↓</th><th>风扇转速</th></tr></thead><tbody>${rows.map((row) => `<tr><td>${escape(row.name)}${row.coolerId ? "" : "<small>安装规格尚未入库</small>"}</td><td><b>${row.value}℃</b></td><td>${row.rpm === null ? "未录入" : row.rpm + " RPM"}</td></tr>`).join("")}</tbody></table></div><p class="benchmark-limit">${escape(group.limitations)}</p><a class="source-link" href="${group.sourceUrl}" target="_blank" rel="noopener noreferrer">${escape(group.sourceLabel)} ↗</a>`;
 }
 
-return {matchingBenchmark,benchmarkResult,stackThickness,metricLabel,benchmarkTable};
+function benchmarkApplyHref(group) {
+  const payload = {
+    cpu: group.cpuId,
+    power: "limited",
+    powerLimit: group.powerW,
+    usage: "production",
+    benchmarkId: group.id,
+  };
+  return `index.html#config=${encodeURIComponent(JSON.stringify(payload))}`;
+}
+
+function benchmarkTable(group) {
+  const rows = [...group.results].sort((a, b) => a.value - b.value);
+  return `<p class="benchmark-context">${escape(group.author)} · ${escape(group.cpu)} · ${group.powerW}W · ${group.fanMode === "full" ? "原装风扇全速" : `${group.noiseDbA} dB(A) 同噪`} · ${group.ambientC === null ? "室温未记录" : `室温 ${group.ambientC}℃`}</p><p class="benchmark-conditions">${escape(group.conditions)}</p><div class="table-scroll"><table class="benchmark-table"><thead><tr><th>实测型号 / 版本</th><th>${metricLabel(group)} ↓</th><th>风扇转速</th></tr></thead><tbody>${rows.map((row) => `<tr><td>${escape(row.name)}${row.coolerId ? "" : "<small>安装规格尚未入库</small>"}</td><td><b>${row.value}℃</b></td><td>${row.rpm === null ? "未录入" : row.rpm + " RPM"}</td></tr>`).join("")}</tbody></table></div><p class="benchmark-limit">${escape(group.limitations)}</p><a class="source-link" href="${sourceHref(group.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escape(group.sourceLabel)} ↗</a>`;
+}
+
+return {matchingBenchmark,benchmarkResult,stackThickness,metricLabel,benchmarkOptions,benchmarkApplyHref,benchmarkTable};
 })();
 modules["js/compatibility.js"] = (()=>{
 const {stackThickness} = modules["js/benchmarks.js"];
@@ -217,6 +354,9 @@ function evaluate(cooler, config, catalog) {
   if (!cpu)
     return {
       status: "blocked",
+      fitStage: "blocked",
+      fitLabel: "存在冲突",
+      spaceMargin: null,
       checks: [
         { state: "fail", title: "处理器", detail: "请选择已收录的处理器" },
       ],
@@ -244,6 +384,8 @@ function evaluate(cooler, config, catalog) {
         ? `原始评测已在 ${cpu.socket} 平台测试；随盒扣具版本仍需核对`
         : `当前官方规格支持 ${cpu.socket}；购买时核对随盒扣具版本`,
     );
+  else if (cooler.platformExclusive)
+    add("fail", "平台扣具", `此版本的厂商支持范围不含 ${cpu.socket}，请选择对应平台版本`, cooler.source);
   else
     add(
       "unknown",
@@ -269,7 +411,7 @@ function evaluate(cooler, config, catalog) {
         "该组合须改变安装方向，内存与机箱边缘净空需重新核对",
       );
     else if (cooler.ramOverhang === false)
-      add("pass", "内存净空", "该 Intel 平台不覆盖内存插槽");
+      add("pass", "内存净空", "默认布局不遮挡内存插槽");
     else if (!config.ramHeight || cooler.ramClearance == null)
       add(
         "unknown",
@@ -399,7 +541,102 @@ function evaluate(cooler, config, catalog) {
       : checks.some((c) => c.state === "conditional")
         ? "conditional"
         : "compatible";
-  return { status, checks, heightUsed: height };
+
+  const stateOf = (title) => checks.find((c) => c.title === title)?.state;
+  const socketState = stateOf("主板插槽");
+  const mountState = stateOf("平台扣具");
+  const boardPairState = stateOf("主板安装干涉");
+  const ramState = stateOf("内存净空");
+  const caseState = stateOf("机箱限高");
+  const radMountState = stateOf("冷排安装位");
+  const radThickState = stateOf("冷排总厚度");
+
+  let fitStage = "pending";
+  let fitLabel = "待补齐尺寸";
+
+  if (status === "blocked") {
+    fitStage = "blocked";
+    fitLabel = "存在冲突";
+  } else if (status === "compatible") {
+    fitStage = "certified";
+    fitLabel = "全项验证通过";
+  } else if (socketState === "pass" && mountState === "pass") {
+    if (cooler.type === "air") {
+      if (
+        ramState === "pass" &&
+        caseState === "pass" &&
+        boardPairState !== "conditional"
+      ) {
+        fitStage = "dimensions-ok";
+        fitLabel = "尺寸与插槽匹配";
+      } else if (
+        boardPairState !== "conditional" &&
+        height !== null &&
+        config.caseHeight &&
+        config.caseHeight - height >= 3 &&
+        cooler.ramClearance == null &&
+        cooler.ramOverhang !== false
+      ) {
+        fitStage = "nominal-ok";
+        fitLabel = "标称高度可容纳 · 净空待核";
+      } else if (checks.some((c) => c.state === "conditional")) {
+        fitStage = "conditional";
+        fitLabel = "需调整 / 留心余量";
+      } else {
+        fitStage = "pending";
+        fitLabel = "待补齐尺寸";
+      }
+    } else {
+      if (
+        radMountState === "conditional" &&
+        config.radiatorFit &&
+        radThickState === "pass" &&
+        boardPairState !== "conditional"
+      ) {
+        fitStage = "dimensions-ok";
+        fitLabel = "冷排尺寸匹配";
+      } else if (
+        radThickState === "conditional" ||
+        boardPairState === "conditional"
+      ) {
+        fitStage = "conditional";
+        fitLabel = "需调整 / 留心余量";
+      } else {
+        fitStage = "pending";
+        fitLabel = "待核对冷排空间";
+      }
+    }
+  } else if (checks.some((c) => c.state === "conditional")) {
+    fitStage = "conditional";
+    fitLabel = "需调整 / 留心余量";
+  } else {
+    fitStage = "pending";
+    fitLabel = config.board ? "待补齐尺寸" : "待选主板/尺寸";
+  }
+
+  let spaceMargin = null;
+  if (cooler.type === "air") {
+    if (height !== null && config.caseHeight) {
+      spaceMargin = Number((config.caseHeight - height).toFixed(1));
+    }
+  } else if (
+    config.radiatorSpace &&
+    config.radiatorFit &&
+    radMountState === "conditional"
+  ) {
+    spaceMargin = Number(
+      (config.radiatorSpace - stackThickness(cooler)).toFixed(1),
+    );
+  }
+
+  return {
+    status,
+    fitStage,
+    fitLabel,
+    spaceMargin,
+    checks,
+    heightUsed: height,
+  };
 }
 
 function precheck(config, catalog) {
@@ -488,7 +725,9 @@ function nextSteps(config, catalog, type = "all") {
     add(
       "power",
       "核对CPU运行工况",
-      "主板默认不一定是Intel默认；有实测持续功耗时可补充。",
+      cpu?.socket === "AM5"
+        ? "核对 BIOS 中的 PPT、PBO 与温度墙，并在同一负载下记录实际封装功耗和 Tctl/Tdie。"
+        : "主板默认不一定是 CPU 官方默认；有实测持续功耗时可补充。",
     );
   if (config.thermalInterface === "unknown")
     add(
@@ -557,18 +796,26 @@ modules["js/ui.js"] = (()=>{
 const {startLightningBoot} = modules["js/boot-animation.js"];
 const root = document.documentElement;
 const systemMotion = matchMedia("(prefers-reduced-motion: reduce)");
+
 let motionPreference = "system";
 try {
   motionPreference = localStorage.getItem("coolerguide-motion") || "system";
 } catch {}
 if (!["system", "full", "reduce"].includes(motionPreference))
   motionPreference = "system";
+
 const reduced = new EventTarget();
 Object.defineProperty(reduced, "matches", {
   get: () =>
     motionPreference === "reduce" ||
     (motionPreference === "system" && systemMotion.matches),
 });
+
+try {
+  localStorage.removeItem("coolerguide-aura");
+} catch {}
+delete root.dataset.aura;
+
 const motionControl = document.createElement("select");
 motionControl.id = "motion-preference";
 motionControl.setAttribute("aria-label", "动态效果");
@@ -580,8 +827,10 @@ for (const [value, text] of [
   motionControl.add(new Option(text, value));
 }
 motionControl.value = motionPreference;
+
 const headerTools = document.querySelector(".site-options-panel") || document.querySelector(".header-tools");
 headerTools?.append(motionControl);
+
 function syncMotionPreference() {
   root.dataset.motion = reduced.matches ? "reduce" : "full";
   motionControl.title = `当前${reduced.matches ? "减少" : "开启完整"}动态效果`;
@@ -598,6 +847,26 @@ systemMotion.addEventListener("change", syncMotionPreference);
 // Establish CSS preference before any entry animations are scheduled.
 root.dataset.motion = reduced.matches ? "reduce" : "full";
 
+let headerScanTimer;
+let hudScanTimer;
+const spotlightSelector =
+  ".cooler-card, .diagnostic-bar, .review-stat, .test-group, .principles > div";
+let spotlightRaf = 0;
+let lastPointerEvent = null;
+let lastSpotlightTarget = null;
+function clearSpotlight() {
+  if (spotlightRaf) {
+    cancelAnimationFrame(spotlightRaf);
+    spotlightRaf = 0;
+  }
+  if (lastSpotlightTarget) {
+    delete lastSpotlightTarget.dataset.spotlightActive;
+    lastSpotlightTarget.style.removeProperty("--mx");
+    lastSpotlightTarget.style.removeProperty("--my");
+    lastSpotlightTarget = null;
+  }
+}
+
 const lightControl = document.querySelector("#light-effects");
 if (lightControl) {
   let lightsOn = true;
@@ -608,6 +877,17 @@ if (lightControl) {
     root.dataset.lightEffects = lightsOn ? "on" : "off";
     lightControl.setAttribute("aria-pressed", String(lightsOn));
     lightControl.querySelector("span").textContent = lightsOn ? "：开启" : "：关闭";
+    if (!lightsOn) {
+      clearSpotlight();
+      clearTimeout(headerScanTimer);
+      clearTimeout(hudScanTimer);
+      document
+        .querySelector(".site-header")
+        ?.removeAttribute("data-lightning-pulse");
+      document
+        .querySelector(".diagnostic-bar")
+        ?.removeAttribute("data-scanning");
+    }
   };
   syncLights();
   lightControl.addEventListener("click", () => {
@@ -617,6 +897,41 @@ if (lightControl) {
     } catch {}
     syncLights();
   });
+}
+
+function triggerHeaderScan() {
+  const header = document.querySelector(".site-header");
+  if (
+    !header ||
+    reduced.matches ||
+    document.hidden ||
+    root.dataset.lightEffects === "off"
+  )
+    return;
+  clearTimeout(headerScanTimer);
+  header.removeAttribute("data-lightning-pulse");
+  void header.offsetWidth;
+  header.setAttribute("data-lightning-pulse", "true");
+  headerScanTimer = setTimeout(
+    () => header.removeAttribute("data-lightning-pulse"),
+    520,
+  );
+}
+
+function triggerHudScan() {
+  const bar = document.querySelector(".diagnostic-bar");
+  if (
+    !bar ||
+    reduced.matches ||
+    document.hidden ||
+    root.dataset.lightEffects === "off"
+  )
+    return;
+  clearTimeout(hudScanTimer);
+  bar.removeAttribute("data-scanning");
+  void bar.offsetWidth;
+  bar.setAttribute("data-scanning", "true");
+  hudScanTimer = setTimeout(() => bar.removeAttribute("data-scanning"), 540);
 }
 
 const systemTheme = matchMedia("(prefers-color-scheme: light)");
@@ -635,6 +950,7 @@ applyTheme(root.dataset.theme);
 themeButton?.addEventListener("click", () => {
   const theme = root.dataset.theme === "dark" ? "light" : "dark";
   applyTheme(theme);
+  triggerHeaderScan();
   try {
     localStorage.setItem("coolerguide-theme", theme);
   } catch {}
@@ -648,12 +964,13 @@ systemTheme.addEventListener("change", () => {
 });
 
 const animations = new Set();
-function animate(element, frames, duration = 320, delay = 0) {
+const AC_EASE = "cubic-bezier(.22,1,.36,1)";
+function animate(element, frames, duration = 300, delay = 0, easing = AC_EASE) {
   if (reduced.matches || !element?.animate || document.hidden) return;
   const animation = element.animate(frames, {
     duration,
     delay,
-    easing: "cubic-bezier(.16,1,.3,1)",
+    easing,
     fill: "backwards",
   });
   animations.add(animation);
@@ -663,10 +980,11 @@ function animate(element, frames, duration = 320, delay = 0) {
   );
   return animation;
 }
+
 function enterPage() {
   document
     .querySelectorAll(
-      ".site-header, .hero, .decision-toolbar, .review-intro, .config-panel, .results-top, .thermal-context, .result-metrics, .check-panel, .review-stats, .cooler-card",
+      ".site-header, .hero, .decision-toolbar, .review-intro, .config-panel, .results-top, .diagnostic-bar, .catalog-toolbar, .thermal-context, .result-metrics, .check-panel, .review-stats",
     )
     .forEach((element, index) => {
       const box = element.getBoundingClientRect();
@@ -674,28 +992,33 @@ function enterPage() {
       animate(
         element,
         [
-          { opacity: 0, transform: "translateY(10px)" },
+          { opacity: 0.35, transform: "translate3d(0, 12px, 0) scale(0.99)" },
           { opacity: 1, transform: "none" },
         ],
-        460,
-        Math.min(index, 6) * 35,
+        340,
+        Math.min(index, 8) * 28,
       );
     });
 }
+
 const overlay = document.querySelector("#boot-screen");
 const bootVideo = document.querySelector("#boot-video");
 const skip = document.querySelector("#skip-intro");
 const replay = document.querySelector("#replay-intro");
 let bootTimer,
+  bootExit,
   stopBoot,
   previousFocus,
+  previousOverflow,
   held = [],
   bootActive = false;
-const bootKey = "coolerguide-lightning-seen-v1";
+const bootKey = "coolerguide-lightning-seen-v4";
 function finishBoot() {
   if (!bootActive) return;
   bootActive = false;
   clearTimeout(bootTimer);
+  bootExit?.cancel();
+  bootExit = null;
   stopBoot?.();
   stopBoot = null;
   overlay.hidden = true;
@@ -703,16 +1026,43 @@ function finishBoot() {
     node.inert = false;
   });
   held = [];
-  document.body.style.overflow = "";
+  document.body.style.overflow = previousOverflow;
   try {
     localStorage.setItem(bootKey, "1");
   } catch {}
-  if (previousFocus?.isConnected) previousFocus.focus({ preventScroll: true });
+  if (previousFocus?.isConnected && previousFocus !== document.body)
+    previousFocus.focus({ preventScroll: true });
+  else replay?.focus({ preventScroll: true });
   enterPage();
 }
+function completeBoot(reason) {
+  if (reason !== "ended") {
+    finishBoot();
+    return;
+  }
+  bootExit = animate(overlay, [{ opacity: 1 }, { opacity: 0 }], 210);
+  if (bootExit)
+    bootExit.finished.then(
+      () => {
+        finishBoot();
+        triggerHeaderScan();
+      },
+      () => {},
+    );
+  else finishBoot();
+}
 function startBoot(manual = false) {
-  if (!overlay || !bootVideo || !skip || bootActive || document.hidden || (reduced.matches && !manual)) return;
+  if (
+    !overlay ||
+    !bootVideo ||
+    !skip ||
+    bootActive ||
+    document.hidden ||
+    (reduced.matches && !manual)
+  )
+    return;
   previousFocus = document.activeElement;
+  previousOverflow = document.body.style.overflow;
   held = [...document.body.children].filter(
     (node) => node !== overlay && !node.inert && node.tagName !== "SCRIPT",
   );
@@ -720,13 +1070,16 @@ function startBoot(manual = false) {
     node.inert = true;
   });
   bootActive = true;
-  overlay.dataset.playback = "loading";
   overlay.hidden = false;
   document.body.style.overflow = "hidden";
   skip.focus({ preventScroll: true });
   // 手动重播给慢网留出缓冲时间。
   bootTimer = setTimeout(finishBoot, manual ? 30000 : 7000);
-  stopBoot = startLightningBoot(bootVideo, finishBoot);
+  try {
+    stopBoot = startLightningBoot(bootVideo, completeBoot);
+  } catch {
+    finishBoot();
+  }
 }
 skip?.addEventListener("click", finishBoot);
 replay?.addEventListener("click", () => startBoot(true));
@@ -736,6 +1089,139 @@ document.addEventListener("keydown", (event) => {
     finishBoot();
   }
 });
+
+// Sliding glider pill for segmented controls.
+function initSlidingTabs() {
+  const containers = document.querySelectorAll(
+    ".mode-switch, .tabs, .layout-switch",
+  );
+  containers.forEach((container) => {
+    container.dataset.gliderReady = "true";
+    const sync = () => {
+      const active = container.querySelector('[aria-pressed="true"], .active');
+      if (active && active.offsetWidth > 0) {
+        container.style.setProperty("--glider-x", `${active.offsetLeft}px`);
+        container.style.setProperty("--glider-w", `${active.offsetWidth}px`);
+        container.dataset.gliderHasActive = "true";
+      } else {
+        container.style.setProperty("--glider-w", "0px");
+        container.dataset.gliderHasActive = "false";
+      }
+    };
+    sync();
+    requestAnimationFrame(sync);
+    document.fonts?.ready?.then?.(sync);
+    new MutationObserver(sync).observe(container, {
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["class", "aria-pressed"],
+    });
+    if (typeof ResizeObserver === "function") {
+      new ResizeObserver(sync).observe(container);
+    } else {
+      window.addEventListener("resize", sync);
+    }
+  });
+}
+initSlidingTabs();
+
+// Pointer reveal spotlight on cards and HUD blocks.
+document.addEventListener(
+  "pointermove",
+  (event) => {
+    if (
+      motionPreference === "reduce" ||
+      root.dataset.lightEffects === "off" ||
+      !["mouse", "pen"].includes(event.pointerType)
+    ) {
+      clearSpotlight();
+      return;
+    }
+    lastPointerEvent = event;
+    if (spotlightRaf) return;
+    spotlightRaf = requestAnimationFrame(() => {
+      spotlightRaf = 0;
+      const ev = lastPointerEvent;
+      if (
+        !ev ||
+        motionPreference === "reduce" ||
+        root.dataset.lightEffects === "off"
+      )
+        return;
+      const target = ev.target?.closest?.(spotlightSelector);
+      if (lastSpotlightTarget && lastSpotlightTarget !== target) {
+        delete lastSpotlightTarget.dataset.spotlightActive;
+        lastSpotlightTarget.style.removeProperty("--mx");
+        lastSpotlightTarget.style.removeProperty("--my");
+      }
+      if (target) {
+        target.dataset.spotlightActive = "true";
+        const rect = target.getBoundingClientRect();
+        target.style.setProperty(
+          "--mx",
+          `${(ev.clientX - rect.left).toFixed(1)}px`,
+        );
+        target.style.setProperty(
+          "--my",
+          `${(ev.clientY - rect.top).toFixed(1)}px`,
+        );
+        lastSpotlightTarget = target;
+      } else {
+        lastSpotlightTarget = null;
+      }
+    });
+  },
+  { passive: true },
+);
+document.addEventListener("pointerleave", clearSpotlight);
+
+// HUD numeric rolling without delaying or mutating real textContent.
+const rollingRafs = new Map();
+function clearRoll(element) {
+  const rafId = rollingRafs.get(element);
+  if (rafId) {
+    cancelAnimationFrame(rafId);
+    rollingRafs.delete(element);
+  }
+  element.classList.remove("is-rolling");
+  delete element.dataset.rolling;
+}
+function clearAllRolls() {
+  for (const element of [...rollingRafs.keys()]) clearRoll(element);
+}
+function rollNumber(element, fromVal, toVal) {
+  clearRoll(element);
+  if (
+    reduced.matches ||
+    document.hidden ||
+    !Number.isFinite(fromVal) ||
+    !Number.isFinite(toVal) ||
+    fromVal === toVal
+  )
+    return;
+  element.dataset.rolling = String(fromVal);
+  element.classList.add("is-rolling");
+  const start = performance.now();
+  const duration = 280;
+  const tick = (now) => {
+    if (reduced.matches || document.hidden) {
+      clearRoll(element);
+      return;
+    }
+    const t = Math.min(1, (now - start) / duration);
+    const eased = 1 - Math.pow(1 - t, 3);
+    element.dataset.rolling = String(
+      Math.round(fromVal + (toVal - fromVal) * eased),
+    );
+    if (t < 1) {
+      rollingRafs.set(element, requestAnimationFrame(tick));
+    } else {
+      clearRoll(element);
+    }
+  };
+  rollingRafs.set(element, requestAnimationFrame(tick));
+}
+
 function syncMotion() {
   if (replay) {
     replay.title = reduced.matches
@@ -744,21 +1230,32 @@ function syncMotion() {
   }
   if (reduced.matches) {
     finishBoot();
+    clearSpotlight();
+    clearAllRolls();
+    clearTimeout(headerScanTimer);
+    clearTimeout(hudScanTimer);
+    document
+      .querySelector(".site-header")
+      ?.removeAttribute("data-lightning-pulse");
+    document.querySelector(".diagnostic-bar")?.removeAttribute("data-scanning");
     animations.forEach((animation) => animation.cancel());
   }
 }
 reduced.addEventListener("change", syncMotion);
 syncMotion();
-let seen = false;
+const bootParams = new URLSearchParams(location.search);
+let seenIntro = false;
 try {
-  seen = localStorage.getItem(bootKey) === "1";
+  seenIntro = localStorage.getItem(bootKey) === "1";
 } catch {}
 if (
   overlay &&
-  !seen &&
+  (!seenIntro || bootParams.get("intro") === "1") &&
   !location.hash &&
   !reduced.matches &&
-  new URLSearchParams(location.search).get("noanim") !== "1"
+  !document.hidden &&
+  !matchMedia("print").matches &&
+  bootParams.get("noanim") !== "1"
 )
   startBoot();
 else enterPage();
@@ -767,6 +1264,8 @@ window.addEventListener("beforeprint", finishBoot);
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) {
     finishBoot();
+    clearSpotlight();
+    clearAllRolls();
     animations.forEach((animation) => animation.cancel());
   }
 });
@@ -775,7 +1274,13 @@ document.addEventListener("visibilitychange", () => {
 const folding = new Map();
 document.addEventListener("click", (event) => {
   const summary = event.target.closest("summary");
-  if (!summary || reduced.matches || !summary.parentElement.animate) return;
+  if (
+    !summary ||
+    summary.parentElement.matches(".site-options") ||
+    reduced.matches ||
+    !summary.parentElement.animate
+  )
+    return;
   const details = summary.parentElement;
   folding.get(details)?.();
   event.preventDefault();
@@ -799,7 +1304,7 @@ document.addEventListener("click", (event) => {
   animation = animate(
     details,
     [{ height: `${start}px` }, { height: `${end}px` }],
-    opening ? 340 : 220,
+    opening ? 320 : 210,
   );
   if (animation) animation.finished.then(finish, () => {});
   else finish();
@@ -813,19 +1318,66 @@ window.addEventListener("pagehide", finishFolds);
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) finishFolds();
 });
-const infoDialog = document.querySelector("#info-dialog");
-if (infoDialog)
-  new MutationObserver(() => {
-    if (infoDialog.open)
+
+const siteOptions = document.querySelector(".site-options");
+if (siteOptions) {
+  const optionsSummary = siteOptions.querySelector("summary");
+  const optionsPanel = siteOptions.querySelector(".site-options-panel");
+  const closeSiteOptions = () => {
+    siteOptions.open = false;
+    optionsSummary?.focus({ preventScroll: true });
+  };
+  siteOptions.addEventListener("toggle", () => {
+    if (siteOptions.open && optionsPanel) {
       animate(
-        infoDialog,
+        optionsPanel,
         [
-          { opacity: 0, transform: "translateY(8px) scale(.99)" },
+          { opacity: 0.35, transform: "translate3d(0, -6px, 0)" },
           { opacity: 1, transform: "none" },
         ],
-        240,
+        150,
       );
+    }
+  });
+  siteOptions.addEventListener(
+    "click",
+    (event) => {
+      if (event.target.closest(".site-options-panel button:not(#light-effects)"))
+        closeSiteOptions();
+    },
+    { capture: true },
+  );
+  document.addEventListener("click", (event) => {
+    if (siteOptions.open && !siteOptions.contains(event.target))
+      siteOptions.open = false;
+  });
+  siteOptions.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && siteOptions.open) closeSiteOptions();
+  });
+}
+
+const infoDialog = document.querySelector("#info-dialog");
+if (infoDialog) {
+  let dialogAnimation = null;
+  new MutationObserver(() => {
+    dialogAnimation?.cancel();
+    dialogAnimation = null;
+    if (infoDialog.open) {
+      dialogAnimation = animate(
+        infoDialog,
+        [
+          {
+            opacity: 0.92,
+            transform: "translate3d(0, 8px, 0) scale(0.985)",
+          },
+          { opacity: 1, transform: "none" },
+        ],
+        180,
+      );
+    }
   }).observe(infoDialog, { attributes: true, attributeFilter: ["open"] });
+}
+
 const count = document.querySelector("#result-count");
 if (count) {
   let previous = count.textContent;
@@ -843,7 +1395,41 @@ if (count) {
   }).observe(count, { childList: true });
 }
 
+const configSummary = document.querySelector("#config-summary");
+if (configSummary) {
+  let lastHtml = configSummary.innerHTML;
+  new MutationObserver(() => {
+    if (configSummary.innerHTML === lastHtml) return;
+    lastHtml = configSummary.innerHTML;
+    triggerHeaderScan();
+    triggerHudScan();
+    configSummary.querySelectorAll("span").forEach((chip, index) => {
+      animate(
+        chip,
+        [
+          { opacity: 0.3, transform: "translateY(4px) scale(0.96)" },
+          { opacity: 1, transform: "none" },
+        ],
+        220,
+        Math.min(index, 5) * 18,
+      );
+    });
+  }).observe(configSummary, { childList: true });
+}
+
 const cardList = document.querySelector("#cards");
+function animateCardCharge(card) {
+  card.querySelectorAll(".clearance-track > span").forEach((bar) => {
+    bar.style.transformOrigin = "left center";
+    animate(
+      bar,
+      [{ transform: "scaleX(0)" }, { transform: "scaleX(1)" }],
+      420,
+      60,
+    );
+  });
+}
+
 // Observe each new card rather than playing offscreen cards before they are seen.
 const reveal =
   "IntersectionObserver" in window
@@ -856,17 +1442,24 @@ const reveal =
             animate(
               entry.target,
               [
-                { opacity: 0.25, transform: "translateY(16px)" },
+                {
+                  opacity: 0.3,
+                  transform: "translate3d(0, 12px, 0) scale(0.985)",
+                },
                 { opacity: 1, transform: "none" },
               ],
-              420,
-              Math.min(index++, 5) * 40,
+              280,
+              Math.min(index++, 7) * 26,
             );
+            if (entry.target.classList.contains("cooler-card")) {
+              animateCardCharge(entry.target);
+            }
           }
         },
-        { threshold: 0.08 },
+        { threshold: 0.06 },
       )
     : null;
+
 let observedCards = [];
 function observeCards() {
   // Drop detached nodes on search/filter, including nodes never scrolled into view.
@@ -933,7 +1526,7 @@ function setSectionVisible(element, visible) {
       { height: `${start}px`, opacity: visible ? 0.35 : 1 },
       { height: `${end}px`, opacity: visible ? 1 : 0.35 },
     ],
-    visible ? 360 : 240,
+    visible ? 320 : 220,
   );
   if (animation) animation.finished.then(finish, () => {});
   else finish();
@@ -968,35 +1561,88 @@ for (const selector of ["#compare-tray", "#toast"]) {
           },
           { opacity: 1, transform: base },
         ],
-        360,
+        320,
       );
     }
   }).observe(element, { attributes: true, attributeFilter: ["hidden"] });
 }
-for (const selector of [
-  "#answer-value",
-  "#metric-candidates",
-  "#metric-pending",
-  "#metric-blocked",
-]) {
-  const element = document.querySelector(selector);
-  if (!element) continue;
-  let text = element.textContent;
+
+const compareItemsEl = document.querySelector("#compare-items");
+if (compareItemsEl) {
+  let prevCount = 0;
   new MutationObserver(() => {
-    if (text === element.textContent) return;
-    text = element.textContent;
-    animate(
-      element,
-      [
-        { opacity: 0.4, transform: "translateY(5px)" },
-        { opacity: 1, transform: "none" },
-      ],
-      280,
-    );
+    const items = [...compareItemsEl.children];
+    if (items.length > prevCount && items.length > 0) {
+      const newest = items[items.length - 1];
+      animate(
+        newest,
+        [
+          { opacity: 0, transform: "translateY(8px) scale(0.94)" },
+          { opacity: 1, transform: "none" },
+        ],
+        220,
+      );
+    }
+    prevCount = items.length;
+  }).observe(compareItemsEl, { childList: true });
+}
+
+function bindNumericMetricObserver(element) {
+  if (!element) return;
+  let text = element.textContent.trim();
+  new MutationObserver(() => {
+    const next = element.textContent.trim();
+    if (text === next) return;
+    const prev = text;
+    text = next;
+    if (/^-?\d+$/.test(prev) && /^-?\d+$/.test(next)) {
+      rollNumber(element, Number.parseInt(prev, 10), Number.parseInt(next, 10));
+      triggerHudScan();
+    } else {
+      animate(
+        element,
+        [
+          { opacity: 0.4, transform: "translateY(5px)" },
+          { opacity: 1, transform: "none" },
+        ],
+        260,
+      );
+    }
   }).observe(element, { childList: true, characterData: true, subtree: true });
 }
 
-// Continue from the current press frame, like the calculator's spring feedback.
+for (const selector of [
+  "#answer-value",
+  "#metric-candidates",
+  "#metric-ready",
+  "#metric-pending",
+  "#metric-blocked",
+]) {
+  bindNumericMetricObserver(document.querySelector(selector));
+}
+
+const collectionStats = document.querySelector("#collection-stats");
+if (collectionStats) {
+  const bindStats = () => {
+    collectionStats.querySelectorAll(".review-stat b").forEach((b) => {
+      if (b.dataset.hudBound) return;
+      b.dataset.hudBound = "1";
+      animate(
+        b,
+        [
+          { opacity: 0.25, transform: "translateY(6px)" },
+          { opacity: 1, transform: "none" },
+        ],
+        320,
+      );
+      bindNumericMetricObserver(b);
+    });
+  };
+  bindStats();
+  new MutationObserver(bindStats).observe(collectionStats, { childList: true });
+}
+
+// Continue from the current press frame, with tactical shockwave pulse on key triggers.
 const pressing = new Map();
 function releaseButtons() {
   for (const [button, animation] of pressing) {
@@ -1005,7 +1651,7 @@ function releaseButtons() {
     animate(
       button,
       [{ transform }, { transform: "scale(1.015)" }, { transform: "none" }],
-      320,
+      280,
     );
   }
   pressing.clear();
@@ -1020,11 +1666,25 @@ document.addEventListener("pointerdown", (event) => {
       { transform: getComputedStyle(button).transform },
       { transform: "scale(.965)" },
     ],
-    100,
+    95,
   );
   if (animation) {
     animation.effect.updateTiming({ fill: "forwards" });
     pressing.set(button, animation);
+  }
+  if (
+    button.matches(
+      ".preset-pills button, .quick-hit, .next-chips button, .primary-button",
+    )
+  ) {
+    animate(
+      button,
+      [
+        { boxShadow: "0 0 0 0 var(--lightning-glow, rgba(233,196,91,.45))" },
+        { boxShadow: "0 0 0 9px transparent" },
+      ],
+      360,
+    );
   }
 });
 document.addEventListener("pointerup", releaseButtons);
@@ -1049,6 +1709,14 @@ const powerLabels = {
   overclock: "手动超频",
   undervolt: "降压优化（已验证稳定）",
 };
+function powerLabel(power, cpu) {
+  if (cpu?.socket === "AM5") {
+    if (power === "intel") return "AMD 原厂默认（PPT）";
+    if (power === "unlimited") return "PBO 放宽限制";
+    if (power === "undervolt") return "降压 / 曲线优化（已验证稳定）";
+  }
+  return powerLabels[power];
+}
 const siliconLabels = {
   unknown: "未评估 / 不确定",
   efficient: "同频所需电压较低（自行验证）",
@@ -1082,8 +1750,23 @@ const thermalSources = [
     url: "https://www.intel.com/content/www/us/en/gaming/resources/overclocking-xtu-guide.html",
   },
 ];
+const amdSources = [
+  {
+    title: "AMD：Ryzen 温度、功耗与动态加速",
+    url: "https://community.amd.com/t5/gaming/ryzen-7000-series-processors-let-s-talk-about-power-temperature/ba-p/554629",
+  },
+  {
+    title: "AMD Ryzen Master：PPT、PBO 与温度限制",
+    url: "https://docs.amd.com/r/en-US/68886-ryzen-master-user-guide/CPU",
+  },
+  {
+    title: "Noctua：AM5 CCD 热点与偏移安装",
+    url: "https://www.noctua.at/en/expertise/tech/offset-am5-mounting-technical-backgrounds",
+  },
+];
 
 function thermalContext(config, cpu) {
+  const isAmd = cpu?.socket === "AM5";
   const measured =
     Number.isFinite(config.measuredPower) && config.measuredPower > 0;
   const limited = config.power === "limited" && config.powerLimit > 0;
@@ -1099,19 +1782,29 @@ function thermalContext(config, cpu) {
     ? "当前用途下实测持续 CPU Package Power"
     : limited
       ? "手动设置功耗上限（不等于实际功耗）"
-      : "官方最大睿频功耗（选型参考）";
+      : isAmd
+        ? watts == null
+          ? "默认 PPT 待核对，建议填写 BIOS 上限或实测功耗"
+          : "默认档 PPT 参考，以 BIOS 或监测为准"
+        : "官方最大睿频功耗（选型参考）";
   const notes = [];
   if (config.power === "unknown")
     notes.push(
-      "主板默认不一定采用 Intel 默认限制；请核对 BIOS 中的功耗、电压和增强模式。",
+      isAmd
+        ? "主板默认可能开启 PBO 或放宽功耗墙；请核对 BIOS 中的 PPT / 温度墙与曲线优化设置。"
+        : "主板默认不一定采用 Intel 默认限制；请核对 BIOS 中的功耗、电压和增强模式。",
     );
   if (config.power === "intel")
     notes.push(
-      "Intel 默认仍包含睿频；基础功耗不是始终运行的功耗，也不是温度保证。",
+      isAmd
+        ? "原厂默认包含 Precision Boost。默认档 PPT 仅作参考，实际负载受 BIOS、温度和电流限制。"
+        : "Intel 默认仍包含睿频；基础功耗不是始终运行的功耗，也不是温度保证。",
     );
   if (config.power === "unlimited")
     notes.push(
-      "解除功耗限制与手动超频分开记录；实际持续负载可能超出官方最大睿频功耗。",
+      isAmd
+        ? "PBO 放宽 PPT、TDC 或 EDC 后仍有上限。请填写当前用途的持续功耗，核对实际生效的限制。"
+        : "解除功耗限制与手动超频分开记录；实际持续负载可能超出官方默认功耗上限。",
     );
   if (config.power === "overclock")
     notes.push(
@@ -1121,6 +1814,34 @@ function thermalContext(config, cpu) {
     notes.push(
       "降压收益取决于芯片与稳定性验证；未填写实测功耗时，不自动降低散热规格。",
     );
+  let amd = null;
+  if (isAmd) {
+    const layout = cpu.ccdCount === 0
+      ? "单片 APU，优先看 CPU 与核显同时工作时的封装功耗"
+      : cpu.ccdCount
+        ? `${cpu.ccdCount === 1 ? "单" : "双"} CCD，局部热点受负载分布、底座接触和安装压力影响`
+        : "芯片布局待核对，请结合实际封装功耗和温度判断";
+    const limit = cpu.tjmax ? `官方 Tjmax ${cpu.tjmax} °C` : "官方温度上限待核对";
+    const temperature = config.packageTemp;
+    let reading = "";
+    if (Number.isFinite(temperature) && cpu.tjmax) {
+      const margin = Number((cpu.tjmax - temperature).toFixed(1));
+      const status = margin > 0
+        ? `距 Tjmax ${margin} °C。`
+        : "已达到或超过 Tjmax。请结合有效频率、封装功耗和风扇转速判断。";
+      reading = `实测 Tctl/Tdie ${temperature} °C，${status}`;
+    }
+    amd = { summary: `${layout}。${limit}。${reading}`, sources: amdSources };
+    notes.push(
+      "温度接近上限时，结合持续有效频率、封装功耗、散热器转速和安装接触判断，单看温度无法区分正常加速与散热受限。",
+    );
+    if (cpu.ccdCount > 0)
+      notes.push("热点偏离顶盖中心。仅在有该型号厂商方案时考察偏移扣具，并重新核对显卡、M.2 和 VRM 净空。");
+    if (cpu.x3d)
+      notes.push("X3D 的缓存堆叠和温度上限会随代际变化。按具体 CPU 核对上限，避免用相同瓦数推算温度。");
+    if (cpu.liquidRecommended)
+      notes.push("AMD 对该型号建议水冷以获得最佳性能。按实际负载与机箱安装空间选择。");
+  }
   if (measured)
     notes.push(
       "实测功耗仅代表填写时的负载；换用途、功耗设置或频率后请重新测量，不作为整机最高功耗。",
@@ -1174,9 +1895,11 @@ function thermalContext(config, cpu) {
     watts,
     basis,
     measured,
+    amd,
     highDemand:
       config.power === "overclock" ||
-      config.power === "unlimited" ||
+      (config.power === "unlimited" && (!isAmd || !measured)) ||
+      (cpu?.liquidRecommended && !measured && !limited && config.usage === "production") ||
       (watts > 200 && (measured || config.usage === "production")),
     attention: ["liquid", "sheet", "degraded", "missing"].includes(medium),
     interfaceNote: notes[interfaceStart],
@@ -1184,11 +1907,12 @@ function thermalContext(config, cpu) {
   };
 }
 
-return {powerLabels,siliconLabels,interfaceLabels,thermalSources,thermalContext};
+return {powerLabels,powerLabel,siliconLabels,interfaceLabels,thermalSources,thermalContext};
 })();
 modules["js/recommendation.js"] = (()=>{
 const {evaluate} = modules["js/compatibility.js"];
 const {benchmarkResult, matchingBenchmark} = modules["js/benchmarks.js"];
+const {stackThickness} = modules["js/benchmarks.js"];
 const {thermalContext} = modules["js/thermal-context.js"];
 
 const statusText = {
@@ -1198,7 +1922,73 @@ const statusText = {
   blocked: "不兼容",
 };
 
-function recommend(config, catalog, prices = {}) {
+function buildReasons(cooler, context, config, measured, price, useRefPrice) {
+  const reasons = [];
+  if (cooler.formFactor === "downdraft") {
+    reasons.push(
+      context.highDemand
+        ? `超薄下压方案（${cooler.height} mm），持续高负载散热余量有限，需搭配限制功耗或强风道`
+        : `${cooler.height} mm 超薄下压设计，专用于 A4 / 紧凑 ITX 机箱`,
+    );
+  } else if (cooler.type === "aio") {
+    const total = stackThickness(cooler);
+    reasons.push(
+      context.highDemand
+        ? `${cooler.radiatorSize} mm 水冷（总厚 ${total} mm），请核对持续高负载实测和安装空间`
+        : `${cooler.radiatorSize} mm 水冷备选（总厚 ${total} mm），请核对安装空间与实测表现`,
+    );
+  } else if (context.highDemand) {
+    reasons.push(
+      `塔式风冷（高 ${cooler.height ?? "待核"} mm），持续高负载下需核对实测表现或设功耗墙`,
+    );
+  } else if (cooler.height && cooler.height < 150) {
+    reasons.push(`${cooler.height} mm 矮塔方案，主要面向限高偏紧的小型机箱`);
+  } else if (cooler.tier === "dual" || cooler.tier === "large") {
+    reasons.push(
+      `塔式风冷（高 ${cooler.height ?? "待核"} mm），按同条件实测考察多核负载表现`,
+    );
+  } else {
+    reasons.push(
+      `塔式风冷（高 ${cooler.height ?? "待核"} mm），请核对内存和机箱限高`,
+    );
+  }
+
+  if (config.preference === "quiet") {
+    reasons.push(
+      cooler.type === "air"
+        ? "风冷结构简洁、无水泵噪声；实际静音表现取决于负载与风扇曲线"
+        : "包含水泵运转声源，请结合实测曲线选择",
+    );
+  }
+  if (cooler.ramOverhang === false) {
+    reasons.push("默认布局不遮挡内存插槽，适合高马甲灯条");
+  } else if (cooler.ramClearance != null) {
+    reasons.push(
+      `标称内存净空 ${cooler.ramClearance} mm${cooler.ramLift ? "，高条可通过抬高前风扇避让" : "，超限条须核对"}`,
+    );
+  }
+  if (/digital|nyx|cc90/i.test(cooler.name)) {
+    reasons.push("自带顶盖数显，需预留主板 USB 2.0 接针");
+  }
+  if (useRefPrice && cooler.refPrice && !price) {
+    reasons.push(
+      `参考估价 ¥${cooler.refPrice[0]}–${cooler.refPrice[1]}，实际到手价需另查`,
+    );
+  }
+  if (measured) {
+    reasons.unshift(
+      `${measured.author} 同 CPU / 功耗参考：${measured.value}${measured.unit}；仅代表该组测试，不预测你的整机温度`,
+    );
+  }
+  return reasons;
+}
+
+function recommend(
+  config,
+  catalog,
+  prices = {},
+  { useRefPrice = true } = {},
+) {
   const cpu = catalog.cpus.find((c) => c.id === config.cpu);
   const context = thermalContext(config, cpu);
   const group = matchingBenchmark(config, catalog);
@@ -1211,61 +2001,131 @@ function recommend(config, catalog, prices = {}) {
     .map((cooler) => {
       const fit = evaluate(cooler, config, catalog);
       let score = 0;
-      const reasons = [];
       if (context.highDemand) {
-        score += { aio360: 40, aio240: 25, large: 20, dual: 10, compact: 0 }[
-          cooler.tier
-        ];
-        reasons.push(
-          cooler.type === "aio"
-            ? "持续高负载：需核对该规格冷排的同平台测试及安装空间"
-            : "持续高负载下需核对实测表现，必要时限制功耗",
-        );
+        score +=
+          {
+            aio360: 40,
+            aio240: 25,
+            large: 20,
+            dual: 12,
+            compact: 2,
+            lowprofile: -18,
+          }[cooler.tier] ?? 0;
+        if (cooler.type === "aio" && cooler.radiatorThickness >= 38) score += 4;
       } else {
-        score += { aio360: 10, aio240: 14, large: 22, dual: 30, compact: 28 }[
-          cooler.tier
-        ];
-        reasons.push(
-          cooler.type === "air"
-            ? "当前用途可优先考察风冷，兼顾安装与维护"
-            : "提供水冷备选，购买前确认安装空间",
-        );
+        score +=
+          {
+            aio360: 10,
+            aio240: 14,
+            large: 22,
+            dual: 30,
+            compact: 28,
+            lowprofile: 12,
+          }[cooler.tier] ?? 0;
+        if (config.caseHeight && config.caseHeight <= 110) {
+          if (cooler.tier === "lowprofile") score += 35;
+        } else if (config.caseHeight && config.caseHeight < 154) {
+          if (cooler.type === "air" && cooler.height && cooler.height < 150)
+            score += 14;
+        } else {
+          if (cooler.type === "air" && cooler.height >= 150) {
+            if (cooler.tier === "dual") score += 8;
+            if (cooler.tier === "compact")
+              score += context.watts <= 140 ? 8 : 3;
+          } else if (
+            cooler.type === "air" &&
+            cooler.height &&
+            cooler.height < 110
+          ) {
+            score -= 12;
+          } else if (
+            cooler.type === "air" &&
+            cooler.height &&
+            cooler.height < 148
+          ) {
+            score -= 4;
+          }
+        }
       }
       if (config.preference === "quiet") {
         score += cooler.type === "air" ? 15 : 0;
-        reasons.push(
-          cooler.type === "air"
-            ? "风冷结构简洁、无需水泵；实际噪声取决于负载和风扇曲线"
-            : "包含水泵噪声来源，请结合整机实测选择",
-        );
       }
-      if (config.preference === "performance")
-        score += { aio360: 18, aio240: 10, large: 12, dual: 5, compact: 0 }[
-          cooler.tier
-        ];
+      if (config.preference === "performance") {
+        score +=
+          {
+            aio360: 18,
+            aio240: 10,
+            large: 12,
+            dual: 6,
+            compact: 0,
+            lowprofile: -6,
+          }[cooler.tier] ?? 0;
+      }
       if (cooler.ramOverhang === false) {
         score += 4;
-        reasons.push("不覆盖内存插槽，适合高马甲内存");
       }
+      if (fit.checks.find((k) => k.title === "平台扣具")?.state === "unknown") {
+        score -= 12;
+      }
+      if (context.amd && cooler.amdContact?.recommended === false) score -= 12;
       const price =
         Number(prices[cooler.id]) > 0 ? Number(prices[cooler.id]) : null;
-      if (config.preference === "value" && price)
+      const midRef =
+        Array.isArray(cooler.refPrice) && cooler.refPrice.length >= 2
+          ? (cooler.refPrice[0] + cooler.refPrice[1]) / 2
+          : null;
+      if (config.preference === "value" && price) {
         score += Math.max(0, 20 - price / 100);
+      } else if (useRefPrice && !price && midRef) {
+        if (config.preference === "balanced")
+          score += Math.max(0, Math.round(6 - midRef / 140));
+        if (config.preference === "value")
+          score += Math.max(0, Math.round(18 - midRef / 60));
+      }
       const overBudget = Boolean(
         config.budget && price && price > config.budget,
       );
+      const overRefBudget = Boolean(
+        config.budget &&
+          !price &&
+          cooler.refPrice &&
+          cooler.refPrice[0] > config.budget,
+      );
       const measured = benchmarkResult(cooler.id, config, catalog);
-      if (measured)
-        reasons.unshift(
-          `${measured.author} 同 CPU / 功耗参考：${measured.value}${measured.unit}；仅代表该组测试，不预测你的整机温度`,
-        );
+      const amdHints = [];
+      if (context.amd && fit.status !== "blocked" && cooler.sockets.includes("AM5")) {
+        if (cooler.amdContact)
+          amdHints.push({
+            ...cooler.amdContact,
+            title: cooler.amdContact.recommended === false ? "厂商不推荐用于 AM5" : "AM5 底座接触",
+          });
+        if (cooler.amdOffset && (cpu.ccdCount > 0 || cooler.amdOffset.mode === "built-in"))
+          amdHints.push({
+            ...cooler.amdOffset,
+            title: cooler.amdOffset.mode === "built-in"
+              ? "AM5 偏移安装"
+              : "AM5 可选偏移扣具",
+          });
+      }
+      const reasons = buildReasons(
+        cooler,
+        context,
+        config,
+        measured,
+        price,
+        useRefPrice,
+      );
       return {
         ...cooler,
         ...fit,
         price,
+        refPrice: cooler.refPrice || null,
+        effectivePrice: price ?? (midRef ? Math.round(midRef) : null),
         overBudget,
+        overRefBudget,
         score,
         reasons,
+        amdHints,
         measured,
         measuredPriority:
           testedCount >= 2 && config.preference !== "value" && !!measured,
@@ -1304,6 +2164,7 @@ const defaults = {
   power: "unknown",
   powerLimit: null,
   measuredPower: null,
+  packageTemp: null,
   silicon: "unknown",
   thermalInterface: "unknown",
   preference: "balanced",
@@ -1350,7 +2211,7 @@ function normalize(raw, catalog) {
     if (allowed.includes(raw[field])) config[field] = raw[field];
   }
   config.boardName = String(raw.boardName || "").slice(0, 100);
-  config.boardSocket = ["LGA1700", "LGA1851"].includes(raw.boardSocket)
+  config.boardSocket = ["LGA1700", "LGA1851", "AM5"].includes(raw.boardSocket)
     ? raw.boardSocket
     : "";
   const ranges = {
@@ -1359,13 +2220,19 @@ function normalize(raw, catalog) {
     radiatorSpace: [20, 150],
     powerLimit: [35, 500],
     measuredPower: [5, 600],
+    packageTemp: [0, 120],
     budget: [1, 20000],
   };
   for (const [field, [min, max]] of Object.entries(ranges)) {
-    const value = Number(raw[field]);
+    const input = raw[field];
+    const value = typeof input === "number" || (typeof input === "string" && input.trim())
+      ? Number(input)
+      : NaN;
     config[field] =
       Number.isFinite(value) && value >= min && value <= max ? value : null;
   }
+  if (catalog.cpus.find((cpu) => cpu.id === config.cpu)?.socket !== "AM5")
+    config.packageTemp = null;
   config.radiatorSize =
     [0, 240, 280, 360, 420].includes(Number(raw.radiatorSize)) &&
     raw.radiatorSize !== null &&
@@ -1400,7 +2267,11 @@ function save(value) {
 return {defaults,normalize,load,save};
 })();
 modules["js/app.js"] = (()=>{
-const {constructionSummary, recordedTests} = modules["js/product-specs.js"];
+const {escapeHtml : escape, sourceHref} = modules["js/source-links.js"];
+const {constructionSummary,
+  recordedTests,
+  formatRefPrice,
+  cardSpecItems,} = modules["js/product-specs.js"];
 const {modelMatches} = modules["js/search.js"];
 const {resultView} = modules["js/results-view.js"];
 const {loadView, saveView} = modules["js/view-state.js"];
@@ -1408,12 +2279,13 @@ const {nextSteps} = modules["js/next-steps.js"];
 const {loadData, assetUrl, replaceLocation} = modules["js/data-loader.js"];
 const {setSectionVisible} = modules["js/ui.js"];
 const {thermalContext,
-  powerLabels,
+  powerLabel,
   siliconLabels,
   interfaceLabels,
   thermalSources,} = modules["js/thermal-context.js"];
 const {precheck, resolveBoard} = modules["js/compatibility.js"];
 const {benchmarkTable,
+  benchmarkOptions,
   matchingBenchmark,
   stackThickness,
   metricLabel,} = modules["js/benchmarks.js"];
@@ -1421,14 +2293,6 @@ const {recommend, statusText} = modules["js/recommendation.js"];
 const {defaults, normalize, load, save} = modules["js/storage.js"];
 
 const $ = (selector) => document.querySelector(selector);
-const escape = (value) =>
-  String(value ?? "").replace(
-    /[&<>"']/g,
-    (char) =>
-      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
-        char
-      ],
-  );
 const icon = (state) =>
   `<span class="status-icon ${state}" aria-hidden="true">${{ pass: "✓", fail: "×", unknown: "?", conditional: "!" }[state]}</span>`;
 const form = $("#config-form");
@@ -1436,11 +2300,14 @@ let catalog,
   config,
   prices = {},
   filter = "all",
+  layout = "grid",
+  useRefPrice = true,
   results = [],
   compare = new Set();
-let toastTimer;
+let toastTimer, debounceTimer;
 let mode = "quick";
 let modeInitialized = false;
+
 function setMode(next) {
   mode = next === "full" ? "full" : "quick";
   if (modeInitialized) setSectionVisible($("#fit-fields"), mode === "full");
@@ -1453,26 +2320,30 @@ function setMode(next) {
     );
   $("#mode-note").textContent =
     mode === "quick"
-      ? "先选 CPU 和用途，快速查看候选。已有安装参数仍参与检查；未填写的项目保持待确认。切到完整配置核对主板、内存与机箱。"
-      : "补充主板与安装空间，逐项核对兼容条件。不知道的参数可以留空，已有的配置会保留。";
+      ? "先选 CPU 和用途，快速查看候选；切到完整配置可核对主板、机箱限高与内存净空。"
+      : "已展开完整装机参数，不知道的参数可留空或点击预设。";
   try {
     localStorage.setItem("coolerguide-mode", mode);
   } catch {}
 }
+
 function toast(message) {
   $("#toast").textContent = message;
   $("#toast").hidden = false;
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => ($("#toast").hidden = true), 3500);
 }
+
 function dialog(title, body) {
   $("#dialog-title").textContent = title;
   $("#dialog-body").innerHTML = body;
   $("#info-dialog").showModal();
 }
+
 function persist() {
   return save({ config, prices });
 }
+
 function fillForm() {
   for (const [key, value] of Object.entries(config)) {
     const input = form.elements.namedItem(key);
@@ -1483,7 +2354,9 @@ function fillForm() {
   }
   updateMeta();
   validateForm();
+  syncPresetPills();
 }
+
 function readForm() {
   updateMeta();
   if (!validateForm()) return false;
@@ -1501,6 +2374,7 @@ function readForm() {
     );
   return true;
 }
+
 function validateForm() {
   const invalid = [...form.elements].filter(
     (input) => input.willValidate && !input.validity.valid,
@@ -1531,71 +2405,184 @@ function validateForm() {
     : "";
   return !invalid.length;
 }
-function updateSearchOptions() {
-  for (const [kind, hint] of [
-    ["cpu", "#cpu-search-hint"],
-    ["board", "#board-search-hint"],
-  ]) {
-    const query = $(`#${kind}-search`).value;
-    const models = kind === "cpu" ? catalog.cpus : catalog.boards;
-    const hits = models.filter((model) => modelMatches(model, query));
-    const ids = new Set(hits.map((model) => model.id));
-    for (const option of $(`#${kind}`).options)
-      option.hidden = Boolean(
-        query.trim() &&
-          option.value &&
-          option.value !== "custom" &&
-          option.value !== config[kind] &&
-          !ids.has(option.value),
-      );
-    $(hint).textContent = query.trim()
-      ? `${hits.length} 款匹配；当前选择保留，请选择精确型号。`
-      : kind === "board"
-        ? "按完整型号、后缀和修订号选择。"
-        : "支持空格、连字符及全角输入。";
+
+function syncPresetPills() {
+  document.querySelectorAll("[data-preset-target]").forEach((button) => {
+    const input = document.getElementById(button.dataset.presetTarget);
+    const current = String(input?.value ?? "").trim();
+    const active = current === button.dataset.presetValue;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
+}
+
+function syncLayoutButtons() {
+  document.querySelectorAll("[data-layout]").forEach((button) => {
+    const active = button.dataset.layout === layout;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
+  const cardsEl = $("#cards");
+  if (cardsEl) {
+    cardsEl.classList.toggle("grid-view", layout === "grid");
+    cardsEl.classList.toggle("list-view", layout === "list");
   }
 }
+
+function updateSearchOptions() {
+  const currentCpu = catalog.cpus.find((c) => c.id === $("#cpu").value);
+  const syncSocket = $("#sync-board-socket")?.checked ?? true;
+
+  const cpuQuery = $("#cpu-search").value;
+  const cpuHits = catalog.cpus.filter((model) => modelMatches(model, cpuQuery));
+  const cpuIds = new Set(cpuHits.map((model) => model.id));
+  for (const option of $("#cpu").options) {
+    option.hidden = Boolean(
+      cpuQuery.trim() &&
+        option.value !== config.cpu &&
+        !cpuIds.has(option.value),
+    );
+    option.disabled = option.hidden;
+  }
+  for (const group of $("#cpu").querySelectorAll("optgroup")) {
+    group.hidden = [...group.children].every((opt) => opt.hidden);
+  }
+  $("#cpu-search-hint").textContent = cpuQuery.trim()
+    ? `${cpuHits.length} 款匹配；可点击下方快选或从列表确认。`
+    : "支持空格、连字符及全角输入。";
+  const cpuQuick = $("#cpu-quick-hits");
+  if (cpuQuick) {
+    if (cpuQuery.trim() && cpuHits.length) {
+      cpuQuick.hidden = false;
+      cpuQuick.innerHTML = cpuHits
+        .slice(0, 5)
+        .map(
+          (c) =>
+            `<button type="button" class="quick-hit${c.id === $("#cpu").value ? " active" : ""}" data-pick-cpu="${c.id}">${escape(c.name.replace(/^(Intel|AMD)\s+/i, ""))} <small>${c.socket}</small></button>`,
+        )
+        .join("");
+    } else {
+      cpuQuick.hidden = true;
+      cpuQuick.innerHTML = "";
+    }
+  }
+
+  const boardQuery = $("#board-search").value;
+  const boardHits = catalog.boards.filter(
+    (model) =>
+      modelMatches(model, boardQuery) &&
+      (!syncSocket || !currentCpu || model.socket === currentCpu.socket),
+  );
+  const boardIds = new Set(boardHits.map((model) => model.id));
+  for (const option of $("#board").options) {
+    if (!option.value || option.value === "custom") {
+      option.hidden = false;
+      option.disabled = false;
+      continue;
+    }
+    const board = catalog.boards.find((b) => b.id === option.value);
+    const socketBlocked =
+      syncSocket && currentCpu && board && board.socket !== currentCpu.socket;
+    const queryBlocked = Boolean(
+      boardQuery.trim() && !boardIds.has(option.value),
+    );
+    option.hidden =
+      option.value !== config.board && (socketBlocked || queryBlocked);
+    option.disabled = option.hidden;
+  }
+  for (const group of $("#board").querySelectorAll("optgroup")) {
+    group.hidden = [...group.children].every((opt) => opt.hidden);
+  }
+  $("#board-search-hint").textContent = boardQuery.trim()
+    ? `${boardHits.length} 款匹配；点击快选或在下方确认完整型号。`
+    : syncSocket && currentCpu
+      ? `已按 ${currentCpu.socket} 过滤主板；可取消勾选查看全平台。`
+      : "按完整型号、后缀和修订号选择。";
+  const boardQuick = $("#board-quick-hits");
+  if (boardQuick) {
+    if (boardQuery.trim() && boardHits.length) {
+      boardQuick.hidden = false;
+      boardQuick.innerHTML = boardHits
+        .slice(0, 5)
+        .map(
+          (b) =>
+            `<button type="button" class="quick-hit${b.id === $("#board").value ? " active" : ""}" data-pick-board="${b.id}">${escape(b.name)} <small>${b.socket}</small></button>`,
+        )
+        .join("");
+    } else {
+      boardQuick.hidden = true;
+      boardQuick.innerHTML = "";
+    }
+  }
+}
+
 function updateMeta() {
   const cpu = catalog.cpus.find((c) => c.id === $("#cpu").value);
+  const isAmd = cpu?.socket === "AM5";
+  const amdSpec = isAmd
+    ? `TDP ${cpu.basePower} W · ${cpu.turboPower == null ? "PPT 待核对" : `参考 PPT ${cpu.turboPower} W`} · Tjmax ${cpu.tjmax ?? "待核对"}${cpu.tjmax ? " °C" : ""}`
+    : "";
   $("#cpu-meta").innerHTML = cpu
-    ? `${cpu.socket} · 基础 ${cpu.basePower} W / 最大睿频 ${cpu.turboPower} W <a href="${cpu.source}" target="_blank" rel="noopener noreferrer">规格 ↗</a>`
+    ? `${cpu.socket} · ${isAmd ? amdSpec : `基础 ${cpu.basePower} W / 最大睿频 ${cpu.turboPower} W`} <a href="${sourceHref(cpu.source)}" target="_blank" rel="noopener noreferrer">规格 ↗</a>`
     : "";
   const board = catalog.boards.find((b) => b.id === $("#board").value);
   $("#board-meta").innerHTML = board
-    ? `${board.socket} · <a href="${board.source}" target="_blank" rel="noopener noreferrer">查看官方资料 ↗</a> · CPU 支持与 BIOS 版本需另核对`
+    ? `${board.socket} · <a href="${sourceHref(board.source)}" target="_blank" rel="noopener noreferrer">查看官方资料 ↗</a> · CPU 支持与 BIOS 版本需另核对`
     : "未确认主板型号时，仅提供初步选型建议。";
   $("#custom-board-fields").hidden = $("#board").value !== "custom";
   $("#power-limit-field").hidden = $("#power").value !== "limited";
   $("#power-limit").disabled = $("#power").value !== "limited";
+  for (const value of ["intel", "unlimited", "undervolt"])
+    $("#power").querySelector(`[value="${value}"]`).textContent = powerLabel(value, cpu);
+  $("#amd-temperature-field").hidden = !isAmd;
+  $("#package-temp").disabled = !isAmd;
 }
+
 function resetMeasuredContext(cpuChanged = false) {
   const measured = $("#measured-power");
-  if (measured.value) {
+  const temperature = $("#package-temp");
+  if (measured.value || temperature.value) {
     measured.value = "";
-    toast("CPU 或负载工况已变化，请重新填写实测持续功耗");
+    temperature.value = "";
+    toast("测量条件已变化，请重新填写实测功耗与温度");
   }
   if (cpuChanged) $("#silicon").value = "unknown";
 }
+
+function scheduleUpdate() {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+    if (!readForm()) return;
+    persist();
+    render();
+  }, 120);
+}
+
 function render() {
   updateSearchOptions();
-  results = recommend(config, catalog, prices);
+  syncPresetPills();
+  syncLayoutButtons();
+  results = recommend(config, catalog, prices, { useRefPrice });
   const cpu = catalog.cpus.find((c) => c.id === config.cpu);
   const board = resolveBoard(config, catalog);
   const thermal = thermalContext(config, cpu);
   const tasks = nextSteps(config, catalog, filter);
-  $("#next-count").textContent = tasks.length
-    ? `${tasks.length} 项待核对 · 展示前 ${Math.min(3, tasks.length)} 项`
-    : "已填主要参数，仍需核对逐型号安装记录";
+  $("#next-steps-row").hidden = tasks.length === 0;
+  $("#next-count").textContent = tasks.length ? `待补充 (${tasks.length})` : "";
   $("#next-items").innerHTML = tasks
     .slice(0, 3)
     .map(
       (task) =>
-        `<button type="button" data-config-target="${task.target}"><span>${escape(task.title)} <b aria-hidden="true">↗</b></span><small>${escape(task.detail)}</small></button>`,
+        `<button type="button" data-config-target="${task.target}" title="${escape(task.detail)}"><span>${escape(task.title)} <b aria-hidden="true">↗</b></span></button>`,
     )
     .join("");
-  $("#thermal-mode").textContent = powerLabels[config.power];
+  $("#thermal-mode").textContent = powerLabel(config.power, cpu);
   $("#thermal-power").textContent =
-    `${thermal.watts ?? "待确认"} W · ${thermal.basis}`;
+    thermal.watts == null ? thermal.basis : `${thermal.watts} W · ${thermal.basis}`;
+  $("#amd-thermal-summary").hidden = !thermal.amd;
+  $("#amd-thermal-summary").textContent = thermal.amd
+    ? `AMD 温控核对 · ${thermal.amd.summary}`
+    : "";
   $("#thermal-material").textContent =
     `体质：${siliconLabels[config.silicon]} · 介质：${interfaceLabels[config.thermalInterface]}`;
   $("#thermal-alert").hidden = !thermal.attention;
@@ -1603,14 +2590,14 @@ function render() {
   $("#thermal-notes").innerHTML = thermal.notes
     .map((note) => `<li>${escape(note)}</li>`)
     .join("");
-  $("#thermal-sources").innerHTML = thermalSources
+  $("#thermal-sources").innerHTML = [...(thermal.amd?.sources || []), ...thermalSources]
     .map(
       ({ title, url }) =>
-        `<a href="${url}" target="_blank" rel="noopener noreferrer">${escape(title)} ↗</a>`,
+        `<a href="${sourceHref(url)}" target="_blank" rel="noopener noreferrer">${escape(title)} ↗</a>`,
     )
     .join("");
   $("#config-summary").innerHTML =
-    `<span class="cpu-chip">${escape(cpu.name.replace("Intel ", ""))}</span><span>${escape(board?.name || config.boardName || "主板待确认")}</span><span>${{ gaming: "游戏娱乐", office: "日常办公", production: "持续生产力" }[config.usage]}</span>${config.budget ? `<span>预算 ¥${config.budget}</span>` : ""}`;
+    `<span class="cpu-chip">${escape(cpu.name.replace(/^(Intel|AMD)\s+/i, ""))}</span><span>${escape(board?.name || config.boardName || "主板待确认")}</span><span>${{ gaming: "游戏娱乐", office: "日常办公", production: "持续生产力" }[config.usage]}</span>${config.caseHeight ? `<span>限高 ${config.caseHeight}mm</span>` : ""}${config.ramHeight ? `<span>内存 ${config.ramHeight}mm</span>` : ""}${config.budget ? `<span>预算 ¥${config.budget}</span>` : ""}`;
   const checks = precheck(config, catalog);
   $("#prechecks").innerHTML = checks
     .map(
@@ -1619,26 +2606,39 @@ function render() {
     )
     .join("");
   const failed = checks.some((c) => c.state === "fail");
+  const eligible = results.filter(
+    (c) =>
+      c.status !== "blocked" &&
+      !c.overBudget &&
+      (!useRefPrice || !c.overRefBudget),
+  );
+  const view = resultView(results, {
+    type: filter,
+    query: $("#cooler-search").value,
+    showBlocked: $("#show-blocked").checked,
+    sort: $("#result-sort").value,
+    useRefPrice,
+  });
   const blocked = results.filter((c) => c.status === "blocked").length;
   $("#check-status").textContent = failed
     ? "存在插槽冲突"
-    : blocked
-      ? `${blocked} 款存在安装冲突`
-      : "查看逐项安装条件";
+    : view.ready.length > 0
+      ? `${view.ready.length} 款尺寸匹配`
+      : blocked
+        ? `${blocked} 款存在冲突`
+        : "待补齐尺寸";
   $("#check-status").className =
-    `badge ${failed || blocked ? "blocked" : "pending"}`;
-  let note = "以下为候选方案，按用途与选购侧重排序；“待确认”不代表已验证兼容。";
-  if (config.power === "unknown")
-    note += thermal.measured
-      ? " 主板设置未知，当前按所填实测持续功耗考察；变化负载后需重新测量。"
-      : " 主板功耗设置未知，暂参考 CPU 官方最大睿频功耗，实际需核对 BIOS。";
+    `badge ${failed ? "blocked" : view.ready.length > 0 ? "dimensions-ok" : blocked ? "blocked" : "pending"}`;
+
+  let note = "按用途与空间考察。点「详情」查看安装条件、功耗依据和资料来源。";
   if (config.power === "unlimited")
-    note +=
-      " 已解除功耗限制：无法据公开规格保证满载温度，需结合实测或设定功耗上限。";
+    note = thermal.amd
+      ? "PBO 已设为放宽限制。按当前用途记录实际功耗和温度，结合持续频率判断是否需要调整散热或功耗。"
+      : "已解除功耗限制：满载温控依赖机箱风道与个体体质，建议核对同平台实测或设定合理功耗上限。";
   if (config.power === "limited" && !config.powerLimit)
-    note += " 尚未填写功耗上限，暂参考官方最大睿频功耗。";
-  if (config.budget)
-    note += " 报价未知的产品不能判断是否在预算内；已知超预算的产品会被筛除。";
+    note = "尚未填写手动功耗上限，暂按 CPU 官方默认功耗参考。";
+  if (config.budget && !useRefPrice)
+    note += " 已关闭参考价估算：仅排除你手动填入超预算的型号。";
   if (failed)
     note =
       "CPU 与主板插槽不匹配。请先修正配置，当前所有散热器均无法解决该冲突。";
@@ -1649,37 +2649,30 @@ function render() {
         row.coolerId && catalog.coolers.some((c) => c.id === row.coolerId),
     ).length || 0;
   if (matched && !failed)
-    note = `正在参考 ${matched.author} 的同 CPU / 功耗测试。${mappedCount < 2 ? "本组仅有一款已收录安装规格的型号，读数作参考，候选仍按选型规则排序。" : config.preference === "value" ? "预算偏好仍优先比较已填报价。" : "本组已参测产品优先按温度比较，其余按选型规则；未参测不代表性能更差。"}${matched.fanMode === "full" ? "此组为全速，不用于静音排名。" : ""} 安装冲突仍优先排除。`;
+    note = `正在参考 ${matched.author} 的同 CPU / 功耗测试（${mappedCount} 款已入库对比，安装冲突仍优先排除）。`;
   $("#recommendation-note").textContent = note;
   $("#recommendation-note").className =
     `recommendation-note${failed ? " alert" : ""}`;
-  const eligible = results.filter(
-    (c) => c.status !== "blocked" && !c.overBudget,
-  );
-  const view = resultView(results, {
-    type: filter,
-    query: $("#cooler-search").value,
-    showBlocked: $("#show-blocked").checked,
-    sort: $("#result-sort").value,
-  });
+
   $("#filter-summary").textContent =
-    `${{ all: "全部类型", air: "仅风冷", aio: "仅一体式水冷" }[filter]} · ${$("#cooler-search").value.trim() ? `搜索：${$("#cooler-search").value.trim()}` : "未限定型号"} · ${$("#result-sort").selectedOptions[0].textContent}。排序仅改变展示，不改变兼容结论。`;
-  if ($("#result-sort").value === "height")
-    $("#filter-summary").textContent +=
-      " 高度按当前已知参数计算；内存、抬扇与安装公差仍需核对。";
+    `${{ all: "全部类型", air: "风冷", aio: "水冷" }[filter]} · ${$("#cooler-search").value.trim() ? `“${$("#cooler-search").value.trim()}”` : "全型号"} · ${$("#result-sort").selectedOptions[0].textContent}`;
   if (
     $("#result-sort").value === "price" &&
+    !useRefPrice &&
     view.eligible.length &&
     view.eligible.every((c) => !c.price)
   )
-    $("#filter-summary").textContent += " 当前候选未填报价，暂保留原考察顺序。";
+    $("#filter-summary").textContent +=
+      "（未填报价且未用参考价，暂保留推荐序）";
+
   const visible = view.visible;
   $("#metric-candidates").textContent = view.eligible.length;
+  $("#metric-ready").textContent = view.ready.length;
   $("#metric-pending").textContent = view.pending.length;
   $("#metric-blocked").textContent = view.blocked.length;
   $("#blocked-count").textContent = view.blocked.length;
   $("#answer-value").textContent =
-    `${eligible.length} 款候选 · ${blocked} 款冲突`;
+    `${eligible.length} 款候选 · ${view.ready.length} 款尺寸匹配`;
   $("#result-count").textContent =
     `${view.eligible.length} 款候选 · ${catalog.coolers.length} 款已收录`;
   $("#cards").innerHTML = visible.length
@@ -1692,10 +2685,11 @@ function render() {
           ),
         )
         .join("")
-    : `<div class="empty"><h3>当前条件下没有候选</h3><p>${view.blocked.length ? `有 ${view.blocked.length} 款存在明确安装冲突，可勾选“显示安装冲突方案”查看原因。` : "尝试清除型号搜索、切换散热类型、调整预算，或核对已填写的报价。"}</p></div>`;
+    : `<div class="empty"><h3>当前条件下没有候选</h3><p>${view.blocked.length ? `有 ${view.blocked.length} 款存在明确安装冲突，可勾选“显示冲突方案”查看原因。` : "可尝试放宽预算、清除搜索关键词，或切换散热类型。"}</p></div>`;
   updateCompare();
   renderBenchmark();
 }
+
 function renderBenchmark() {
   const group =
     catalog.benchmarks.find((g) => g.id === config.benchmarkId) ||
@@ -1711,57 +2705,114 @@ function renderBenchmark() {
       ? "全速成绩不参与当前静音偏好的排名。"
       : "当前配置与测试条件不同，以下读数仅供参考。";
 }
+
 function productArt(c) {
   const image = c.image;
-  return `<div class="product-art${image ? " official-photo" : " illustration"}">${image ? `<button type="button" data-photo="${c.id}" aria-label="放大 ${escape(c.name)} 官方产品图">` : ""}<img src="${assetUrl(image?.path || `assets/${c.type === "air" ? "cooler" : "aio"}.svg`)}" alt="${image ? escape(c.name) + " 官方产品图" : "散热器类型示意，非该型号实拍"}" loading="lazy" decoding="async" width="240" height="240">${image ? "</button>" : ""}<span>${image ? "官方产品图 · 点击放大" : "类型示意 · 非产品实拍"}</span></div>`;
+  const fallback =
+    c.formFactor === "downdraft"
+      ? "assets/downdraft.svg"
+      : `assets/${c.type === "air" ? "cooler" : "aio"}.svg`;
+  return `<div class="product-art${image ? " official-photo" : " illustration"}">${image ? `<button type="button" data-photo="${c.id}" aria-label="放大 ${escape(c.name)} 官方产品图">` : ""}<img src="${assetUrl(image?.path || fallback)}" alt="${image ? escape(c.name) + " 官方产品图" : "散热器类型示意，非该型号实拍"}" loading="lazy" decoding="async" width="240" height="240">${image ? "</button>" : ""}<span>${image ? "官方产品图 · 放大" : "类型示意图"}</span></div>`;
 }
+
 function specStrip(c) {
-  const spec = constructionSummary(c);
-  return `<dl class="construction-strip"><div><dt>热管</dt><dd>${escape(spec.heatpipes)}</dd></div><div><dt>热管 / 鳍片连接</dt><dd>${escape(spec.finJoint)}</dd></div><div><dt>标称解热 / TDP</dt><dd>${escape(spec.rating)}</dd></div></dl>`;
+  return `<dl class="construction-strip">${cardSpecItems(c, c)
+    .map(
+      (item) =>
+        `<div><dt>${escape(item.label)}</dt><dd>${escape(item.value)}</dd></div>`,
+    )
+    .join("")}</dl>`;
 }
+
+function clearanceMeter(c) {
+  if (c.spaceMargin === null) return "";
+  const allowed = c.type === "air" ? config.caseHeight : config.radiatorSpace;
+  const used = c.type === "air" ? c.heightUsed : stackThickness(c);
+  if (!allowed || !used) return "";
+  const pct = Math.max(8, Math.min(100, Math.round((used / allowed) * 100)));
+  const state =
+    c.spaceMargin < 0
+      ? "fail"
+      : c.spaceMargin < 3 || (c.type === "air" && c.heightUsed !== c.height)
+        ? "warn"
+        : "ok";
+  const label =
+    c.spaceMargin < 0
+      ? `空间不足：超出 ${Math.abs(c.spaceMargin)} mm（${used} / ${allowed} mm）`
+      : `空间占用 ${used} / ${allowed} mm（余量 ${c.spaceMargin} mm）`;
+  return `<div class="clearance-meter ${state}"><div class="clearance-track"><span style="width:${pct}%"></span></div><small>${escape(label)}</small></div>`;
+}
+
 function constructionDetails(c) {
   const e = c.construction || {};
   const spec = constructionSummary(c);
   const evidence = (item) =>
     item?.source
-      ? `<a href="${escape(item.source)}" target="_blank" rel="noopener noreferrer">官方依据 ↗</a>`
+      ? `<a href="${sourceHref(item.source)}" target="_blank" rel="noopener noreferrer">官方依据 ↗</a>`
       : "";
   const tests = recordedTests(c.id, catalog);
-  return `<section class="construction-details"><h3>散热结构与功耗依据</h3><p>结构资料核对：${escape(e.checkedAt || "待核对")}</p>${specStrip(c)}<p><b>底座接触：</b>${escape(spec.base)} ${evidence(e.baseContact)}</p><p>${escape(e.heatpipes?.detail || "热管参数尚待逐型号核对。")}${evidence(e.heatpipes)}</p><p>${escape(e.finJoint?.detail || (c.type === "aio" ? "水冷通过冷头、水路与冷排传热，不使用风冷热管穿 Fin 分类。" : "未取得热管与鳍片连接的一手依据，不能从底座直触、外观或同系列推断。"))}${evidence(e.finJoint)}</p><p>${escape(e.thermalRating?.detail || "未取得该型号厂商公开的解热瓦数，不按热管数或冷排尺寸估算。")}${evidence(e.thermalRating)}</p><aside class="thermal-boundary">最大解热瓦数没有统一的跨品牌测试口径。厂商标称 TDP 不代表任意 CPU 都能在该功耗下压住温度，也不用于本页的兼容通过或性能排名。焊接不等于已确认使用回流工序；底座热管直触也不等于鳍片连接方式。</aside><h3>已收录的实测负载</h3>${tests.length ? tests.map(({ group, row }) => `<p><a href="${escape(group.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escape(group.author)} · ${escape(group.cpu)} · ${group.powerW} W ↗</a><br>${escape(group.title)} · ${escape(metricLabel(group))} ${row.value}${escape(group.unit)}。测试口径与完整限制见评测资料库。</p>`).join("") : "<p>暂无该精确版本的已核对读数。</p>"}<p>这里列的是测试条件，不能视为散热器最大能力或满载温度保证。<a href="reviews.html#verified-tests">查看测试条件与限制 ↗</a></p></section>`;
+  return `<section class="construction-details"><h3>散热结构与功耗依据</h3><p>结构资料核对：${escape(e.checkedAt || "待核对")} · 日常参考价：${escape(formatRefPrice(c))}</p><dl class="construction-strip"><div><dt>热管</dt><dd>${escape(spec.heatpipes)}</dd></div><div><dt>热管 / 鳍片连接</dt><dd>${escape(spec.finJoint)}</dd></div><div><dt>标称解热 / TDP</dt><dd>${escape(spec.rating)}</dd></div></dl><p><b>底座接触：</b>${escape(spec.base)} ${evidence(e.baseContact)}</p><p>${escape(e.heatpipes?.detail || "热管参数尚待逐型号核对。")}${evidence(e.heatpipes)}</p><p>${escape(e.finJoint?.detail || (c.type === "aio" ? "水冷通过冷头、水路与冷排传热，不使用风冷热管穿 Fin 分类。" : "未取得热管与鳍片连接的一手依据，不能从底座直触、外观或同系列推断。"))}${evidence(e.finJoint)}</p><p>${escape(e.thermalRating?.detail || "未取得该型号厂商公开的解热瓦数，不按热管数或冷排尺寸估算。")}${evidence(e.thermalRating)}</p><aside class="thermal-boundary">最大解热瓦数没有统一的跨品牌测试口径。厂商标称 TDP 不代表任意 CPU 都能在该功耗下压住温度，也不用于本页的兼容通过或性能排名。</aside><h3>已收录的实测负载</h3>${tests.length ? tests.map(({ group, row }) => `<p><a href="${sourceHref(group.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escape(group.author)} · ${escape(group.cpu)} · ${group.powerW} W ↗</a><br>${escape(group.title)} · ${escape(metricLabel(group))} ${row.value}${escape(group.unit)}。测试口径与完整限制见评测资料库。</p>`).join("") : "<p>暂无该精确版本的已核对读数。</p>"}<p>这里列的是测试条件，不能视为散热器最大能力或满载温度保证。<a href="reviews.html#verified-tests">查看测试条件与限制 ↗</a></p></section>`;
 }
+
 function photo(id) {
   const c = catalog.coolers.find((c) => c.id === id);
   if (!c?.image) return;
   dialog(
     c.name,
-    `<div class="photo-view"><img src="${assetUrl(c.image.path)}" alt="${escape(c.name)} 官方产品图"><p>官网外观展示；底座版本、内部工艺和随盒扣具需另核对。</p><a href="${c.image.source}" target="_blank" rel="noopener noreferrer">图片来源 · 官方型号页面 ↗</a></div>`,
+    `<div class="photo-view"><img src="${assetUrl(c.image.path)}" alt="${escape(c.name)} 官方产品图"><p>官网外观展示；底座版本、内部工艺和随盒扣具需另核对。</p><a href="${sourceHref(c.image.source)}" target="_blank" rel="noopener noreferrer">图片来源 · 官方型号页面 ↗</a></div>`,
   );
 }
+
 function card(c, featured) {
-  const spec =
-    c.type === "air"
-      ? c.height === null
-        ? "安装高度待核对"
-        : `${c.height} mm 高度`
-      : `${c.radiatorSize} mm 冷排`;
+  const typeTag =
+    c.type === "aio"
+      ? `${c.radiatorSize} 一体式水冷`
+      : c.formFactor === "downdraft"
+        ? "超薄下压风冷"
+        : "塔式风冷";
+  const tests = recordedTests(c.id, catalog);
+  const isAmd = catalog.cpus.find((cpu) => cpu.id === config.cpu)?.socket === "AM5";
+  const firstTest = isAmd
+    ? tests.find(({ group }) => catalog.cpus.some((cpu) => cpu.id === group.cpuId && cpu.socket === "AM5"))
+    : tests[0];
+  let testLine = "";
+  if (c.measured) {
+    testLine = `<p class="measurement-note highlight"><a href="${sourceHref(c.measured.sourceUrl)}" target="_blank" rel="noopener noreferrer">★ 同条件实测：${c.measured.value}${escape(c.measured.unit)}（${escape(c.measured.author)}）↗</a></p>`;
+  } else if (firstTest) {
+    const { group, row } = firstTest;
+    testLine = `<p class="measurement-note"><a href="${sourceHref(group.sourceUrl)}" target="_blank" rel="noopener noreferrer">实测档案：${escape(group.cpu.replace(/^Intel\s+/i, ""))} ${group.powerW}W → ${row.value}${escape(group.unit)}（${group.fanMode === "full" ? "全速" : `${group.noiseDbA}dB`} · ${escape(group.author)}）↗</a></p>`;
+  } else if (c.reviewUrl && !isAmd) {
+    testLine = `<p class="measurement-note"><a href="${sourceHref(c.reviewUrl)}" target="_blank" rel="noopener noreferrer">${escape(c.reviewNote)} ↗</a></p>`;
+  }
+  const mountLine = c.amdHints.length
+    ? `<p class="measurement-note">${c.amdHints.map(({ title, source }) => `<a href="${sourceHref(source)}" target="_blank" rel="noopener noreferrer">${escape(title)} ↗</a>`).join(" · ")}</p>`
+    : "";
+
   return `<article class="cooler-card${featured ? " featured" : ""}" data-id="${c.id}">
-    ${featured ? '<div class="card-ribbon"><span>✧ 优先考察</span><span>基于当前用途与已知条件</span></div>' : ""}
-    <div class="card-main">${productArt(c)}<div><p class="product-brand">${escape(c.brand)}</p><div class="product-title"><h3>${escape(c.name)}</h3><span class="badge ${c.status}">${statusText[c.status]}</span></div><p class="product-description">${escape(c.description)}</p><div class="specs"><span>${c.type === "air" ? "塔式风冷" : "一体式水冷"}</span><span>${spec}</span><span>${c.maintenance}</span></div>${specStrip(c)}<p class="reason">${c.status === "blocked" ? "× " + escape(c.checks.find((check) => check.state === "fail").detail) : "↳ " + escape(c.checks.find((check) => check.title === "主板安装干涉" && check.state === "conditional")?.detail || c.reasons[0])}</p>${c.reviewUrl ? `<p class="measurement-note"><a href="${c.reviewUrl}" target="_blank" rel="noopener noreferrer">${escape(c.reviewNote)} ↗</a></p>` : c.addedAt ? '<p class="measurement-note">官方规格已收录 · 实测版本待核对</p>' : ""}${c.measured ? `<p class="measurement-note">实测参考 ${c.measured.value}${c.measured.unit} · ${c.measured.author} <a href="${c.measured.sourceUrl}" target="_blank" rel="noopener noreferrer">原始实测 ↗</a></p>` : ""}</div></div>
-    <div class="card-bottom"><label class="price-group" for="price-${c.id}">报价 ¥ <input id="price-${c.id}" data-price="${c.id}" type="number" step="any" min="1" max="20000" placeholder="待填写" value="${c.price ?? ""}" aria-label="${escape(c.name)} 实际报价"> <span>非实时售价</span></label><div class="card-actions"><label class="compare-label"><input type="checkbox" data-compare="${c.id}" ${compare.has(c.id) ? "checked" : ""}>加入对比</label><button class="details-button" type="button" data-detail="${c.id}">检查详情 ↗</button></div></div></article>`;
+    ${featured ? '<div class="card-ribbon">优先考察</div>' : ""}
+    <div class="card-main">${productArt(c)}<div class="card-body"><div class="card-meta-row"><p class="product-brand">${escape(c.brand)} · ${typeTag}</p><span class="badge ${escape(c.fitStage)}" title="审查结论：${escape(statusText[c.status])}">${escape(c.fitLabel)}</span></div><h3 class="card-title">${escape(c.name)}</h3><p class="product-description">${escape(c.description)}</p>${specStrip(c)}${clearanceMeter(c)}<p class="reason">${c.status === "blocked" ? "× " + escape(c.checks.find((check) => check.state === "fail").detail) : "↳ " + escape(c.checks.find((check) => check.title === "主板安装干涉" && check.state === "conditional")?.detail || c.reasons[0])}</p>${mountLine}${testLine}</div></div>
+    <div class="card-bottom"><div class="price-block"><span class="ref-price">参考 ${escape(formatRefPrice(c))}</span><label class="price-group" for="price-${c.id}">到手 ¥ <input id="price-${c.id}" data-price="${c.id}" type="number" step="any" min="1" max="20000" placeholder="可选" value="${c.price ?? ""}" aria-label="${escape(c.name)} 实际报价"></label></div><div class="card-actions"><label class="compare-label"><input type="checkbox" data-compare="${c.id}" ${compare.has(c.id) ? "checked" : ""}>对比</label><button class="details-button" type="button" data-detail="${c.id}">详情 ↗</button></div></div></article>`;
 }
+
 function details(id) {
   const c = results.find((c) => c.id === id);
+  const amdHints = c.amdHints.map(({ title, detail, source }) =>
+    `<p><b>${escape(title)}</b> ${escape(detail)} <a href="${sourceHref(source)}" target="_blank" rel="noopener noreferrer">厂商说明 ↗</a></p>`
+  ).join("");
   dialog(
     c.name,
-    `<div class="dialog-copy"><span class="badge ${c.status}">${statusText[c.status]}</span><p>${escape(c.notes)}</p>${constructionDetails(c)}${c.checks.map((check) => `<div class="detail-check">${icon(check.state)}<div><b>${check.title} · ${{ pass: "通过", fail: "冲突", unknown: "待确认", conditional: "需调整 / 核对" }[check.state]}</b><p>${escape(check.detail)}</p>${check.source ? `<a class="source-evidence" href="${check.source}" target="_blank" rel="noopener noreferrer">官方适配依据 ↗</a>` : ""}</div></div>`).join("")}<h3>${c.status === "blocked" ? "该型号的实测参考（已排除推荐）" : "为什么出现在候选中"}</h3>${c.reasons.map((reason) => `<p>${escape(reason)}</p>`).join("")}<p>选型规则提供考察方向，不承诺具体温度或噪声表现。规格核对日期：${c.checkedAt || catalog.checkedAt}。</p><a class="source-link" href="${c.source}" target="_blank" rel="noopener noreferrer">${escape(c.sourceLabel || "官方产品规格")} ↗</a>${c.extraSource ? `<a class="source-link" href="${c.extraSource}" target="_blank" rel="noopener noreferrer">安装 / 尺寸依据 ↗</a>` : ""}</div>`,
+    `<div class="dialog-copy"><div class="dialog-badges"><span class="badge ${escape(c.fitStage)}">${escape(c.fitLabel)}</span><span class="badge ${c.status}">${statusText[c.status]}</span></div><p>${escape(c.notes)}</p>${amdHints}${constructionDetails(c)}${c.checks.map((check) => `<div class="detail-check">${icon(check.state)}<div><b>${check.title} · ${{ pass: "通过", fail: "冲突", unknown: "待确认", conditional: "需调整 / 核对" }[check.state]}</b><p>${escape(check.detail)}</p>${check.source ? `<a class="source-evidence" href="${sourceHref(check.source)}" target="_blank" rel="noopener noreferrer">官方适配依据 ↗</a>` : ""}</div></div>`).join("")}<h3>${c.status === "blocked" ? "该型号的实测与分析（已排除推荐）" : "为什么推荐考察"}</h3>${c.reasons.map((reason) => `<p>${escape(reason)}</p>`).join("")}<p>选型规则提供考察方向，不承诺具体温度或噪声表现。规格核对日期：${c.checkedAt || catalog.checkedAt}。</p><a class="source-link" href="${sourceHref(c.source)}" target="_blank" rel="noopener noreferrer">${escape(c.sourceLabel || "官方产品规格")} ↗</a>${c.extraSource ? `<a class="source-link" href="${sourceHref(c.extraSource)}" target="_blank" rel="noopener noreferrer">安装 / 尺寸依据 ↗</a>` : ""}</div>`,
   );
 }
+
 function updateCompare() {
   saveView({
     filter,
     query: $("#cooler-search").value,
     sort: $("#result-sort").value,
     showBlocked: $("#show-blocked").checked,
+    layout,
+    useRefPrice,
     compare: [...compare],
   });
   $("#compare-tray").hidden = compare.size === 0;
@@ -1778,30 +2829,107 @@ function updateCompare() {
   $("#compare-open").textContent =
     compare.size < 2 ? "再选 1 款即可对比" : "查看对比 →";
 }
+
 function openComparison() {
   const items = results.filter((c) => compare.has(c.id));
+  const lowestEffective = Math.min(
+    ...items.map((c) => c.effectivePrice || Infinity),
+  );
+  const lowestHeight = Math.min(
+    ...items.map((c) =>
+      c.type === "air" && c.heightUsed > 0 ? c.heightUsed : Infinity,
+    ),
+  );
+  const lowestMeasured = Math.min(
+    ...items.map((c) => c.measured?.value ?? Infinity),
+  );
   const rows = [
-    ["类型", (c) => (c.type === "air" ? "塔式风冷" : "一体式水冷")],
-    ["安装状态", (c) => statusText[c.status]],
-    ["热管", (c) => constructionSummary(c).heatpipes],
-    ["热管 / 鳍片连接", (c) => constructionSummary(c).finJoint],
-    ["底座接触", (c) => constructionSummary(c).base],
-    ["标称解热 / TDP（非实测上限）", (c) => constructionSummary(c).rating],
     [
-      "尺寸",
+      "类型",
+      (c) =>
+        c.type === "air"
+          ? c.formFactor === "downdraft"
+            ? "下压式风冷"
+            : "塔式风冷"
+          : "一体式水冷",
+    ],
+    ["空间匹配", (c) => c.fitLabel],
+    ["官方完整审查", (c) => statusText[c.status]],
+    [
+      "日常参考价",
+      (c) => formatRefPrice(c),
+      (c) =>
+        Number.isFinite(lowestEffective) &&
+        c.effectivePrice === lowestEffective,
+    ],
+    [
+      "到手报价",
+      (c) =>
+        c.price ? `¥ ${c.price}${c.overBudget ? "（超预算）" : ""}` : "未填写",
+    ],
+    [
+      "尺寸 / 总装厚度",
       (c) =>
         c.type === "air"
           ? c.height === null
             ? "安装高度待核对"
-            : `标称高度 ${c.height} mm${c.height !== c.heightUsed && c.heightUsed ? ` / 调整后 ${c.heightUsed} mm` : ""}`
+            : `标称高度 ${c.height} mm${c.height !== c.heightUsed && c.heightUsed ? ` / 抬扇后 ${c.heightUsed} mm` : ""}`
           : `${c.radiatorLength} × ${c.radiatorWidth} × ${stackThickness(c)} mm（含风扇与安装组件）`,
+      (c) =>
+        Number.isFinite(lowestHeight) &&
+        c.type === "air" &&
+        c.heightUsed === lowestHeight,
     ],
     [
-      "报价",
+      "内存净空 / 避让",
       (c) =>
-        c.price
-          ? `¥ ${c.price}${c.overBudget ? "（超预算）" : ""}`
-          : "未填写，预算待确认",
+        c.type === "aio"
+          ? "不占内存槽高度（需核对顶置冷排空间）"
+          : c.ramOverhang === false
+            ? "默认布局不遮挡内存槽"
+            : c.ramClearance != null
+              ? `≤ ${c.ramClearance} mm（${c.ramLift ? "支持前扇抬高" : "不支持抬扇"}）`
+              : "内存净空待核对",
+    ],
+    [
+      "平台支持 / AM5 偏移",
+      (c) =>
+        c.sockets.join(" / ") +
+        (c.amdHints?.length
+          ? `；${c.amdHints.map((h) => h.title).join(" / ")}`
+          : ""),
+    ],
+    ["热管", (c) => constructionSummary(c).heatpipes],
+    ["热管 / 鳍片连接", (c) => constructionSummary(c).finJoint],
+    ["底座接触", (c) => constructionSummary(c).base],
+    ["标称解热 / TDP（非实测上限）", (c) => constructionSummary(c).rating],
+    ...(items.some((c) => c.measured)
+      ? [
+          [
+            "当前同条件实测",
+            (c) =>
+              c.measured
+                ? `${c.measured.value}${c.measured.unit}（${c.measured.author}）`
+                : "该组未收录",
+            (c) =>
+              Number.isFinite(lowestMeasured) &&
+              c.measured?.value === lowestMeasured,
+          ],
+        ]
+      : []),
+    [
+      "已收录实测档案",
+      (c) => {
+        const tests = recordedTests(c.id, catalog);
+        return tests.length
+          ? tests
+              .map(
+                ({ group, row }) =>
+                  `${group.cpu.replace(/^(?:Intel|AMD)\s+/i, "")} ${group.powerW}W: ${row.value}${group.unit}`,
+              )
+              .join("；")
+          : "暂无收录";
+      },
     ],
     [
       "需处理事项",
@@ -1814,28 +2942,55 @@ function openComparison() {
     [
       "规格 / 原始依据",
       (c) =>
-        `<a href="${c.source}" target="_blank" rel="noopener noreferrer">产品规格 ↗</a>`,
+        `<a href="${sourceHref(c.source)}" target="_blank" rel="noopener noreferrer">产品规格 ↗</a>`,
     ],
   ];
+  const tableRows = rows
+    .map(([name, get, isBest]) => {
+      const vals = items.map((c) => get(c));
+      const same = new Set(vals).size <= 1;
+      return `<tr data-same="${same}"><th scope="row">${name}</th>${items
+        .map((c, idx) => {
+          const val = vals[idx];
+          const best = !same && isBest && isBest(c);
+          return `<td class="${best ? "compare-best" : ""}">${name === "规格 / 原始依据" ? val : escape(val)}</td>`;
+        })
+        .join("")}</tr>`;
+    })
+    .join("");
   dialog(
     "散热方案对比",
-    `<div class="table-scroll"><table><thead><tr><th>对比项目</th>${items.map((c) => `<th>${escape(c.name)}</th>`).join("")}</tr></thead><tbody>${rows.map(([name, get]) => `<tr><th scope="row">${name}</th>${items.map((c) => `<td>${name === "规格 / 原始依据" ? get(c) : escape(get(c))}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`,
+    `<label class="conflict-toggle compare-diff-toggle"><input type="checkbox" id="compare-diff-only" />仅显示有差异的项目</label><div class="table-scroll"><table class="compare-table"><thead><tr><th>对比项目</th>${items.map((c) => `<th>${escape(c.name)}</th>`).join("")}</tr></thead><tbody>${tableRows}</tbody></table></div>`,
   );
+  $("#compare-diff-only")?.addEventListener("change", (event) => {
+    const onlyDiff = event.target.checked;
+    $("#dialog-body")
+      .querySelectorAll('tr[data-same="true"]')
+      .forEach((tr) => {
+        tr.hidden = onlyDiff;
+      });
+  });
 }
+
 function guide() {
   dialog(
     "怎样选到合适的散热器",
-    `<div class="dialog-copy"><h3>1. 从真实配置开始</h3><p>选择 CPU 和主板完整型号。插槽相同只说明平台匹配，主板 CPU 支持列表与 BIOS 版本仍需核对。未收录主板可填写型号和插槽。</p><h3>2. 风冷同时看内存与机箱</h3><p>机箱限高指 CPU 散热器安装限高，并非机箱外壳宽度。若前风扇覆盖内存，抬高风扇会增加安装高度。接近限高时应实测。</p><h3>3. 水冷同时看尺寸与位置</h3><p>“支持 360 冷排”不等于所有 360 水冷都能安装。还要核对冷排实际长宽、孔位、冷排与风扇总厚度、主板与显卡干涉、管路路径，以及水泵连接方式。</p><h3>4. 结合负载和功耗设置</h3><p>持续渲染与游戏的热负载不同。主板自动设置可能改变功耗限制；解除限制时，选型无法保证满载温度。静音取决于机箱风道、实际负载和风扇曲线。</p><h3>5. 用实际报价决定预算</h3><p>填入你看到的实际购买价格，设置预算后会排除已知超预算的产品。未知报价保留为待核对，不会被当成免费。</p></div>`,
+    `<div class="dialog-copy"><h3>1. 先定平台与主板</h3><p>支持 Intel LGA1851 / LGA1700 与 AMD AM5 桌面平台。选择 CPU 后会自动按插槽过滤主板；未收录主板可填写型号和插槽。</p><h3>2. 一键填好空间尺寸</h3><p>利用「机箱预设」和「内存预设」快速填入限高与内存高度，即可直接看到「尺寸与插槽匹配」的绿标反馈。接近限高（余量小于 3 mm）时仍建议实测公差。</p><h3>3. 水冷看冷排与总厚度</h3><p>“支持 360 冷排”不等于所有 360 都能装进顶置位。厚冷排（如 63–66 mm 总厚）必须核对冷排可用厚度和主板装甲干涉。</p><h3>4. 结合参考价与实测档案</h3><p>每张卡片附带日常参考价区间；你也可以填写实际到手价覆盖预算判断。同条件实测结果仅供参考，不跨平台混排。</p></div>`,
   );
 }
+
 $("#dialog-body").addEventListener("click", (event) => {
   const picture = event.target.closest("[data-photo]");
   if (picture) photo(picture.dataset.photo);
 });
+
 function sources() {
+  const refNote =
+    catalog.refPriceNote ||
+    "日常参考价目前缺少逐型号实时报价链接，仅用于粗筛预算。";
   dialog(
     "数据来源与推荐方法",
-    `<div class="dialog-copy"><p>当前收录 ${catalog.cpus.length} 款 Intel 台式机 CPU、${catalog.boards.length} 款主板、${catalog.coolers.length} 款散热器。基础规格核对日期：${catalog.checkedAt}；最近补充：${catalog.lastExpandedAt || catalog.checkedAt}。这是有限型号的数据库，不代表覆盖全部市场产品。</p><h3>规格事实</h3><p>CPU 插槽、基础功耗、最大睿频功耗及散热器尺寸采用品牌公开资料。CQ125 暂仅取得原始评测，安装高度与未确认的扣具不填写。内存净空、冷排尺寸等只在有依据时填写。</p><ul>${[...catalog.cpus, ...catalog.boards, ...catalog.coolers].map((c) => `<li><a href="${c.source}" target="_blank" rel="noopener noreferrer">${escape(c.name)} ↗</a></li>`).join("")}</ul><h3>安装组合的证据边界</h3><p>已收录 ${catalog.overrides.length} 条主板与散热器安装记录，包括 VRM 干涉、M.2 散热片冲突和安装方向限制。未收录的组合保持待确认，不从插槽相同推断可安装。更换安装方向、扣具或产品版本后需要重新核对。</p><h3>评测资料</h3><p><a href="reviews.html">查看 51972 往期评测资料库与核对进度 ↗</a>。已录入风冷、水冷图表温度和同噪对比；只有 CPU、设置功耗、用途与测试组对应时才参考同组实测。</p><h3>推荐排序</h3><p>先判断插槽和空间冲突，再按用途、功耗设置及偏好给出考察顺序。持续高功耗生产力优先考察大冷排，均衡用途优先考察风冷。若主动选择的实测组与配置对应，则对该组已参测型号优先比较读数；其他型号仍按选型规则，不将跨平台图表拼成总榜，也不作散热能力保证。</p><p>价格由用户填写，不提供实时商城数据。噪声与温度不跨测试条件直接比较，不编造温度、分贝或性能分数。</p><h3>本地保存与分享</h3><p>配置和报价保存在当前浏览器。分享链接仅包含配置参数，不包含报价；任何获得链接的人均可查看其中的主板型号等信息。未发送至服务器。</p></div>`,
+    `<div class="dialog-copy"><p>当前收录 ${catalog.cpus.length} 款桌面平台 CPU（Intel / AMD AM5）、${catalog.boards.length} 款主板、${catalog.coolers.length} 款散热器。基础规格核对日期：${catalog.checkedAt}；最近补充：${catalog.lastExpandedAt || catalog.checkedAt}；参考价整理日期：${catalog.refPriceCheckedAt || catalog.lastExpandedAt || catalog.checkedAt}。</p><h3>规格与兼容分层</h3><p>CPU 插槽、功耗上限及散热器尺寸采用品牌公开资料。当插槽、扣具、机箱限高（或冷排尺寸与总厚度）均匹配时，卡片显示「尺寸与插槽匹配」，仅已知标称高度的型号会提示净空待核；逐主板 VRM / M.2 干涉与官方兼容记录已录入 ${catalog.overrides.length} 组（含官方确认兼容、有条件安装与明确冲突）。</p><h3>日常参考价与手填报价</h3><p>${escape(refNote)}你在卡片填写的到手报价仅存于本地浏览器且优先参与预算判断。</p><h3>评测资料</h3><p><a href="reviews.html">查看 51972 往期评测资料库与核对进度 ↗</a>。已录入 Intel 与 AMD AM5 风冷、水冷图表温度和同噪对比；卡片仅在条件完全对应时展示同条件优先，并附上已收录原始测试档案链接供核查。</p><ul>${[...catalog.cpus, ...catalog.boards, ...catalog.coolers].map((c) => `<li><a href="${sourceHref(c.source)}" target="_blank" rel="noopener noreferrer">${escape(c.name)} ↗</a></li>`).join("")}</ul></div>`,
   );
 }
 
@@ -1845,39 +3000,35 @@ async function init() {
     loadData("data/reviews/benchmarks.json"),
   ]);
   catalog = { ...products, benchmarks: measurements.groups };
-  $("#benchmark-select").innerHTML = catalog.benchmarks
-    .map(
-      (group) =>
-        `<option value="${group.id}">${escape(group.cpu)} · ${group.powerW}W · ${escape(group.title)} · ${group.author}</option>`,
-    )
-    .join("");
+  $("#benchmark-select").innerHTML = benchmarkOptions(catalog.benchmarks);
   $("#catalog-size").textContent =
-    `${catalog.cpus.length} 款 Intel CPU · ${catalog.coolers.length} 款散热器 · ${catalog.boards.length} 款主板`;
-  $("#cpu").innerHTML = ["LGA1851", "LGA1700"]
-    .map(
-      (socket) =>
-        `<optgroup label="${socket}">${catalog.cpus
-          .filter((c) => c.socket === socket)
-          .sort((a, b) => a.name.localeCompare(b.name, "en", { numeric: true }))
-          .map((c) => `<option value="${c.id}">${escape(c.name)}</option>`)
-          .join("")}</optgroup>`,
-    )
+    `（已收录 ${catalog.cpus.length} 款 CPU · ${catalog.coolers.length} 款散热器 · ${catalog.boards.length} 款主板）`;
+  $("#cpu").innerHTML = ["LGA1851", "LGA1700", "AM5"]
+    .map((socket) => {
+      const list = catalog.cpus
+        .filter((c) => c.socket === socket)
+        .sort((a, b) => a.name.localeCompare(b.name, "en", { numeric: true }));
+      return list.length
+        ? `<optgroup label="${socket}">${list.map((c) => `<option value="${c.id}">${escape(c.name)}</option>`).join("")}</optgroup>`
+        : "";
+    })
     .join("");
   $("#board").innerHTML =
     '<option value="">暂未选择主板</option>' +
-    ["LGA1851", "LGA1700"]
-      .map(
-        (socket) =>
-          `<optgroup label="${socket}">${catalog.boards
-            .filter((b) => b.socket === socket)
-            .sort((a, b) =>
-              a.name.localeCompare(b.name, "en", { numeric: true }),
-            )
-            .map((b) => `<option value="${b.id}">${escape(b.name)}</option>`)
-            .join("")}</optgroup>`,
-      )
+    ["LGA1851", "LGA1700", "AM5"]
+      .map((socket) => {
+        const list = catalog.boards
+          .filter((b) => b.socket === socket)
+          .sort((a, b) =>
+            a.name.localeCompare(b.name, "en", { numeric: true }),
+          );
+        return list.length
+          ? `<optgroup label="${socket}">${list.map((b) => `<option value="${b.id}">${escape(b.name)}</option>`).join("")}</optgroup>`
+          : "";
+      })
       .join("") +
     '<option value="custom">其他主板 / 手动填写</option>';
+
   const saved = load();
   config = normalize(saved.config || defaults, catalog);
   for (const c of catalog.coolers)
@@ -1894,6 +3045,12 @@ async function init() {
     }
   }
   fillForm();
+  if (
+    location.hash.startsWith("#config=") &&
+    matchingBenchmark(config, catalog)
+  ) {
+    $("#benchmark-disclosure").open = true;
+  }
   let savedMode;
   try {
     savedMode = localStorage.getItem("coolerguide-mode");
@@ -1901,6 +3058,9 @@ async function init() {
   setMode(savedMode || "quick");
   const view = loadView(catalog);
   compare = new Set(view.compare);
+  layout = view.layout;
+  useRefPrice = view.useRefPrice;
+  if ($("#use-ref-price")) $("#use-ref-price").checked = useRefPrice;
   if (!location.hash.startsWith("#config=")) {
     filter = view.filter;
     $("#cooler-search").value = view.query;
@@ -1915,6 +3075,7 @@ async function init() {
     );
   });
   render();
+
   $("#next-items").addEventListener("click", (event) => {
     const button = event.target.closest("[data-config-target]");
     if (!button) return;
@@ -1931,6 +3092,58 @@ async function init() {
           : "smooth",
     });
   });
+
+  document.querySelectorAll("[data-preset-target]").forEach((button) =>
+    button.addEventListener("click", () => {
+      clearTimeout(debounceTimer);
+      const input = document.getElementById(button.dataset.presetTarget);
+      if (!input) return;
+      input.value = button.dataset.presetValue;
+      if (!readForm()) return;
+      persist();
+      render();
+    }),
+  );
+
+  $("#cpu-quick-hits")?.addEventListener("click", (event) => {
+    const btn = event.target.closest("[data-pick-cpu]");
+    if (!btn) return;
+    clearTimeout(debounceTimer);
+    if (config.cpu !== btn.dataset.pickCpu) resetMeasuredContext(true);
+    $("#cpu").value = btn.dataset.pickCpu;
+    if (!readForm()) return;
+    persist();
+    render();
+  });
+
+  $("#board-quick-hits")?.addEventListener("click", (event) => {
+    const btn = event.target.closest("[data-pick-board]");
+    if (!btn) return;
+    clearTimeout(debounceTimer);
+    if (config.board !== btn.dataset.pickBoard) $("#package-temp").value = "";
+    $("#board").value = btn.dataset.pickBoard;
+    if (!readForm()) return;
+    persist();
+    render();
+  });
+
+  $("#sync-board-socket")?.addEventListener("change", () => {
+    updateSearchOptions();
+  });
+
+  $("#use-ref-price")?.addEventListener("change", () => {
+    useRefPrice = $("#use-ref-price").checked;
+    render();
+  });
+
+  document.querySelectorAll("[data-layout]").forEach((button) =>
+    button.addEventListener("click", () => {
+      layout = button.dataset.layout;
+      syncLayoutButtons();
+      updateCompare();
+    }),
+  );
+
   $("#result-sort").addEventListener("change", render);
   $("#clear-filters").addEventListener("click", () => {
     filter = "all";
@@ -1978,6 +3191,7 @@ async function init() {
     const group = catalog.benchmarks.find(
       (g) => g.id === $("#benchmark-select").value,
     );
+    clearTimeout(debounceTimer);
     config = {
       ...config,
       cpu: group.cpuId,
@@ -1987,6 +3201,7 @@ async function init() {
       silicon: config.cpu === group.cpuId ? config.silicon : "unknown",
       usage: "production",
       benchmarkId: group.id,
+      packageTemp: null,
     };
     fillForm();
     persist();
@@ -1994,14 +3209,22 @@ async function init() {
     toast("已应用测试 CPU 与功耗，请继续核对你的主板和安装空间");
   });
   form.addEventListener("change", (event) => {
+    if (
+      event.target.id === "sync-board-socket" ||
+      event.target.id === "use-ref-price"
+    )
+      return;
+    clearTimeout(debounceTimer);
     if (["cpu", "usage", "power", "powerLimit"].includes(event.target.name))
       resetMeasuredContext(event.target.name === "cpu");
+    else if (event.target.name === "board") $("#package-temp").value = "";
     if (!readForm()) return;
     persist();
     render();
   });
   form.addEventListener("submit", (event) => {
     event.preventDefault();
+    clearTimeout(debounceTimer);
     if (!readForm()) return;
     const stored = persist();
     render();
@@ -2024,22 +3247,32 @@ async function init() {
       if (!readForm()) return;
       persist();
       render();
+      return;
     }
     updateSearchOptions();
   });
   $("#reset").addEventListener("click", () => {
+    clearTimeout(debounceTimer);
     config = { ...defaults };
     prices = {};
     compare.clear();
     filter = "all";
+    useRefPrice = true;
+    if ($("#use-ref-price")) $("#use-ref-price").checked = true;
+    if ($("#sync-board-socket")) $("#sync-board-socket").checked = true;
     $("#result-sort").value = "recommended";
     $("#show-blocked").checked = false;
     $("#cooler-search").value = "";
     $("#cpu-search").value = "";
     $("#board-search").value = "";
-    $("#board-search-hint").textContent = "按完整型号、后缀和修订号选择。";
-    for (const o of $("#board").options) o.hidden = false;
-    for (const o of $("#cpu").options) o.hidden = false;
+    for (const o of $("#board").options) {
+      o.hidden = false;
+      o.disabled = false;
+    }
+    for (const o of $("#cpu").options) {
+      o.hidden = false;
+      o.disabled = false;
+    }
     replaceLocation(location.pathname + location.search);
     fillForm();
     persist();
@@ -2050,11 +3283,17 @@ async function init() {
     }
     toast("已重置配置与报价");
   });
-  $("#board-search").addEventListener("input", (event) => {
+  $("#board-search").addEventListener("input", () => {
     updateSearchOptions();
   });
   form.addEventListener("input", (event) => {
-    if (event.target.type === "number") validateForm();
+    if (event.target.id === "cpu-search" || event.target.id === "board-search")
+      return;
+    if (event.target.type === "number" || event.target.name === "boardName") {
+      validateForm();
+      syncPresetPills();
+      scheduleUpdate();
+    }
   });
   form.addEventListener(
     "invalid",
@@ -2130,20 +3369,8 @@ async function init() {
   });
   $("#open-guide").addEventListener("click", guide);
   $("#read-method").addEventListener("click", sources);
-  const siteOptions = $(".site-options");
-  const optionsSummary = siteOptions.querySelector("summary");
-  function closeSiteOptions() {
-    siteOptions.open = false;
-    optionsSummary.focus({ preventScroll: true });
-  }
-  siteOptions.addEventListener("click", (event) => {
-    if (event.target.closest(".site-options-panel button:not(#light-effects)")) closeSiteOptions();
-  }, { capture: true });
-  document.addEventListener("click", (event) => {
-    if (siteOptions.open && !siteOptions.contains(event.target)) siteOptions.open = false;
-  });
-  siteOptions.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && siteOptions.open) closeSiteOptions();
+  $(".result-reference-links a").addEventListener("click", () => {
+    $("#benchmark-disclosure").open = true;
   });
   $("#open-sources").addEventListener("click", sources);
   $("#dialog-close").addEventListener("click", () => $("#info-dialog").close());
@@ -2165,6 +3392,7 @@ async function init() {
     render();
   });
 }
+
 init().catch((error) => {
   console.error(error);
   $("#cards").innerHTML =

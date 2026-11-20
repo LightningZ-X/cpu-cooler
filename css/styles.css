@@ -134,35 +134,14 @@ p {
 .header-inner nav .nav-active {
   color: var(--blue);
 }
-.platform-pill {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  border: 1px solid #dce6fa;
-  background: #f2f6ff;
-  color: #46648b;
-  font-size: 11px;
-  padding: 5px 11px;
-  border-radius: 30px;
-}
-.platform-pill i,
-.hero .eyebrow span,
-.art-label i {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #4c86e9;
-  display: inline-block;
-}
 .hero {
   max-width: 1176px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  min-height: 376px;
-  padding: 43px 0 35px;
-  gap: 25px;
+  padding: 20px 0;
+  gap: 20px;
 }
 .eyebrow {
   font-size: 10px;
@@ -177,95 +156,19 @@ p {
   color: #6983a5;
 }
 .hero h1 {
-  font-size: 46px;
-  line-height: 1.4;
+  font-size: 32px;
+  line-height: 1.35;
   font-weight: 750;
-  letter-spacing: -1.6px;
-  margin: 14px 0 15px;
+  letter-spacing: -1px;
+  margin: 6px 0 6px;
 }
 .hero h1 span {
   color: var(--blue);
 }
 .hero-description {
   font-size: 13px;
-  line-height: 1.9;
+  line-height: 1.75;
   color: var(--muted);
-}
-.hero-features {
-  display: flex;
-  gap: 20px;
-  margin-top: 23px;
-  font-size: 11px;
-  color: #728094;
-}
-.hero-features span::first-letter {
-  color: var(--blue);
-}
-.hero-art {
-  position: relative;
-  height: 300px;
-  background: radial-gradient(ellipse, #e8effb 0, transparent 66%);
-  display: grid;
-  place-items: center;
-}
-.hero-art > img {
-  width: 350px;
-  max-width: 100%;
-  height: 300px;
-  position: relative;
-  z-index: 1;
-  filter: drop-shadow(0 18px 16px #748cb21a);
-  transform: rotate(-3deg);
-}
-.orbit {
-  border: 1px solid #e3eaf5;
-  position: absolute;
-  border-radius: 50%;
-  width: 300px;
-  height: 260px;
-  transform: rotate(-25deg);
-}
-.orbit-two {
-  width: 390px;
-  height: 180px;
-  transform: rotate(-25deg);
-}
-.art-label {
-  position: absolute;
-  z-index: 2;
-  padding: 8px 13px;
-  font-size: 10px;
-  color: #6c7c91;
-  background: #ffffffdc;
-  border: 1px solid #e9edf4;
-  border-radius: 8px;
-  box-shadow: 0 6px 18px #294a7810;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.art-label-top {
-  top: 43px;
-  right: 15px;
-}
-.art-label-top b {
-  font-size: 23px;
-  color: #4e87e6;
-  line-height: 1;
-}
-.art-label-bottom {
-  bottom: 41px;
-  left: 17px;
-}
-.art-label i {
-  background: #4aa48b;
-}
-.art-caption {
-  position: absolute;
-  bottom: 3px;
-  font-size: 8px;
-  letter-spacing: 3px;
-  color: #a4afbe;
 }
 .workspace {
   max-width: 1176px;
@@ -1003,21 +906,6 @@ th:first-child {
   border-radius: 12px;
   color: #a54f40;
 }
-@media (min-width: 1450px) {
-  .hero {
-    min-height: 415px;
-  }
-  .hero h1 {
-    font-size: 50px;
-  }
-  .hero-art {
-    height: 320px;
-  }
-  .hero-art > img {
-    height: 325px;
-    width: 380px;
-  }
-}
 @media (max-width: 1240px) {
   .hero,
   .workspace,
@@ -1025,9 +913,6 @@ th:first-child {
   footer {
     margin-left: 32px;
     margin-right: 32px;
-  }
-  .hero h1 {
-    font-size: 42px;
   }
   .workspace {
     grid-template-columns: 285px minmax(0, 1fr);
@@ -1037,7 +922,7 @@ th:first-child {
     padding: 19px;
   }
   .results-top h2 {
-    font-size: 21px;
+    font-size: 20px;
   }
   .card-main {
     grid-template-columns: 110px minmax(0, 1fr);
@@ -1064,25 +949,8 @@ th:first-child {
     margin-left: 24px;
     margin-right: 24px;
   }
-  .hero h1 {
-    font-size: 36px;
-  }
-  .hero-features {
-    gap: 10px;
-    font-size: 10px;
-  }
-  .hero-art > img {
-    width: 290px;
-  }
-  .art-label-top {
-    right: 0;
-  }
-  .orbit-two {
-    width: 290px;
-  }
   .hero {
-    min-height: 340px;
-    padding: 25px 0;
+    padding: 18px 0;
   }
   .workspace {
     grid-template-columns: 260px minmax(0, 1fr);
@@ -1107,7 +975,7 @@ th:first-child {
     width: 85px;
   }
   .product-art {
-    min-height: 135px;
+    min-height: 110px;
   }
   .product-title h3 {
     font-size: 15px;
@@ -1148,10 +1016,6 @@ th:first-child {
   .brand {
     font-size: 20px;
   }
-  .platform-pill {
-    font-size: 10px;
-    padding: 4px 8px;
-  }
   .hero,
   .workspace,
   .principles,
@@ -1160,28 +1024,21 @@ th:first-child {
     margin-right: 20px;
   }
   .hero {
-    grid-template-columns: 1fr;
-    min-height: auto;
-    padding: 31px 0 25px;
-    gap: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px 0;
+    gap: 8px;
   }
   .hero h1 {
-    font-size: 37px;
+    font-size: 26px;
     line-height: 1.35;
-    margin-top: 14px;
+    margin-top: 8px;
   }
   .hero-description br {
     display: none;
   }
   .hero-description {
-    max-width: 350px;
-  }
-  .hero-art {
-    display: none;
-  }
-  .hero-features {
-    gap: 19px;
-    margin-top: 18px;
+    max-width: 100%;
   }
   .workspace {
     grid-template-columns: 1fr;

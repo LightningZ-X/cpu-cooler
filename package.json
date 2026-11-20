@@ -1,9 +1,9 @@
 {
   "name": "cooler-guide",
-  "version": "1.11.3",
+  "version": "1.12.0",
   "private": true,
   "type": "module",
-  "description": "Intel desktop CPU cooler compatibility and selection guide",
+  "description": "Intel and AMD AM5 desktop CPU cooler compatibility and selection guide",
   "scripts": {
     "build": "node tools/build.mjs",
     "start": "node tools/serve.mjs",

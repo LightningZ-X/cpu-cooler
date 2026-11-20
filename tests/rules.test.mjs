@@ -193,7 +193,7 @@ test("分享链接和存储中的异常值会归一化", () => {
       radiatorSize: "0",
       headers: "true",
       board: "custom",
-      boardSocket: "AM5",
+      boardSocket: "TR4",
       budget: 999999,
     },
     db,

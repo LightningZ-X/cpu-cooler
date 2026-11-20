@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { defaults, normalize } from "../js/storage.js";
-import { thermalContext } from "../js/thermal-context.js";
+import { powerLabel, thermalContext } from "../js/thermal-context.js";
 import { recommend } from "../js/recommendation.js";
 import { matchingBenchmark } from "../js/benchmarks.js";
 const products = JSON.parse(
@@ -162,4 +162,42 @@ test("新型号的安装干涉仍需逐组合证据", () => {
           cooler.checks.find((c) => c.title === "主板安装干涉").state,
           "unknown",
         );
+});
+
+test("AM5 温控按精确型号、芯片布局和实测 Tctl/Tdie 解读", () => {
+  const get = (id, extra) => {
+    const settings = normalize(config({ cpu: id, ...extra }), db);
+    return thermalContext(settings, db.cpus.find((item) => item.id === id));
+  };
+  assert.match(get("7800x3d", { packageTemp: "90" }).amd.summary, /89 °C.*达到或超过/);
+  assert.match(get("9800x3d", { packageTemp: 90 }).amd.summary, /95 °C.*距 Tjmax 5 °C/);
+  assert.match(get("9950x3d", {}).amd.summary, /双 CCD/);
+  assert.match(get("8700g", {}).amd.summary, /单片 APU/);
+  assert.equal(get("9950x3d2", {}).watts, null);
+  assert.match(get("9950x3d2", {}).basis, /PPT 待核对/);
+  assert.equal(get("9950x3d2", { measuredPower: 190 }).watts, 190);
+  assert.equal(get("9700x", { power: "unlimited", measuredPower: 88 }).highDemand, false);
+  assert.equal(get(cpu.id, { packageTemp: 90 }).amd, null);
+  assert.equal(normalize({ cpu: "7800x3d", packageTemp: "" }, db).packageTemp, null);
+  assert.equal(normalize({ cpu: "7800x3d", packageTemp: 121 }, db).packageTemp, null);
+  assert.equal(normalize({ cpu: cpu.id, packageTemp: 90 }, db).packageTemp, null);
+  assert.equal(powerLabel("intel", db.cpus.find((c) => c.id === "7800x3d")), "AMD 原厂默认（PPT）");
+});
+
+test("按 AM5 底座和扣具证据出提示，主板干涉与版本限制独立判断", () => {
+  const candidate = (id, extra) => recommend(
+    config({ cpu: "9850x3d", board: "msi-b850i-edge", caseHeight: 175, ramHeight: 32, ...extra }),
+    db,
+  ).find((item) => item.id === id);
+  const lbc = candidate("d15g2lbc");
+  assert.equal(lbc.checks.find((check) => check.title === "主板安装干涉").state, "conditional");
+  assert.ok(lbc.amdHints.some((hint) => hint.mode === "optional" && hint.mm === 7));
+  const hbc = candidate("d15g2hbc");
+  assert.equal(hbc.checks.find((check) => check.title === "平台扣具").state, "pass");
+  assert.ok(hbc.amdHints.some((hint) => hint.recommended === false));
+  assert.ok(hbc.score < lbc.score);
+  assert.deepEqual(candidate("d15g2", { cpu: "8700g" }).amdHints, []);
+  assert.ok(candidate("lf3360", { cpu: "8700g" }).amdHints.some((hint) => hint.mode === "built-in"));
+  assert.equal(candidate("v8ace-amd", { cpu: cpu.id, board: "tuf-z890" }).status, "blocked");
+  assert.notEqual(candidate("v8ace-amd", {}).status, "blocked");
 });

@@ -23,6 +23,7 @@ jobs:
           mkdir public
           cp index.html reviews.html public/
           cp -r css js data assets public/
+          rm -f public/assets/lightningz-gap-cut-v2.mp4 public/assets/lightningz-gap-cut-gold.mp4
           cp -r dist public/
       - uses: actions/upload-pages-artifact@v3
         if: github.event_name != 'pull_request'

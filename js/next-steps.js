@@ -51,7 +51,9 @@ export function nextSteps(config, catalog, type = "all") {
     add(
       "power",
       "核对CPU运行工况",
-      "主板默认不一定是Intel默认；有实测持续功耗时可补充。",
+      cpu?.socket === "AM5"
+        ? "核对 BIOS 中的 PPT、PBO 与温度墙，并在同一负载下记录实际封装功耗和 Tctl/Tdie。"
+        : "主板默认不一定是 CPU 官方默认；有实测持续功耗时可补充。",
     );
   if (config.thermalInterface === "unknown")
     add(

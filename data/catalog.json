@@ -1,5 +1,8 @@
 {
   "checkedAt": "2026-11-14",
+  "lastExpandedAt": "2026-11-20",
+  "refPriceCheckedAt": "2026-11-20",
+  "refPriceNote": "日常参考价为 2026-11-20 前后整理的中国大陆主流电商常见区间估价，暂缺逐型号实时报价链接，仅用于粗筛预算；你在卡片中填写的到手报价始终优先。",
   "cpus": [
     {
       "id": "245k",
@@ -200,6 +203,297 @@
       "basePower": 125,
       "turboPower": 159,
       "source": "https://www.intel.com/content/www/us/en/products/sku/245694/intel-core-ultra-5-processor-250k-plus-30m-cache-up-to-5-30-ghz/specifications.html"
+    },
+    {
+      "id": "9800x3d",
+      "name": "AMD Ryzen 7 9800X3D",
+      "socket": "AM5",
+      "basePower": 120,
+      "turboPower": 162,
+      "x3d": true,
+      "source": "https://www.amd.com/en/products/processors/desktops/ryzen/9000-series/amd-ryzen-7-9800x3d.html",
+      "tjmax": 95,
+      "ccdCount": 1
+    },
+    {
+      "id": "7800x3d",
+      "name": "AMD Ryzen 7 7800X3D",
+      "socket": "AM5",
+      "basePower": 120,
+      "turboPower": 162,
+      "x3d": true,
+      "source": "https://www.amd.com/en/products/processors/desktops/ryzen/7000-series/amd-ryzen-7-7800x3d.html",
+      "tjmax": 89,
+      "ccdCount": 1
+    },
+    {
+      "id": "9700x",
+      "name": "AMD Ryzen 7 9700X",
+      "socket": "AM5",
+      "basePower": 65,
+      "turboPower": 88,
+      "source": "https://www.amd.com/en/products/processors/desktops/ryzen/9000-series/amd-ryzen-7-9700x.html",
+      "tjmax": 95,
+      "ccdCount": 1
+    },
+    {
+      "id": "9600x",
+      "name": "AMD Ryzen 5 9600X",
+      "socket": "AM5",
+      "basePower": 65,
+      "turboPower": 88,
+      "source": "https://www.amd.com/en/products/processors/desktops/ryzen/9000-series/amd-ryzen-5-9600x.html",
+      "tjmax": 95,
+      "ccdCount": 1
+    },
+    {
+      "id": "9950x",
+      "name": "AMD Ryzen 9 9950X",
+      "socket": "AM5",
+      "basePower": 170,
+      "turboPower": 230,
+      "source": "https://www.amd.com/en/products/processors/desktops/ryzen/9000-series/amd-ryzen-9-9950x.html",
+      "tjmax": 95,
+      "ccdCount": 2
+    },
+    {
+      "id": "7500f",
+      "name": "AMD Ryzen 5 7500F",
+      "socket": "AM5",
+      "basePower": 65,
+      "turboPower": 88,
+      "source": "https://www.amd.com/en/products/processors/desktops/ryzen/7000-series/amd-ryzen-5-7500f.html",
+      "tjmax": 95,
+      "ccdCount": 1
+    },
+    {
+      "id": "9950x3d2",
+      "name": "AMD Ryzen 9 9950X3D2 Dual Edition",
+      "socket": "AM5",
+      "basePower": 200,
+      "turboPower": null,
+      "tjmax": 95,
+      "ccdCount": 2,
+      "x3d": true,
+      "liquidRecommended": true,
+      "source": "https://www.amd.com/en/products/processors/desktops/ryzen/9000-series/amd-ryzen-9-9950x3d2-dual-edition.html",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "id": "9950x3d",
+      "name": "AMD Ryzen 9 9950X3D",
+      "socket": "AM5",
+      "basePower": 170,
+      "turboPower": 230,
+      "tjmax": 95,
+      "ccdCount": 2,
+      "x3d": true,
+      "source": "https://www.amd.com/en/products/processors/desktops/ryzen/9000-series/amd-ryzen-9-9950x3d.html",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "id": "9900x3d",
+      "name": "AMD Ryzen 9 9900X3D",
+      "socket": "AM5",
+      "basePower": 120,
+      "turboPower": 162,
+      "tjmax": 95,
+      "ccdCount": 2,
+      "x3d": true,
+      "source": "https://www.amd.com/en/products/processors/desktops/ryzen/9000-series/amd-ryzen-9-9900x3d.html",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "id": "9900x",
+      "name": "AMD Ryzen 9 9900X",
+      "socket": "AM5",
+      "basePower": 120,
+      "turboPower": 162,
+      "tjmax": 95,
+      "ccdCount": 2,
+      "source": "https://www.amd.com/en/products/processors/desktops/ryzen/9000-series/amd-ryzen-9-9900x.html",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "id": "9850x3d",
+      "name": "AMD Ryzen 7 9850X3D",
+      "socket": "AM5",
+      "basePower": 120,
+      "turboPower": 162,
+      "tjmax": 95,
+      "ccdCount": 1,
+      "x3d": true,
+      "source": "https://www.amd.com/en/products/processors/desktops/ryzen/9000-series/amd-ryzen-7-9850x3d.html",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "id": "9700f",
+      "name": "AMD Ryzen 7 9700F",
+      "socket": "AM5",
+      "basePower": 65,
+      "turboPower": 88,
+      "tjmax": 95,
+      "ccdCount": 1,
+      "source": "https://www.amd.com/en/products/processors/desktops/ryzen/9000-series/amd-ryzen-7-9700f.html",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "id": "9600",
+      "name": "AMD Ryzen 5 9600",
+      "socket": "AM5",
+      "basePower": 65,
+      "turboPower": 88,
+      "tjmax": 95,
+      "ccdCount": 1,
+      "source": "https://www.amd.com/en/products/processors/desktops/ryzen/9000-series/amd-ryzen-5-9600.html",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "id": "8700g",
+      "name": "AMD Ryzen 7 8700G",
+      "socket": "AM5",
+      "basePower": 65,
+      "turboPower": 88,
+      "tjmax": 95,
+      "ccdCount": 0,
+      "source": "https://www.amd.com/en/products/processors/desktops/ryzen/8000-series/amd-ryzen-7-8700g.html",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "id": "8600g",
+      "name": "AMD Ryzen 5 8600G",
+      "socket": "AM5",
+      "basePower": 65,
+      "turboPower": 88,
+      "tjmax": 95,
+      "ccdCount": 0,
+      "source": "https://www.amd.com/en/products/processors/desktops/ryzen/8000-series/amd-ryzen-5-8600g.html",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "id": "7950x3d",
+      "name": "AMD Ryzen 9 7950X3D",
+      "socket": "AM5",
+      "basePower": 120,
+      "turboPower": 162,
+      "tjmax": 89,
+      "ccdCount": 2,
+      "x3d": true,
+      "source": "https://www.amd.com/en/products/processors/desktops/ryzen/7000-series/amd-ryzen-9-7950x3d.html",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "id": "7950x",
+      "name": "AMD Ryzen 9 7950X",
+      "socket": "AM5",
+      "basePower": 170,
+      "turboPower": 230,
+      "tjmax": 95,
+      "ccdCount": 2,
+      "source": "https://www.amd.com/en/products/processors/desktops/ryzen/7000-series/amd-ryzen-9-7950x.html",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "id": "7900x3d",
+      "name": "AMD Ryzen 9 7900X3D",
+      "socket": "AM5",
+      "basePower": 120,
+      "turboPower": 162,
+      "tjmax": 89,
+      "ccdCount": 2,
+      "x3d": true,
+      "source": "https://www.amd.com/en/products/processors/desktops/ryzen/7000-series/amd-ryzen-9-7900x3d.html",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "id": "7900x",
+      "name": "AMD Ryzen 9 7900X",
+      "socket": "AM5",
+      "basePower": 170,
+      "turboPower": 230,
+      "tjmax": 95,
+      "ccdCount": 2,
+      "source": "https://www.amd.com/en/products/processors/desktops/ryzen/7000-series/amd-ryzen-9-7900x.html",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "id": "7900",
+      "name": "AMD Ryzen 9 7900",
+      "socket": "AM5",
+      "basePower": 65,
+      "turboPower": 88,
+      "tjmax": 95,
+      "ccdCount": 2,
+      "source": "https://www.amd.com/en/products/processors/desktops/ryzen/7000-series/amd-ryzen-9-7900.html",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "id": "7700x",
+      "name": "AMD Ryzen 7 7700X",
+      "socket": "AM5",
+      "basePower": 105,
+      "turboPower": 142,
+      "tjmax": 95,
+      "ccdCount": 1,
+      "source": "https://www.amd.com/en/products/processors/desktops/ryzen/7000-series/amd-ryzen-7-7700x.html",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "id": "7700",
+      "name": "AMD Ryzen 7 7700",
+      "socket": "AM5",
+      "basePower": 65,
+      "turboPower": 88,
+      "tjmax": 95,
+      "ccdCount": 1,
+      "source": "https://www.amd.com/en/products/processors/desktops/ryzen/7000-series/amd-ryzen-7-7700.html",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "id": "7600x3d",
+      "name": "AMD Ryzen 5 7600X3D",
+      "socket": "AM5",
+      "basePower": 65,
+      "turboPower": 88,
+      "tjmax": 89,
+      "ccdCount": 1,
+      "x3d": true,
+      "source": "https://www.amd.com/en/products/processors/desktops/ryzen/7000-series/amd-ryzen-5-7600x3d.html",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "id": "7600x",
+      "name": "AMD Ryzen 5 7600X",
+      "socket": "AM5",
+      "basePower": 105,
+      "turboPower": 142,
+      "tjmax": 95,
+      "ccdCount": 1,
+      "source": "https://www.amd.com/en/products/processors/desktops/ryzen/7000-series/amd-ryzen-5-7600x.html",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "id": "7600",
+      "name": "AMD Ryzen 5 7600",
+      "socket": "AM5",
+      "basePower": 65,
+      "turboPower": 88,
+      "tjmax": 95,
+      "ccdCount": 1,
+      "source": "https://www.amd.com/en/products/processors/desktops/ryzen/7000-series/amd-ryzen-5-7600.html",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "id": "7500x3d",
+      "name": "AMD Ryzen 5 7500X3D",
+      "socket": "AM5",
+      "basePower": 65,
+      "turboPower": 88,
+      "tjmax": 89,
+      "ccdCount": 1,
+      "x3d": true,
+      "source": "https://www.amd.com/en/products/processors/desktops/ryzen/7000-series/amd-ryzen-5-7500x3d.html",
+      "checkedAt": "2026-11-20"
     }
   ],
   "boards": [
@@ -468,6 +762,104 @@
       "socket": "LGA1700",
       "source": "https://www.asrock.com/mb/Intel/B760M%20Pro%20RS/index.asp",
       "checkedAt": "2026-11-16"
+    },
+    {
+      "id": "tuf-b850m",
+      "name": "ASUS TUF GAMING B850M-PLUS WIFI",
+      "socket": "AM5",
+      "source": "https://www.asus.com/motherboards-components/motherboards/tuf-gaming/tuf-gaming-b850m-plus-wifi/techspec/",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "msi-b850-tomahawk",
+      "name": "MSI MAG B850 TOMAHAWK MAX WIFI",
+      "socket": "AM5",
+      "source": "https://www.msi.com/Motherboard/MAG-B850-TOMAHAWK-MAX-WIFI/Specification",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "msi-b650m-mortar",
+      "name": "MSI MAG B650M MORTAR WIFI",
+      "socket": "AM5",
+      "source": "https://www.msi.com/Motherboard/MAG-B650M-MORTAR-WIFI/Specification",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "b650m-aorus-elite",
+      "name": "GIGABYTE B650M AORUS ELITE AX",
+      "socket": "AM5",
+      "source": "https://www.gigabyte.com/Motherboard/B650M-AORUS-ELITE-AX-rev-10-11/sp",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "strix-b650ei",
+      "name": "ASUS ROG STRIX B650E-I GAMING WIFI",
+      "socket": "AM5",
+      "source": "https://rog.asus.com/motherboards/rog-strix/rog-strix-b650e-i-gaming-wifi-model/spec/",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "asrock-b650m-pro-rs",
+      "name": "ASRock B650M Pro RS WiFi",
+      "socket": "AM5",
+      "source": "https://www.asrock.com/mb/AMD/B650M%20Pro%20RS%20WiFi/index.asp",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "msi-x870-tomahawk",
+      "name": "MSI MAG X870 TOMAHAWK WIFI",
+      "socket": "AM5",
+      "source": "https://www.msi.com/Motherboard/MAG-X870-TOMAHAWK-WIFI/Specification",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "id": "msi-b850i-edge",
+      "name": "MSI MPG B850I EDGE TI WIFI",
+      "socket": "AM5",
+      "source": "https://www.msi.com/Motherboard/MPG-B850I-EDGE-TI-WIFI/Specification",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "id": "strix-x870ee",
+      "name": "ASUS ROG STRIX X870E-E GAMING WIFI",
+      "socket": "AM5",
+      "source": "https://rog.asus.com/motherboards/rog-strix/rog-strix-x870e-e-gaming-wifi/spec/",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "id": "strix-b850i",
+      "name": "ASUS ROG STRIX B850-I GAMING WIFI",
+      "socket": "AM5",
+      "source": "https://rog.asus.com/motherboards/rog-strix/rog-strix-b850-i-gaming-wifi/spec/",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "id": "asrock-b650e-riptide",
+      "name": "ASRock B650E PG Riptide WiFi",
+      "socket": "AM5",
+      "source": "https://pg.asrock.com/mb/AMD/B650E%20PG%20RIPTIDE%20WIFI/index.asp",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "id": "asrock-x870e-nova",
+      "name": "ASRock X870E Nova WiFi",
+      "socket": "AM5",
+      "source": "https://www.asrock.com/support/cpu.asp?s=AM5&u=808",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "id": "asrock-b850m-pro-rs",
+      "name": "ASRock B850M Pro RS WiFi",
+      "socket": "AM5",
+      "source": "https://www.asrock.com/mb/AMD/B850M%20Pro%20RS%20WiFi/index.asp",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "id": "b850m-aorus-elite-wifi6e",
+      "name": "GIGABYTE B850M AORUS ELITE WIFI6E (rev. 1.x)",
+      "socket": "AM5",
+      "source": "https://www.gigabyte.com/Motherboard/B850M-AORUS-ELITE-WIFI6E-rev-1x/sp",
+      "checkedAt": "2026-11-20"
     }
   ],
   "coolers": [
@@ -477,7 +869,11 @@
       "name": "Phantom Spirit 120 SE",
       "description": "七热管双塔，面向均衡装机的风冷候选。",
       "type": "air",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "height": 154,
       "ramClearance": null,
       "ramLift": false,
@@ -515,7 +911,11 @@
           "source": "https://www.thermalright.com/product/phantom-spirit-120-se/",
           "detail": "未核实该型号的厂商整机 TDP 瓦数；不按塔体、热管根数或冷排尺寸估算。"
         }
-      }
+      },
+      "refPrice": [
+        169,
+        199
+      ]
     },
     {
       "id": "u12a",
@@ -523,7 +923,11 @@
       "name": "NH-U12A",
       "description": "紧凑单塔设计，优先照顾内存安装空间。",
       "type": "air",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "height": 158,
       "ramClearance": null,
       "ramOverhang": false,
@@ -563,6 +967,16 @@
           "detail": "官方 NSPR 169，是无瓦数的品牌性能分级，不能写成 169 W。",
           "nspr": 169
         }
+      },
+      "refPrice": [
+        799,
+        899
+      ],
+      "amdOffset": {
+        "mode": "optional",
+        "mm": 7,
+        "detail": "NM-AMB15 扣条支持 7 mm 偏移。旧库存须核对扣条，偏移后复核第一 PCIe x16 插槽、M.2 和 VRM 净空。",
+        "source": "https://www.noctua.at/en/support/faqs/which-offset-mounting-bars-do-i-need-for-my-cooler"
       }
     },
     {
@@ -571,7 +985,11 @@
       "name": "NH-D15 G2",
       "description": "大尺寸双塔方案，适合愿意预留安装空间的配置。",
       "type": "air",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "height": 168,
       "ramClearance": 32,
       "ramLift": true,
@@ -611,6 +1029,16 @@
           "detail": "官方 NSPR 228，是无瓦数的品牌性能分级，不能写成 228 W。",
           "nspr": 228
         }
+      },
+      "refPrice": [
+        999,
+        1099
+      ],
+      "amdOffset": {
+        "mode": "optional",
+        "mm": 7,
+        "detail": "NM-AMB14 扣条支持 7 mm 偏移。旧库存须核对扣条，偏移后复核第一 PCIe x16 插槽、M.2 和 VRM 净空。",
+        "source": "https://www.noctua.at/en/support/faqs/which-offset-mounting-bars-do-i-need-for-my-cooler"
       }
     },
     {
@@ -619,7 +1047,11 @@
       "name": "Liquid Freezer III 360",
       "description": "360 mm 一体式水冷，作为持续重负载的优先考察方向。",
       "type": "aio",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "radiatorSize": 360,
       "radiatorLength": 398,
       "radiatorWidth": 120,
@@ -660,6 +1092,15 @@
           "source": "https://www.arctic.de/en/faq/detail/why-doesn-t-arctic-specify-tdp-values",
           "detail": "ARCTIC 官方说明不公开散热器 TDP 值；不得把风扇/水泵电功耗当作解热能力。"
         }
+      },
+      "refPrice": [
+        559,
+        649
+      ],
+      "amdOffset": {
+        "mode": "built-in",
+        "detail": "AM5 按厂商偏移安装方案。购买前逐主板核对冷头与 M.2 散热盖等部件的净空。",
+        "source": "https://www.arctic.de/en/Liquid-Freezer-III-360/ACFRE00136A"
       }
     },
     {
@@ -668,7 +1109,11 @@
       "name": "NH-D15 G2 HBC",
       "description": "HBC 高凸度底座版本，单独保留实测与安装记录。",
       "type": "air",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "height": 168,
       "ramClearance": 32,
       "ramLift": true,
@@ -677,6 +1122,11 @@
       "source": "https://www.noctua.at/en/products/nh-d15-g2-hbc/specifications",
       "extraSource": "https://www.noctua.at/en/support/faqs/what-is-the-ram-clearance-of-my-noctua-cpu-cooler",
       "notes": "HBC 与标准版不能混用性能读数；默认双风扇，内存净空按官方 32 mm 核对。",
+      "amdContact": {
+        "recommended": false,
+        "detail": "厂商列有 AM5 扣具，同时注明 HBC 高凸度底座不推荐用于 AM5；选购时优先考察标准版或 LBC。",
+        "source": "https://www.noctua.at/en/products/nh-d15-g2-hbc/specifications"
+      },
       "image": {
         "path": "assets/products/d15g2hbc.webp",
         "source": "https://www.noctua.at/en/products/nh-d15-g2-hbc/specifications",
@@ -708,6 +1158,16 @@
           "detail": "官方 NSPR 228，是无瓦数的品牌性能分级，不能写成 228 W。",
           "nspr": 228
         }
+      },
+      "refPrice": [
+        999,
+        1099
+      ],
+      "amdOffset": {
+        "mode": "optional",
+        "mm": 7,
+        "detail": "NM-AMB14 扣条支持 7 mm 偏移。旧库存须核对扣条，偏移后复核第一 PCIe x16 插槽、M.2 和 VRM 净空。",
+        "source": "https://www.noctua.at/en/support/faqs/which-offset-mounting-bars-do-i-need-for-my-cooler"
       }
     },
     {
@@ -716,7 +1176,11 @@
       "name": "Hyper 612 APEX",
       "description": "159 mm 单塔双风扇，已收录 Intel 横评读数。",
       "type": "air",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "height": 159,
       "ramClearance": null,
       "ramLift": false,
@@ -754,7 +1218,11 @@
           "source": "https://www.coolermaster.com/en-global/cpu-compatibility.html",
           "detail": "仅记录厂商标称，不代表指定环境/CPU/噪声下保证可压制的功耗，也不跨品牌直接排名。"
         }
-      }
+      },
+      "refPrice": [
+        329,
+        379
+      ]
     },
     {
       "id": "nl-lc136",
@@ -762,7 +1230,11 @@
       "name": "NL-LC1-36",
       "description": "360 mm 一体式水冷，保留 51972 同噪测试条件。",
       "type": "aio",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "radiatorSize": 360,
       "radiatorLength": 399.5,
       "radiatorWidth": 120,
@@ -804,7 +1276,11 @@
           "detail": "官方 NSPR 248，是无瓦数的品牌性能分级，不能写成 248 W。",
           "nspr": 248
         }
-      }
+      },
+      "refPrice": [
+        1099,
+        1299
+      ]
     },
     {
       "type": "air",
@@ -817,7 +1293,9 @@
       "brand": "VK 瓦尔基里",
       "name": "CQ125（无光版）",
       "height": null,
-      "sockets": ["LGA1851"],
+      "sockets": [
+        "LGA1851"
+      ],
       "socketEvidence": "review",
       "description": "单塔单风扇；已核对 51972 的 Intel 测试读数，官方热管规格待核对。",
       "source": "https://www.bilibili.com/video/BV1M9KB6GE9D/",
@@ -849,7 +1327,11 @@
           "source": null,
           "detail": "未核实该型号的厂商整机 TDP 瓦数；不按塔体、热管根数或冷排尺寸估算。"
         }
-      }
+      },
+      "refPrice": [
+        199,
+        249
+      ]
     },
     {
       "type": "air",
@@ -862,7 +1344,11 @@
       "brand": "Cooler Master 酷冷至尊",
       "name": "V8 ACE 3DHP（Intel 版）",
       "height": 168,
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851"
+      ],
+      "platformExclusive": true,
       "description": "单塔双 30 mm 风扇，Intel 专用底座版本。",
       "source": "https://www.coolermaster.com/en-us/products/v8-ace-3dhp.html",
       "extraSource": "https://www.cybenetics.com/evaluations/coolers/126/cn/",
@@ -899,7 +1385,11 @@
           "source": "https://www.coolermaster.com/en-global/cpu-compatibility.html",
           "detail": "仅记录厂商标称，不代表指定环境/CPU/噪声下保证可压制的功耗，也不跨品牌直接排名。 官网另述 Intel 90 W Q-Max 为热管传热容量，不是整机 CPU 功耗。"
         }
-      }
+      },
+      "refPrice": [
+        599,
+        699
+      ]
     },
     {
       "type": "air",
@@ -912,7 +1402,11 @@
       "brand": "JONSBO 乔思伯",
       "name": "CC90 Black",
       "height": 158,
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "description": "双塔双风扇，带 CPU 温度数显。",
       "source": "https://www.jonsbo.com/products/CC90.html",
       "notes": "官方整机 135 × 130 × 158 mm；内存净空未知。数显需 USB 2.0 接针及软件。黑色与白色版本需分别核对。",
@@ -948,7 +1442,11 @@
           "source": "https://www.jonsbo.com/products/CC90.html",
           "detail": "官网明确 D-TDP 285 W；仅厂商标称，未给出可跨品牌复现的统一测试条件。"
         }
-      }
+      },
+      "refPrice": [
+        199,
+        239
+      ]
     },
     {
       "type": "air",
@@ -961,10 +1459,14 @@
       "brand": "DeepCool 九州风神",
       "name": "AK500S DIGITAL（非 SE）",
       "height": 160,
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "description": "五热管单塔，数显版；与 SE 青春版分开记录。",
       "source": "https://global.deepcool.com/products/Cooling/cpuaircoolers/AK500S-DIGITAL-CPU-Cooler-With-Status-Display-1851-1700-AM5/2023/17235.shtml",
-      "notes": "含风扇 / 数显整机高度 160 mm，不使用裸塔 155 mm。料号 R-AK500S-BKADMN-G；内存数字净空未知，USB 2.0 / ARGB 接口需核对。新品视频的青春版未确认同料号，不关联其读数。",
+      "notes": "含风扇 / 数显整机高度 160 mm，不使用裸塔 155 mm。料号 R-AK500S-BKADMN-G；九州风神官网注明偏置热管设计不遮挡内存槽位，USB 2.0 / ARGB 接口需核对。新品视频的青春版未确认同料号，不关联其读数。",
       "image": {
         "path": "assets/products/ak500s-digital.webp",
         "source": "https://global.deepcool.com/products/Cooling/cpuaircoolers/AK500S-DIGITAL-CPU-Cooler-With-Status-Display-1851-1700-AM5/2023/17235.shtml",
@@ -995,7 +1497,12 @@
           "source": "https://www.deepcool.com/ProductCompatibilityS_New/",
           "detail": "仅记录厂商标称，不代表指定环境/CPU/噪声下保证可压制的功耗，也不跨品牌直接排名。"
         }
-      }
+      },
+      "refPrice": [
+        229,
+        269
+      ],
+      "ramOverhang": false
     },
     {
       "type": "air",
@@ -1008,10 +1515,14 @@
       "brand": "DeepCool 九州风神",
       "name": "AK700 DIGITAL NYX",
       "height": 157,
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "description": "数显单塔，精确区分 VC 与普通版本。",
       "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/AK700-DIGITAL-NYX-AI-Dynamic-Adjustment-CPU-Cooler-with-Digital-Display/2025/21815.shtml",
-      "notes": "整机 126 × 98 × 157 mm；料号 R-AK700-BKNNMN-GJD-1。内存数字净空未知；数显需 USB 2.0 与软件。未确认与视频 AK700 数显样品完全一致，暂不映射读数。",
+      "notes": "整机 126 × 98 × 157 mm；料号 R-AK700-BKNNMN-GJD-1。九州风神官网注明偏置热管设计不遮挡内存槽位；数显需 USB 2.0 与软件。未确认与视频 AK700 数显样品完全一致，暂不映射读数。",
       "image": {
         "path": "assets/products/ak700-digital-nyx.webp",
         "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/AK700-DIGITAL-NYX-AI-Dynamic-Adjustment-CPU-Cooler-with-Digital-Display/2025/21815.shtml",
@@ -1042,7 +1553,12 @@
           "source": "https://www.deepcool.com/ProductCompatibilityS_New/",
           "detail": "仅记录厂商标称，不代表指定环境/CPU/噪声下保证可压制的功耗，也不跨品牌直接排名。"
         }
-      }
+      },
+      "refPrice": [
+        399,
+        459
+      ],
+      "ramOverhang": false
     },
     {
       "type": "air",
@@ -1055,7 +1571,11 @@
       "brand": "DeepCool 九州风神",
       "name": "AG500 G2（无光版）",
       "height": 156,
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "description": "五热管单塔，补充官方安装规格。",
       "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/AG500-G2-Superior-Performance-5-Heatpipe-Single-Tower-CPU-Cooler/2026/22855.shtml",
       "notes": "整机 125 × 95 × 156 mm；料号 R-AG500-BKNPMG2-G。内存净空未知；ARGB 风扇参数不同，不能共享成绩。视频性能版未完成料号对应，读数暂不映射。",
@@ -1089,11 +1609,19 @@
           "source": "https://www.deepcool.com/ProductCompatibilityS_New/",
           "detail": "仅记录厂商标称，不代表指定环境/CPU/噪声下保证可压制的功耗，也不跨品牌直接排名。"
         }
-      }
+      },
+      "refPrice": [
+        129,
+        159
+      ]
     },
     {
       "type": "air",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "ramClearance": null,
       "ramLift": false,
       "tier": "dual",
@@ -1136,11 +1664,19 @@
           "source": "https://www.thermalright.com/product/phantom-spirit-120-evo/",
           "detail": "未核实该型号的厂商整机 TDP 瓦数；不按塔体、热管根数或冷排尺寸估算。"
         }
-      }
+      },
+      "refPrice": [
+        229,
+        269
+      ]
     },
     {
       "type": "air",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "ramClearance": null,
       "ramLift": false,
       "tier": "dual",
@@ -1183,12 +1719,20 @@
           "source": "https://www.thermalright.com/product/peerless-assassin-120-se/",
           "detail": "未核实该型号的厂商整机 TDP 瓦数；不按塔体、热管根数或冷排尺寸估算。"
         }
-      }
+      },
+      "refPrice": [
+        149,
+        179
+      ]
     },
     {
       "type": "air",
-      "sockets": ["LGA1700", "LGA1851"],
-      "ramClearance": null,
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
+      "ramClearance": 43,
       "ramLift": false,
       "tier": "compact",
       "maintenance": "低维护",
@@ -1200,7 +1744,7 @@
       "description": "四热管单塔双风扇，官方整机高度159mm。",
       "source": "https://www.arctic.de/en/Freezer-36-Black/ACFRE00123A",
       "extraSource": "https://www.arctic.de/media/6b/50/57/1709195123/Spec_Sheet_Freezer_36_EN.pdf",
-      "notes": "ACFRE00123A；含风扇104×126×159mm。Intel按官方方案安装，内存净空与逐主板安装证据未知。与Freezer36-S、ARGB版本分开。",
+      "notes": "ACFRE00123A；含风扇 104×126×159 mm。ARCTIC 官方尺寸图注明冷底至风扇/鳍片底净高 46 mm、官方 2D 图纸标注平台保守内存限高约 43–44 mm（按保守值 43 mm 校验，卡扣风扇不可抬高）。与 Freezer 36-S、ARGB 版本分开。",
       "image": {
         "path": "assets/products/freezer36black.webp",
         "source": "https://www.arctic.de/en/Freezer-36-Black/ACFRE00123A",
@@ -1231,11 +1775,19 @@
           "source": "https://www.arctic.de/en/faq/detail/why-doesn-t-arctic-specify-tdp-values",
           "detail": "ARCTIC 官方说明不公开散热器 TDP 值；不得把风扇/水泵电功耗当作解热能力。"
         }
-      }
+      },
+      "refPrice": [
+        159,
+        199
+      ]
     },
     {
       "type": "air",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "ramClearance": null,
       "ramLift": false,
       "tier": "compact",
@@ -1247,7 +1799,7 @@
       "height": 152,
       "description": "四热管单塔单风扇，152mm整机高度。",
       "source": "https://www.coolermaster.com/en-global/products/hyper-212-pro.html",
-      "notes": "RR-212S-25PZ-R1；整机125×74×152mm，4-pin PWM与5V ARGB连接需核对。内存净空未知；不沿用Hyper212其他版本测试。",
+      "notes": "RR-212S-25PZ-R1；整机 125×74×152 mm，4-pin PWM 与 5V ARGB 连接需核对。酷冷至尊官网注明非对称热管布局实现 100% 内存避让（极端超高马甲仍建议核对主板第一槽间距）；不沿用 Hyper 212 其他版本测试。",
       "image": {
         "path": "assets/products/hyper212pro.webp",
         "source": "https://www.coolermaster.com/en-global/products/hyper-212-pro.html",
@@ -1278,11 +1830,20 @@
           "source": "https://www.coolermaster.com/en-global/cpu-compatibility.html",
           "detail": "仅记录厂商标称，不代表指定环境/CPU/噪声下保证可压制的功耗，也不跨品牌直接排名。"
         }
-      }
+      },
+      "refPrice": [
+        119,
+        149
+      ],
+      "ramOverhang": false
     },
     {
       "type": "air",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "ramClearance": null,
       "ramLift": false,
       "tier": "dual",
@@ -1325,11 +1886,19 @@
           "source": "https://www.deepcool.com/ProductCompatibilityS_New/",
           "detail": "仅记录厂商标称，不代表指定环境/CPU/噪声下保证可压制的功耗，也不跨品牌直接排名。"
         }
-      }
+      },
+      "refPrice": [
+        299,
+        349
+      ]
     },
     {
       "type": "air",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "ramClearance": null,
       "ramLift": false,
       "tier": "large",
@@ -1373,7 +1942,11 @@
           "source": "https://www.deepcool.com/ProductCompatibilityS_New/",
           "detail": "仅记录厂商标称，不代表指定环境/CPU/噪声下保证可压制的功耗，也不跨品牌直接排名。"
         }
-      }
+      },
+      "refPrice": [
+        599,
+        699
+      ]
     },
     {
       "id": "lf3pro240",
@@ -1381,7 +1954,11 @@
       "name": "Liquid Freezer III Pro 240（无光版）",
       "description": "240mm一体式水冷，单独核对Pro版风扇与安装厚度。",
       "type": "aio",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "radiatorSize": 240,
       "radiatorLength": 277,
       "radiatorWidth": 120,
@@ -1424,6 +2001,15 @@
           "source": "https://www.arctic.de/en/faq/detail/why-doesn-t-arctic-specify-tdp-values",
           "detail": "ARCTIC 官方说明不公开散热器 TDP 值；不得把风扇/水泵电功耗当作解热能力。"
         }
+      },
+      "refPrice": [
+        499,
+        569
+      ],
+      "amdOffset": {
+        "mode": "built-in",
+        "detail": "AM5 按厂商偏移安装方案。购买前逐主板核对冷头与 M.2 散热盖等部件的净空。",
+        "source": "https://www.arctic.de/en/Liquid-Freezer-III-Pro-240/ACFRE00178A"
       }
     },
     {
@@ -1432,7 +2018,11 @@
       "name": "Liquid Freezer III Pro 360（无光版）",
       "description": "360mm一体式水冷，单独核对Pro版风扇与安装厚度。",
       "type": "aio",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "radiatorSize": 360,
       "radiatorLength": 398,
       "radiatorWidth": 120,
@@ -1475,11 +2065,24 @@
           "source": "https://www.arctic.de/en/faq/detail/why-doesn-t-arctic-specify-tdp-values",
           "detail": "ARCTIC 官方说明不公开散热器 TDP 值；不得把风扇/水泵电功耗当作解热能力。"
         }
+      },
+      "refPrice": [
+        629,
+        699
+      ],
+      "amdOffset": {
+        "mode": "built-in",
+        "detail": "AM5 按厂商偏移安装方案。购买前逐主板核对冷头与 M.2 散热盖等部件的净空。",
+        "source": "https://www.arctic.de/en/Liquid-Freezer-III-Pro-360/ACFRE00180A"
       }
     },
     {
       "type": "air",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "ramClearance": null,
       "ramLift": false,
       "tier": "compact",
@@ -1523,11 +2126,19 @@
           "source": "https://www.deepcool.com/ProductCompatibilityS_New/",
           "detail": "仅记录厂商标称，不代表指定环境/CPU/噪声下保证可压制的功耗，也不跨品牌直接排名。"
         }
-      }
+      },
+      "refPrice": [
+        99,
+        129
+      ]
     },
     {
       "type": "air",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "ramClearance": null,
       "ramLift": false,
       "tier": "compact",
@@ -1571,11 +2182,19 @@
           "source": "https://www.deepcool.com/ProductCompatibilityS_New/",
           "detail": "仅记录厂商标称，不代表指定环境/CPU/噪声下保证可压制的功耗，也不跨品牌直接排名。"
         }
-      }
+      },
+      "refPrice": [
+        169,
+        199
+      ]
     },
     {
       "type": "air",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "ramClearance": null,
       "ramLift": false,
       "tier": "dual",
@@ -1619,11 +2238,19 @@
           "source": "https://www.thermalright.com/product/royal-knight-120/",
           "detail": "未核实该型号的厂商整机 TDP 瓦数；不按塔体、热管根数或冷排尺寸估算。"
         }
-      }
+      },
+      "refPrice": [
+        179,
+        219
+      ]
     },
     {
       "type": "air",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "ramClearance": null,
       "ramLift": false,
       "tier": "large",
@@ -1667,11 +2294,19 @@
           "source": "https://www.thermalright.com/product/peerless-assassin-140-black/",
           "detail": "未核实该型号的厂商整机 TDP 瓦数；不按塔体、热管根数或冷排尺寸估算。"
         }
-      }
+      },
+      "refPrice": [
+        229,
+        269
+      ]
     },
     {
       "type": "air",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "ramClearance": null,
       "ramLift": false,
       "tier": "compact",
@@ -1717,11 +2352,25 @@
           "detail": "官方 NSPR 129，是无瓦数的品牌性能分级，不能写成 129 W。",
           "nspr": 129
         }
+      },
+      "refPrice": [
+        399,
+        449
+      ],
+      "amdOffset": {
+        "mode": "optional",
+        "mm": 7,
+        "detail": "NM-AMB15 扣条支持 7 mm 偏移。旧库存须核对扣条，偏移后复核第一 PCIe x16 插槽、M.2 和 VRM 净空。",
+        "source": "https://www.noctua.at/en/support/faqs/which-offset-mounting-bars-do-i-need-for-my-cooler"
       }
     },
     {
       "type": "air",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "ramClearance": null,
       "ramLift": false,
       "tier": "large",
@@ -1759,14 +2408,22 @@
           "source": "https://www.bequiet.com/en/cpucooler/4466",
           "detail": "仅记录厂商标称，不代表指定环境/CPU/噪声下保证可压制的功耗，也不跨品牌直接排名。"
         }
-      }
+      },
+      "refPrice": [
+        699,
+        799
+      ]
     },
     {
       "id": "ls520sedigital",
       "brand": "DeepCool 九州风神",
       "name": "LS520 SE DIGITAL（黑色）",
       "type": "aio",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "radiatorSize": 240,
       "radiatorLength": 282,
       "radiatorWidth": 120,
@@ -1809,14 +2466,22 @@
           "source": "https://www.deepcool.com/ProductCompatibilityS_New/",
           "detail": "仅记录厂商标称，不代表指定环境/CPU/噪声下保证可压制的功耗，也不跨品牌直接排名。"
         }
-      }
+      },
+      "refPrice": [
+        429,
+        499
+      ]
     },
     {
       "id": "ls720sedigital",
       "brand": "DeepCool 九州风神",
       "name": "LS720 SE DIGITAL（黑色）",
       "type": "aio",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "radiatorSize": 360,
       "radiatorLength": 402,
       "radiatorWidth": 120,
@@ -1859,7 +2524,11 @@
           "source": "https://www.deepcool.com/ProductCompatibilityS_New/",
           "detail": "仅记录厂商标称，不代表指定环境/CPU/噪声下保证可压制的功耗，也不跨品牌直接排名。"
         }
-      }
+      },
+      "refPrice": [
+        529,
+        599
+      ]
     },
     {
       "id": "as120evo",
@@ -1867,7 +2536,11 @@
       "name": "Assassin Spirit 120 EVO",
       "description": "紧凑型单塔风冷，保留实物安装净空与主板干涉核对。",
       "type": "air",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "height": 156,
       "ramClearance": null,
       "ramLift": false,
@@ -1901,6 +2574,16 @@
           "detail": "未核实该型号的整机标称 TDP；不按尺寸、热管数量或泵功率估算。",
           "source": "https://www.thermalright.com/product/assassin-spirit-120-evo/"
         }
+      },
+      "refPrice": [
+        119,
+        149
+      ],
+      "image": {
+        "path": "assets/products/as120evo.webp",
+        "source": "https://www.thermalright.com/product/assassin-spirit-120-evo/",
+        "original": "https://www.thermalright.com/wp-content/uploads/2026/08/assassin-spirit-120-evo.png",
+        "checkedAt": "2026-11-20"
       }
     },
     {
@@ -1909,7 +2592,11 @@
       "name": "Burst Assassin 120",
       "description": "紧凑型单塔风冷，保留实物安装净空与主板干涉核对。",
       "type": "air",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "height": 154,
       "ramClearance": null,
       "ramLift": false,
@@ -1943,6 +2630,16 @@
           "detail": "未核实该型号的整机标称 TDP；不按尺寸、热管数量或泵功率估算。",
           "source": "https://www.thermalright.com/product/burst-assassin-120/"
         }
+      },
+      "refPrice": [
+        109,
+        139
+      ],
+      "image": {
+        "path": "assets/products/ba120.webp",
+        "source": "https://www.thermalright.com/product/burst-assassin-120/",
+        "original": "https://www.thermalright.com/wp-content/uploads/2026/08/burst-assassin-120.png",
+        "checkedAt": "2026-11-20"
       }
     },
     {
@@ -1951,7 +2648,11 @@
       "name": "Silver Soul 135",
       "description": "紧凑型双塔风冷，保留实物安装净空与主板干涉核对。",
       "type": "air",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "height": 135,
       "ramClearance": null,
       "ramLift": false,
@@ -1985,6 +2686,16 @@
           "detail": "未核实该型号的整机标称 TDP；不按尺寸、热管数量或泵功率估算。",
           "source": "https://www.thermalright.com/product/silver-soul-135/"
         }
+      },
+      "refPrice": [
+        199,
+        239
+      ],
+      "image": {
+        "path": "assets/products/ss135.webp",
+        "source": "https://www.thermalright.com/product/silver-soul-135/",
+        "original": "https://www.thermalright.com/wp-content/uploads/2026/08/silver-soul-135.png",
+        "checkedAt": "2026-11-20"
       }
     },
     {
@@ -1993,7 +2704,11 @@
       "name": "NH-D12L",
       "description": "紧凑型双塔风冷，保留实物安装净空与主板干涉核对。",
       "type": "air",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "height": 145,
       "ramClearance": null,
       "ramLift": false,
@@ -2029,7 +2744,23 @@
           "nspr": 148
         }
       },
-      "ramOverhang": false
+      "ramOverhang": false,
+      "refPrice": [
+        699,
+        769
+      ],
+      "amdOffset": {
+        "mode": "optional",
+        "mm": 7,
+        "detail": "NM-AMB14 扣条支持 7 mm 偏移。旧库存须核对扣条，偏移后复核第一 PCIe x16 插槽、M.2 和 VRM 净空。",
+        "source": "https://www.noctua.at/en/support/faqs/which-offset-mounting-bars-do-i-need-for-my-cooler"
+      },
+      "image": {
+        "path": "assets/products/d12l.webp",
+        "source": "https://www.noctua.at/en/products/nh-d12l/specifications",
+        "original": "https://cdn.noctua.at/media/nh_d12l_1.jpg",
+        "checkedAt": "2026-11-20"
+      }
     },
     {
       "id": "u9s",
@@ -2037,7 +2768,11 @@
       "name": "NH-U9S",
       "description": "紧凑型单塔风冷，保留实物安装净空与主板干涉核对。",
       "type": "air",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "height": 125,
       "ramClearance": null,
       "ramLift": false,
@@ -2072,6 +2807,23 @@
           "source": "https://www.noctua.at/en/products/nh-u9s/specifications",
           "nspr": 93
         }
+      },
+      "refPrice": [
+        469,
+        529
+      ],
+      "ramOverhang": false,
+      "amdOffset": {
+        "mode": "optional",
+        "mm": 7,
+        "detail": "NM-AMB15 扣条支持 7 mm 偏移。旧库存须核对扣条，偏移后复核第一 PCIe x16 插槽、M.2 和 VRM 净空。",
+        "source": "https://www.noctua.at/en/support/faqs/which-offset-mounting-bars-do-i-need-for-my-cooler"
+      },
+      "image": {
+        "path": "assets/products/u9s.webp",
+        "source": "https://www.noctua.at/en/products/nh-u9s/specifications",
+        "original": "https://cdn.noctua.at/media/noctua_nh_u9s_1.jpg",
+        "checkedAt": "2026-11-20"
       }
     },
     {
@@ -2079,7 +2831,11 @@
       "brand": "THERMALRIGHT · 利民",
       "name": "Frozen Notte 360 BLACK ARGB",
       "type": "aio",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "radiatorSize": 360,
       "radiatorLength": 397,
       "radiatorWidth": 120,
@@ -2116,6 +2872,16 @@
           "detail": "未核实该型号的整机标称 TDP；不按尺寸、热管数量或泵功率估算。",
           "source": "https://www.thermalright.com/product/frozen-notte-360-black-argb/"
         }
+      },
+      "refPrice": [
+        299,
+        349
+      ],
+      "image": {
+        "path": "assets/products/fn360-black-argb.webp",
+        "source": "https://www.thermalright.com/product/frozen-notte-360-black-argb/",
+        "original": "https://www.thermalright.com/wp-content/uploads/2026/08/frozen-notte-360-black-argb.png",
+        "checkedAt": "2026-11-20"
       }
     },
     {
@@ -2123,7 +2889,11 @@
       "brand": "THERMALRIGHT · 利民",
       "name": "Frozen Prism 240 BLACK ARGB",
       "type": "aio",
-      "sockets": ["LGA1700", "LGA1851"],
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
       "radiatorSize": 240,
       "radiatorLength": 276,
       "radiatorWidth": 120,
@@ -2160,6 +2930,426 @@
           "detail": "未核实该型号的整机标称 TDP；不按尺寸、热管数量或泵功率估算。",
           "source": "https://www.thermalright.com/product/frozen-prism-240-black-argb/"
         }
+      },
+      "refPrice": [
+        239,
+        279
+      ],
+      "image": {
+        "path": "assets/products/fp240-black-argb.webp",
+        "source": "https://www.thermalright.com/product/frozen-prism-240-black-argb/",
+        "original": "https://www.thermalright.com/wp-content/uploads/2026/08/frozen-prism-240-black-argb.png",
+        "checkedAt": "2026-11-20"
+      }
+    },
+    {
+      "id": "nh-l9i-17xx",
+      "brand": "NOCTUA · 猫头鹰",
+      "name": "NH-L9i-17xx",
+      "type": "air",
+      "formFactor": "downdraft",
+      "tier": "lowprofile",
+      "height": 37,
+      "ramOverhang": false,
+      "ramClearance": null,
+      "ramLift": false,
+      "sockets": [
+        "LGA1700",
+        "LGA1851"
+      ],
+      "platformExclusive": true,
+      "maintenance": "低维护",
+      "refPrice": [
+        369,
+        429
+      ],
+      "description": "37 mm 超薄下压式风冷，专为 Intel ITX 紧凑机箱打造。",
+      "source": "https://www.noctua.at/en/products/nh-l9i-17xx/specifications",
+      "notes": "95 × 95 × 37 mm，严格保留 95×95 mm 禁区不阻挡内存与 PCIe；仅支持 LGA1700 / LGA1851（Intel 平台专用）。",
+      "addedAt": "2026-11-18",
+      "checkedAt": "2026-11-18",
+      "construction": {
+        "checkedAt": "2026-11-18",
+        "heatpipes": {
+          "count": 2,
+          "diameterMm": 6,
+          "detail": "官方规格确认 2 根热管。",
+          "source": "https://www.noctua.at/en/products/nh-l9i-17xx/specifications"
+        },
+        "finJoint": {
+          "method": "soldered",
+          "detail": "官方规格明确热管与鳍片焊接（Soldered）；未注明具体回流工艺。",
+          "source": "https://www.noctua.at/en/products/nh-l9i-17xx/specifications"
+        },
+        "baseContact": {
+          "method": "copper-base",
+          "detail": "官方明确镀镍铜底。",
+          "source": "https://www.noctua.at/en/products/nh-l9i-17xx/specifications"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "nspr": 59,
+          "detail": "官方 NSPR 59，是无瓦数的品牌性能分级，不能写成 59 W。",
+          "source": "https://www.noctua.at/en/products/nh-l9i-17xx/specifications"
+        }
+      },
+      "image": {
+        "path": "assets/products/nh-l9i-17xx.webp",
+        "source": "https://www.noctua.at/en/products/nh-l9i-17xx/specifications",
+        "original": "https://cdn.noctua.at/media/nh_l9i_17xx_1.jpg",
+        "checkedAt": "2026-11-20"
+      }
+    },
+    {
+      "id": "axp90-x47-full",
+      "brand": "THERMALRIGHT · 利民",
+      "name": "AXP90-X47 FULL",
+      "type": "air",
+      "formFactor": "downdraft",
+      "tier": "lowprofile",
+      "height": 47,
+      "ramOverhang": false,
+      "ramClearance": null,
+      "ramLift": false,
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
+      "maintenance": "低维护",
+      "refPrice": [
+        149,
+        189
+      ],
+      "description": "47 mm 全铜下压式风冷，A4/SFF 紧凑 ITX 机箱主流方案。",
+      "source": "https://www.thermalright.com/product/axp90-x47-full/",
+      "notes": "94.5 × 95 × 47 mm，纯铜鳍片与 C1100 纯铜镀镍底座；不遮挡内存插槽，靠近侧板时注意留出进气间隙减少风切声。",
+      "addedAt": "2026-11-18",
+      "checkedAt": "2026-11-18",
+      "construction": {
+        "checkedAt": "2026-11-18",
+        "heatpipes": {
+          "count": 4,
+          "diameterMm": 6,
+          "detail": "官方规格确认 4 根 6 mm 热管。",
+          "source": "https://www.thermalright.com/product/axp90-x47-full/"
+        },
+        "finJoint": {
+          "method": "unknown",
+          "detail": "官方产品页未明确标注热管与鳍片焊接制程，保留未知。",
+          "source": "https://www.thermalright.com/product/axp90-x47-full/"
+        },
+        "baseContact": {
+          "method": "copper-base",
+          "detail": "C1100 纯铜镀镍底座；产品采用全铜鳍片。",
+          "source": "https://www.thermalright.com/product/axp90-x47-full/"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "detail": "未核实该型号的整机标称 TDP；不按热管数量或全铜材质估算。",
+          "source": "https://www.thermalright.com/product/axp90-x47-full/"
+        }
+      },
+      "image": {
+        "path": "assets/products/axp90-x47-full.webp",
+        "source": "https://www.thermalright.com/product/axp90-x47-full/",
+        "original": "https://www.thermalright.com/wp-content/uploads/2021/07/AXP90-X47-FULL-1.png",
+        "checkedAt": "2026-11-20"
+      }
+    },
+    {
+      "id": "axp90-x53-full",
+      "brand": "THERMALRIGHT · 利民",
+      "name": "AXP90-X53 FULL",
+      "type": "air",
+      "formFactor": "downdraft",
+      "tier": "lowprofile",
+      "height": 53,
+      "ramOverhang": false,
+      "ramClearance": null,
+      "ramLift": false,
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
+      "maintenance": "低维护",
+      "refPrice": [
+        169,
+        209
+      ],
+      "description": "53 mm 加厚鳍片全铜下压风冷，兼顾 A4 机箱兼容与散热面积。",
+      "source": "https://www.thermalright.com/product/axp90-x53-full/",
+      "notes": "94.5 × 95 × 53 mm（38 mm 铜鳍片 + 15 mm 风扇），不遮挡内存插槽；若机箱限高恰好 53–55 mm 需关注侧板贴合风噪。",
+      "addedAt": "2026-11-18",
+      "checkedAt": "2026-11-18",
+      "construction": {
+        "checkedAt": "2026-11-18",
+        "heatpipes": {
+          "count": 4,
+          "diameterMm": 6,
+          "detail": "官方规格确认 4 根 6 mm 热管。",
+          "source": "https://www.thermalright.com/product/axp90-x53-full/"
+        },
+        "finJoint": {
+          "method": "unknown",
+          "detail": "官方产品页未明确标注热管与鳍片焊接制程，保留未知。",
+          "source": "https://www.thermalright.com/product/axp90-x53-full/"
+        },
+        "baseContact": {
+          "method": "copper-base",
+          "detail": "C1100 纯铜镀镍底座；产品采用全铜鳍片。",
+          "source": "https://www.thermalright.com/product/axp90-x53-full/"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "detail": "未核实该型号的整机标称 TDP；不按热管数量或全铜材质估算。",
+          "source": "https://www.thermalright.com/product/axp90-x53-full/"
+        }
+      },
+      "image": {
+        "path": "assets/products/axp90-x53-full.webp",
+        "source": "https://www.thermalright.com/product/axp90-x53-full/",
+        "original": "https://www.thermalright.com/wp-content/uploads/2026/08/axp90-x53-full.png",
+        "checkedAt": "2026-11-20"
+      }
+    },
+    {
+      "id": "nh-l12s",
+      "brand": "NOCTUA · 猫头鹰",
+      "name": "NH-L12S",
+      "type": "air",
+      "formFactor": "downdraft",
+      "tier": "lowprofile",
+      "height": 70,
+      "ramOverhang": true,
+      "ramClearance": 35,
+      "ramLift": false,
+      "sockets": [
+        "LGA1700",
+        "LGA1851",
+        "AM5"
+      ],
+      "maintenance": "低维护",
+      "refPrice": [
+        499,
+        579
+      ],
+      "description": "70 mm 120mm 薄扇下压式风冷，在矮机箱中兼顾静音表现。",
+      "source": "https://www.noctua.at/en/products/nh-l12s/specifications",
+      "notes": "风扇下置紧凑模式高 70mm、内存限高 35mm；若内存更高可将风扇改置顶部，总高变为 86mm。具体主板 VRM 与内存干涉需另核对。",
+      "addedAt": "2026-11-18",
+      "checkedAt": "2026-11-18",
+      "construction": {
+        "checkedAt": "2026-11-18",
+        "heatpipes": {
+          "count": 4,
+          "diameterMm": 6,
+          "detail": "官方规格确认 4 根热管。",
+          "source": "https://www.noctua.at/en/products/nh-l12s/specifications"
+        },
+        "finJoint": {
+          "method": "soldered",
+          "detail": "官方规格明确热管与鳍片焊接（Soldered）；未注明具体回流工艺。",
+          "source": "https://www.noctua.at/en/products/nh-l12s/specifications"
+        },
+        "baseContact": {
+          "method": "copper-base",
+          "detail": "官方明确镀镍铜底。",
+          "source": "https://www.noctua.at/en/products/nh-l12s/specifications"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "nspr": 88,
+          "detail": "官方 NSPR 88，是无瓦数的品牌性能分级，不能写成 88 W。",
+          "source": "https://www.noctua.at/en/products/nh-l12s/specifications"
+        }
+      },
+      "amdOffset": {
+        "mode": "optional",
+        "mm": 7,
+        "detail": "NM-AMB14 扣条支持 7 mm 偏移。旧库存须核对扣条，偏移后复核第一 PCIe x16 插槽、M.2 和 VRM 净空。",
+        "source": "https://www.noctua.at/en/support/faqs/which-offset-mounting-bars-do-i-need-for-my-cooler"
+      },
+      "image": {
+        "path": "assets/products/nh-l12s.webp",
+        "source": "https://www.noctua.at/en/products/nh-l12s/specifications",
+        "original": "https://cdn.noctua.at/media/noctua_nh_l12s_1.jpg",
+        "checkedAt": "2026-11-20"
+      }
+    },
+    {
+      "id": "nh-l9a-am5",
+      "brand": "NOCTUA · 猫头鹰",
+      "name": "NH-L9a-AM5",
+      "type": "air",
+      "formFactor": "downdraft",
+      "tier": "lowprofile",
+      "sockets": [
+        "AM5"
+      ],
+      "platformExclusive": true,
+      "height": 37,
+      "ramOverhang": false,
+      "ramClearance": null,
+      "ramLift": false,
+      "maintenance": "低维护",
+      "description": "37 mm 超薄下压式风冷，AM5 专用。",
+      "notes": "整机 114 × 92 × 37 mm，厂商标明不遮挡内存和 PCIe。重负载仍需核对 CPU 兼容表与实际温度。",
+      "source": "https://www.noctua.at/en/products/nh-l9a-am5/specifications",
+      "checkedAt": "2026-11-20",
+      "construction": {
+        "checkedAt": "2026-11-20",
+        "heatpipes": {
+          "count": 2,
+          "diameterMm": 6,
+          "detail": "官方规格为 2 根 6 mm 热管。",
+          "source": "https://www.noctua.at/en/products/nh-l9a-am5/specifications"
+        },
+        "finJoint": {
+          "method": "soldered",
+          "detail": "官方明确焊接，具体制程未公布。",
+          "source": "https://www.noctua.at/en/products/nh-l9a-am5/specifications"
+        },
+        "baseContact": {
+          "method": "copper-base",
+          "detail": "官方明确镀镍铜底。",
+          "source": "https://www.noctua.at/en/products/nh-l9a-am5/specifications"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "nspr": 61,
+          "detail": "官方 NSPR 为品牌分级，不能代替解热瓦数。",
+          "source": "https://www.noctua.at/en/products/nh-l9a-am5/specifications"
+        }
+      },
+      "image": {
+        "path": "assets/products/nh-l9a-am5.webp",
+        "source": "https://www.noctua.at/en/products/nh-l9a-am5/specifications",
+        "original": "https://cdn.noctua.at/media/nh_l9a_am5_1.jpg",
+        "checkedAt": "2026-11-20"
+      }
+    },
+    {
+      "id": "d15g2lbc",
+      "brand": "NOCTUA · 猫头鹰",
+      "name": "NH-D15 G2 LBC",
+      "type": "air",
+      "tier": "large",
+      "sockets": [
+        "AM5",
+        "LGA1700",
+        "LGA1851"
+      ],
+      "height": 168,
+      "ramClearance": 32,
+      "ramLift": true,
+      "maintenance": "低维护",
+      "description": "低凸度铜底双塔，面向 AM5 等较平整的顶盖。",
+      "notes": "LBC 独立版本，标准双风扇布局。高于 32 mm 的内存需抬高前风扇；Intel LGA1700/1851 有扣具但厂商不推荐此底座版本。",
+      "source": "https://www.noctua.at/en/products/nh-d15-g2-lbc/specifications",
+      "extraSource": "https://www.noctua.at/en/support/faqs/what-is-the-ram-clearance-of-my-noctua-cpu-cooler",
+      "checkedAt": "2026-11-20",
+      "amdOffset": {
+        "mode": "optional",
+        "mm": 7,
+        "detail": "NM-AMB14 扣条支持 7 mm 偏移。旧库存须核对扣条，偏移后复核第一 PCIe x16 插槽、M.2 和 VRM 净空。",
+        "source": "https://www.noctua.at/en/products/nh-d15-g2-lbc/specifications"
+      },
+      "amdContact": {
+        "detail": "LBC 低凸度底座针对 AM5 等较平整顶盖。",
+        "source": "https://www.noctua.at/en/products/nh-d15-g2-lbc/specifications"
+      },
+      "construction": {
+        "checkedAt": "2026-11-20",
+        "heatpipes": {
+          "count": 8,
+          "diameterMm": 6,
+          "detail": "官方规格为 8 根 6 mm 热管。",
+          "source": "https://www.noctua.at/en/products/nh-d15-g2-lbc/specifications"
+        },
+        "finJoint": {
+          "method": "soldered",
+          "detail": "官方明确焊接，具体制程未公布。",
+          "source": "https://www.noctua.at/en/products/nh-d15-g2-lbc/specifications"
+        },
+        "baseContact": {
+          "method": "copper-base",
+          "detail": "LBC 低凸度镀镍铜底。",
+          "source": "https://www.noctua.at/en/products/nh-d15-g2-lbc/specifications"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未提供统一最大解热瓦数",
+          "nspr": 228,
+          "detail": "官方 NSPR 为品牌分级，不能代替解热瓦数。",
+          "source": "https://www.noctua.at/en/products/nh-d15-g2-lbc/specifications"
+        }
+      },
+      "image": {
+        "path": "assets/products/d15g2lbc.webp",
+        "source": "https://www.noctua.at/en/products/nh-d15-g2-lbc/specifications",
+        "original": "https://cdn.noctua.at/media/nh_d15_g2_11-improved.png",
+        "checkedAt": "2026-11-20"
+      }
+    },
+    {
+      "id": "v8ace-amd",
+      "brand": "Cooler Master 酷冷至尊",
+      "name": "V8 ACE 3DHP（AMD 版）",
+      "type": "air",
+      "tier": "large",
+      "sockets": [
+        "AM5"
+      ],
+      "platformExclusive": true,
+      "height": 168,
+      "ramClearance": 45,
+      "ramLift": false,
+      "maintenance": "低维护",
+      "description": "单塔双 30 mm 风扇，AMD 专用平底版本。",
+      "notes": "官网尺寸表为 167.3 mm，选择时保守按 168 mm。核对版本、45 mm 内存净空和机箱余量。",
+      "source": "https://www.coolermaster.com/en-global/products/v8-ace-3dhp.html",
+      "checkedAt": "2026-11-20",
+      "amdContact": {
+        "detail": "AMD 版采用平底和独立热管调校，安装前核对盒装版本。",
+        "source": "https://www.coolermaster.com/en-global/products/v8-ace-3dhp.html"
+      },
+      "construction": {
+        "checkedAt": "2026-11-20",
+        "heatpipes": {
+          "count": 6,
+          "diameterMm": null,
+          "detail": "2 根 3DHP 加 4 根 SCCHP。",
+          "source": "https://www.coolermaster.com/en-global/products/v8-ace-3dhp.html"
+        },
+        "finJoint": {
+          "method": "unknown",
+          "detail": "官网未公布鳍片连接方式。",
+          "source": "https://www.coolermaster.com/en-global/products/v8-ace-3dhp.html"
+        },
+        "baseContact": {
+          "method": "machined-base",
+          "detail": "品牌规格注明 AMD 版为平底。",
+          "source": "https://www.coolermaster.com/en-global/products/v8-ace-3dhp.html"
+        },
+        "thermalRating": {
+          "watts": null,
+          "label": "未独立确认 AMD 版最大解热瓦数",
+          "detail": "产品家族与热管指标不作为 AMD 版实测解热能力。",
+          "source": "https://www.coolermaster.com/en-global/products/v8-ace-3dhp.html"
+        }
+      },
+      "image": {
+        "path": "assets/products/v8ace-amd.webp",
+        "source": "https://www.coolermaster.com/en-global/products/v8-ace-3dhp.html",
+        "original": "https://www.coolermaster.com/on/demandware.static/-/Sites-cooler-master-main/default/dw24c80eb0/v8-ace-3dhp-v2/hero-product.webp",
+        "checkedAt": "2026-11-20"
       }
     }
   ],
@@ -2351,7 +3541,389 @@
       "source": "https://www.deepcool.com/products/Cooling/cpuaircoolers/Assassin-IV-Premium-CPU-Air-Cooler-1851-1700-AM5/2024/17129.shtml",
       "checkedAt": "2026-11-15",
       "recheckRam": false
+    },
+    {
+      "board": "msi-b850i-edge",
+      "cooler": "d15g2",
+      "state": "conditional",
+      "detail": "Noctua 官方注明散热器约越出主板上缘 20 mm；请核对 ITX 机箱上缘、侧板及相邻部件空间。",
+      "source": "https://www.noctua.at/en/compatibility/by-components/motherboards/msi-mpg-b850i-edge-ti-wifi",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "msi-b850i-edge",
+      "cooler": "d15g2hbc",
+      "state": "conditional",
+      "detail": "Noctua 官方注明散热器约越出主板上缘 20 mm；请核对 ITX 机箱上缘、侧板及相邻部件空间。",
+      "source": "https://www.noctua.at/en/compatibility/by-components/motherboards/msi-mpg-b850i-edge-ti-wifi",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "msi-b850i-edge",
+      "cooler": "d15g2lbc",
+      "state": "conditional",
+      "detail": "Noctua 官方注明散热器约越出主板上缘 20 mm；请核对 ITX 机箱上缘、侧板及相邻部件空间。",
+      "source": "https://www.noctua.at/en/compatibility/by-components/motherboards/msi-mpg-b850i-edge-ti-wifi",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "strix-b650ei",
+      "cooler": "nh-l9i-17xx",
+      "state": "fail",
+      "detail": "Noctua 官方兼容表标为不兼容；NH-L9i-17xx 为 Intel 扣具。AM5 使用独立的 NH-L9a-AM5 版本。",
+      "source": "https://www.noctua.at/en/compatibility/by-components/motherboards/asus-rog-strix-b650e-i-gaming-wifi",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "strix-x870ee",
+      "cooler": "lf3360",
+      "state": "conditional",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方兼容表注明主板 M.2_1 预装散热片高度与 Liquid Freezer III 系列泵体干涉；须向 ARCTIC 申请免费替换矮散热片后再安装。",
+      "source": "https://support.arctic.de/lf3-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "strix-x870ee",
+      "cooler": "lf3pro240",
+      "state": "conditional",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方兼容表注明主板 M.2_1 预装散热片高度与 Liquid Freezer III 系列泵体干涉；须向 ARCTIC 申请免费替换矮散热片后再安装。",
+      "source": "https://support.arctic.de/lf3-pro-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "strix-x870ee",
+      "cooler": "lf3pro360",
+      "state": "conditional",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方兼容表注明主板 M.2_1 预装散热片高度与 Liquid Freezer III 系列泵体干涉；须向 ARCTIC 申请免费替换矮散热片后再安装。",
+      "source": "https://support.arctic.de/lf3-pro-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "strix-b850i",
+      "cooler": "lf3360",
+      "state": "conditional",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方兼容表注明主板 M.2_1 预装散热片高度与 Liquid Freezer III 系列泵体干涉；须向 ARCTIC 申请免费替换矮散热片后再安装。",
+      "source": "https://support.arctic.de/lf3-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "strix-b850i",
+      "cooler": "lf3pro240",
+      "state": "conditional",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方兼容表注明主板 M.2_1 预装散热片高度与 Liquid Freezer III 系列泵体干涉；须向 ARCTIC 申请免费替换矮散热片后再安装。",
+      "source": "https://support.arctic.de/lf3-pro-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "strix-b850i",
+      "cooler": "lf3pro360",
+      "state": "conditional",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方兼容表注明主板 M.2_1 预装散热片高度与 Liquid Freezer III 系列泵体干涉；须向 ARCTIC 申请免费替换矮散热片后再安装。",
+      "source": "https://support.arctic.de/lf3-pro-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "tuf-b850m",
+      "cooler": "lf3360",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "tuf-b850m",
+      "cooler": "lf3pro240",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-pro-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "tuf-b850m",
+      "cooler": "lf3pro360",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-pro-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "msi-b850-tomahawk",
+      "cooler": "lf3360",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "msi-b850-tomahawk",
+      "cooler": "lf3pro240",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-pro-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "msi-b850-tomahawk",
+      "cooler": "lf3pro360",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-pro-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "msi-b650m-mortar",
+      "cooler": "lf3360",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "msi-b650m-mortar",
+      "cooler": "lf3pro240",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-pro-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "msi-b650m-mortar",
+      "cooler": "lf3pro360",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-pro-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "b650m-aorus-elite",
+      "cooler": "lf3360",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "b650m-aorus-elite",
+      "cooler": "lf3pro240",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-pro-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "b650m-aorus-elite",
+      "cooler": "lf3pro360",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-pro-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "strix-b650ei",
+      "cooler": "lf3360",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "strix-b650ei",
+      "cooler": "lf3pro240",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-pro-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "strix-b650ei",
+      "cooler": "lf3pro360",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-pro-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "asrock-b650m-pro-rs",
+      "cooler": "lf3360",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "asrock-b650m-pro-rs",
+      "cooler": "lf3pro240",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-pro-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "asrock-b650m-pro-rs",
+      "cooler": "lf3pro360",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-pro-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "msi-x870-tomahawk",
+      "cooler": "lf3360",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "msi-x870-tomahawk",
+      "cooler": "lf3pro240",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-pro-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "msi-x870-tomahawk",
+      "cooler": "lf3pro360",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-pro-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "msi-b850i-edge",
+      "cooler": "lf3360",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "msi-b850i-edge",
+      "cooler": "lf3pro240",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-pro-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "msi-b850i-edge",
+      "cooler": "lf3pro360",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-pro-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "asrock-b650e-riptide",
+      "cooler": "lf3360",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "asrock-b650e-riptide",
+      "cooler": "lf3pro240",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-pro-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "asrock-b650e-riptide",
+      "cooler": "lf3pro360",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-pro-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "asrock-x870e-nova",
+      "cooler": "lf3360",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "asrock-x870e-nova",
+      "cooler": "lf3pro240",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-pro-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "asrock-x870e-nova",
+      "cooler": "lf3pro360",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-pro-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "asrock-b850m-pro-rs",
+      "cooler": "lf3360",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "asrock-b850m-pro-rs",
+      "cooler": "lf3pro240",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-pro-compatibility",
+      "checkedAt": "2026-11-20"
+    },
+    {
+      "board": "asrock-b850m-pro-rs",
+      "cooler": "lf3pro360",
+      "state": "pass",
+      "recheckRam": false,
+      "detail": "ARCTIC 官方主板兼容表标为完全兼容（冷排空间与机箱走管仍须另核对）。",
+      "source": "https://support.arctic.de/lf3-pro-compatibility",
+      "checkedAt": "2026-11-20"
     }
-  ],
-  "lastExpandedAt": "2026-11-16"
+  ]
 }

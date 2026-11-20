@@ -2,6 +2,11 @@
 
 为 Intel 与 AMD AM5 台式机提供 CPU 散热器兼容性检查与选型建议。原生 HTML、CSS、JavaScript，无第三方运行依赖。
 
+## 在线访问
+
+- **在线使用（选型页）**：https://lightningz-x.github.io/cpu-cooler/
+- **评测资料库**：https://lightningz-x.github.io/cpu-cooler/reviews.html
+
 ## 本地运行
 
 直接双击 `index.html` 即可使用，保留同目录的 `js`、`css`、`assets` 文件夹。评测资料库也可以直接打开，不需要启动服务器或安装 Node.js。
